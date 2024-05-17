@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbarboot from '../../components/Header/Navbarboot';
+import { Link } from 'react-router-dom';
 
 import './CommonTable.css';
 const postList = [
@@ -118,6 +119,7 @@ const Stackboot = props => {
           }) : ''
         }
         </CommonTable>
+        <button><Link to="/Board/create">게시물 쓰기</Link></button>
       </>
     )
   }
