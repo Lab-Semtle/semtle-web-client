@@ -7,10 +7,10 @@ function Boardcreate() {
     const [board, setBoard] = useState({
         title: '',
         createBy: '',
-        contents: '',
+        content: '',
         createDate: '',
     });
-    const { title, createBy, contents } = board;
+    const { title, createBy, content } = board;
 
     const onChange = (event) => {
         const date = new Date();
@@ -44,7 +44,7 @@ function Boardcreate() {
                 <input type="text" name="createBy" value={createBy} onChange={onChange} placeholder="작성자" />
             </div>
             <div className="form-group">
-                <textarea name="contents" cols="30" row="10" value={contents} onChange={onChange} placeholder=" 내용"></textarea>
+                <textarea name="content" cols="30" row="10" value={content} onChange={onChange} placeholder=" 내용"></textarea>
             </div>
             <div className="form-button">
                 <button onClick={saveBoard}>저장</button>

@@ -5,6 +5,7 @@ import Navbarboot from '../../components/Header/Navbarboot';
 import { Link } from 'react-router-dom';
 
 import './CommonTable.css';
+
 const postList = [
     {
       "no": 1,
@@ -45,11 +46,14 @@ const postList = [
 
 const CommonTableRow = ({ children }) => {
     return (
-      <tr className="common-table-row">
+  
+      <tr className="common-table-row" >
         {
           children
         }
+        
       </tr>
+
     )
   }
   const CommonTableColumn = ({ children }) => {
@@ -71,16 +75,18 @@ const CommonTable = (props) => {
               {
                 headersName.map((item, index) => {
                   return (
-                    <td className="common-table-header-column" key={index}>{ item }</td>
+                    <th className="common-table-header-column" key={index}>{ item }</th>
                   )
                 })
               }
             </tr>
           </thead>
           <tbody>
+          
             {
               children
             }
+          
           </tbody>
         </table>
       )
@@ -109,12 +115,14 @@ const Stackboot = props => {
         {
           dataList ? dataList.map((item, index) => {
             return (
-              <CommonTableRow key={index}>
+
+              <CommonTableRow key={index} >
                 <CommonTableColumn>{ item.no }</CommonTableColumn>
-                <CommonTableColumn>{ item.title }</CommonTableColumn>
+                <CommonTableColumn><Link to={`/Board/view/${index}`}>{ item.title }</Link></CommonTableColumn>
                 <CommonTableColumn>{ item.createDate }</CommonTableColumn>
                 <CommonTableColumn>{ item.readCount }</CommonTableColumn>
               </CommonTableRow>
+
             )
           }) : ''
         }
