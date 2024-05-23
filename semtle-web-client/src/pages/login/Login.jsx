@@ -1,6 +1,8 @@
 import axios from "axios";
 import react, { useEffect, useState } from "react";
 import style from "./Login.module.css";
+import Navbarboot from "../../components/Header/Navbarboot";
+import { Link } from "react-router-dom";
 
 const User = {
   email: "test@example.com",
@@ -74,56 +76,75 @@ export default function Login() {
   }, [emailValid, pwValid]);
 
   return (
-    <div className={style.page}>
-      <div className={style.titleWrap}>
-        이메일과 비밀번호를
-        <br />
-        입력해주세요.
-      </div>
-      <div className={style.contentWrap}>
-        <div className={style.inputTitle}>이메일 주소</div>
-        <div className={style.inputWrap}>
-          <input
-            type="text"
-            className={style.input}
-            placeholder="test@gmail.com"
-            value={email}
-            onChange={handleEmail}
-          />
+    <>
+      <Navbarboot></Navbarboot>
+      <div className={style.page}>
+        <div className={style.titleWrap}>
+          이메일과 비밀번호를
+          <br />
+          입력해주세요.
         </div>
-        <div className={style.errorMessageWrap}>
-          {!emailValid && email.length > 0 && (
-            <div>올바른 이메일을 입력해 주세요.</div>
-          )}
+        <div className={style.contentWrap}>
+          <div className={style.inputTitle}>이메일 주소</div>
+          <div className={style.inputWrap}>
+            <input
+              type="text"
+              className={style.input}
+              placeholder="test@gmail.com"
+              value={email}
+              onChange={handleEmail}
+            />
+          </div>
+          <div className={style.errorMessageWrap}>
+            {!emailValid && email.length > 0 && (
+              <div>올바른 이메일을 입력해 주세요.</div>
+            )}
+          </div>
+          <div style={{ marginTop: "26px" }} className="inputTitle">
+            비밀번호
+          </div>
+          <div className={style.inputWrap}>
+            <input
+              type="password"
+              className={style.input}
+              placeholder="********"
+              value={pw}
+              onChange={handlePw}
+            />
+          </div>
+          <div className={style.errorMessageWrap}>
+            {!pwValid && pw.length > 0 && (
+              <div>영문, 숫자, 특수문자 포함 8글자 입력해주세요.</div>
+            )}
+          </div>
         </div>
-        <div style={{ marginTop: "26px" }} className="inputTitle">
-          비밀번호
-        </div>
-        <div className={style.inputWrap}>
-          <input
-            type="password"
-            className={style.input}
-            placeholder="********"
-            value={pw}
-            onChange={handlePw}
-          />
-        </div>
-        <div className={style.errorMessageWrap}>
-          {!pwValid && pw.length > 0 && (
-            <div>영문, 숫자, 특수문자 포함 8글자 입력해주세요.</div>
-          )}
-        </div>
-      </div>
 
-      <div>
-        <button
-          onClick={onClickConfirmButton}
-          disabled={notAllow}
-          className={style.bottomButton}
-        >
-          확인
-        </button>
+        <div className={style.memberWrap}>
+          <table>
+            <tr>
+              <th>
+                <Link to="/idFInd">아이디 찾기</Link>
+              </th>
+              <th>
+                <Link to="/pwFind">비밀번호 찾기</Link>
+              </th>
+              <th>
+                <Link to="/Membership">회원가입</Link>
+              </th>
+            </tr>
+          </table>
+        </div>
+
+        <div>
+          <button
+            onClick={onClickConfirmButton}
+            disabled={notAllow}
+            className={style.bottomButton}
+          >
+            확인
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

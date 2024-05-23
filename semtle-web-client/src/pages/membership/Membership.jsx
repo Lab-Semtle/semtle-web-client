@@ -1,5 +1,6 @@
 import axios from "axios";
 import react, { useEffect, useState } from "react";
+import Navbarboot from "../../components/Header/Navbarboot";
 
 export default function Membership() {
   const [email, setEmail] = useState("");
@@ -68,6 +69,7 @@ export default function Membership() {
 
   return (
     <div className="page">
+      <Navbarboot></Navbarboot>
       <div className="titleWrap">회원가입</div>
       <div className="contentWrap">
         <div className="inputTitle">이메일</div>

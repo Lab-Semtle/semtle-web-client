@@ -3,15 +3,18 @@ import React from "react";
 import style from "./Root.module.css";
 
 import focusImage from "../../test.jpg";
+import { Link } from "react-router-dom";
+import Navbarboot from "../../components/Header/Navbarboot";
 
 export default function Root() {
   return (
-    <div className={style.page}>
-      <div className={style.contentWrap}>
-        <div className={style.focusImage}>
-          <img src={focusImage} alt="no file"></img>
-        </div>
+    <>
+      <Navbarboot></Navbarboot>
 
+      <div className={style.focusImage}>
+        <img src={focusImage} alt="no file"></img>
+      </div>
+      <div className={style.contentWrap}>
         <div className={style.titleWrap}>
           <table>
             <tr>
@@ -47,6 +50,6 @@ export default function Root() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
