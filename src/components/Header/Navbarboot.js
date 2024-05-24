@@ -31,7 +31,7 @@ function Navbarboot() {
             </Nav>
             <Nav>
               <Nav.Link href="#deets">내 정보</Nav.Link>
-              <Nav.Link eventKey={2} href="#memes">
+              <Nav.Link as={Link} to="/Login" eventKey={2} >
                 로그인
               </Nav.Link>
             </Nav>
