@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Boardcreate.css';
+import {ApiURL} from '../../ApiURL/ApiURL';
 function Boardcreate() {
     const navigate = useNavigate();
     const [board, setBoard] = useState({
@@ -25,14 +26,14 @@ function Boardcreate() {
     const saveBoard = async () => {
 
         console.log({ board });
-        await axios.post(`https://reqres.in/api/users/2`, board).then((res) => {
+        await axios.post(`${ApiURL.Boardcreate_post}`, board).then((res) => {
             alert('등록되었습니다.');
-            navigate('/Board');
+            navigate('/Boardlist');
 
         });
     };
     const backToList = () => {
-        navigate('/Board');
+        navigate('/Boardlist');
     };
 
     return (
