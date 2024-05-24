@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbarboot from '../../components/Header/Navbarboot';
 import { Link } from 'react-router-dom';
-
+import {ApiURL} from '../../ApiURL/ApiURL';
 import './CommonTable.css';
 
 /*const postList = [
@@ -91,11 +91,11 @@ const CommonTable = (props) => {
         </table>
       )
 }
-const Stackboot = props => {
+const Boardlist = props => {
 
     const [boardList, setBoardList] = useState([]);
     const getBoardList = async () => {
-        const resp = await (await axios.get('https://gist.githubusercontent.com/minseozzing/976893f1a782e503607a12db93184ef8/raw/c8d76e66935c763b6ecc0346cdb500babe3a0752/gsdfgergewxx.json')).data; // 2) 게시글 목록 데이터에 할당
+        const resp = await (await axios.get(`${ApiURL.Boardlist_get}`)).data; // 2) 게시글 목록 데이터에 할당
         setBoardList(resp.data); // 3) boardList 변수에 할당
         console.log(Array.isArray(resp.data));
         const pngn = resp.pagination;
@@ -119,7 +119,7 @@ const Stackboot = props => {
             return (
               <CommonTableRow key={index} >
                 <CommonTableColumn>{ item.no }</CommonTableColumn>
-                <CommonTableColumn><Link to={`/Board/view/${index}`}>{ item.title }</Link></CommonTableColumn>
+                <CommonTableColumn><Link to={`/Boardview/${index}`}>{ item.title }</Link></CommonTableColumn>
                 <CommonTableColumn>{ item.createDate }</CommonTableColumn>
                 <CommonTableColumn>{ item.readCount }</CommonTableColumn>
               </CommonTableRow>
@@ -128,11 +128,11 @@ const Stackboot = props => {
           }) : ''
         }
         </CommonTable>
-        <button><Link to="/Board/create">게시물 쓰기</Link></button>
+        <button><Link to="/Boardcreate">게시물 쓰기</Link></button>
       </>
     )
   }
 
-export default Stackboot;
+export default Boardlist;
 
 
