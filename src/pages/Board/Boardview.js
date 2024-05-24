@@ -22,6 +22,7 @@ function Boardview(props){
             <Navbarboot></Navbarboot>
         </div>
         <div>
+            {console.log(typeof board)}
             {board.id}
         </div>
         <div>

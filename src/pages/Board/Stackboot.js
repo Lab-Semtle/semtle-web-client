@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import './CommonTable.css';
 
-const postList = [
+/*const postList = [
     {
       "no": 1,
       "title": "첫번째 게시글입니다.",
@@ -42,7 +42,7 @@ const postList = [
       "createDate": "2020-10-25",
       "readCount": 4
     },
-  ];
+  ];*/
 
 const CommonTableRow = ({ children }) => {
     return (
@@ -92,30 +92,31 @@ const CommonTable = (props) => {
       )
 }
 const Stackboot = props => {
-    const [ dataList, setDataList ] = useState([]);
-/*
+
     const [boardList, setBoardList] = useState([]);
     const getBoardList = async () => {
-        const resp = await (await axios.get('//localhost:8080/board')).data; // 2) 게시글 목록 데이터에 할당
+        const resp = await (await axios.get('https://gist.githubusercontent.com/minseozzing/976893f1a782e503607a12db93184ef8/raw/c8d76e66935c763b6ecc0346cdb500babe3a0752/gsdfgergewxx.json')).data; // 2) 게시글 목록 데이터에 할당
         setBoardList(resp.data); // 3) boardList 변수에 할당
-        setDataList(resp.data); //변수에 할당
-        const pngn = resp.pagination;S
+        console.log(Array.isArray(resp.data));
+        const pngn = resp.pagination;
         console.log(pngn);
     }
-    */
-    /*useEffect(() => {
+    
+    useEffect(() => {
         getBoardList(); // 1) 게시글 목록 조회 함수 호출
-      }, []);*/
-
-    useEffect(() => {setDataList(postList);}, [ ])
+      }, []);
+    
+    //useEffect(() => {setBoardList(postList);}, [ ])
     return (
       <>
       <Navbarboot></Navbarboot>
         <CommonTable headersName={['글번호', '제목', '등록일', '조회수']}>
         {
-          dataList ? dataList.map((item, index) => {
+        
+         
+        
+          boardList ? boardList.map((item, index) => {
             return (
-
               <CommonTableRow key={index} >
                 <CommonTableColumn>{ item.no }</CommonTableColumn>
                 <CommonTableColumn><Link to={`/Board/view/${index}`}>{ item.title }</Link></CommonTableColumn>
