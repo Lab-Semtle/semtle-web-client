@@ -19,7 +19,7 @@ export default function Login() {
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
-    //정규표현식.
+    //정규표현식
     const regex =
       /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
     if (regex.test(email)) {
@@ -51,19 +51,13 @@ export default function Login() {
         // console.log(res.data);
       });
 
-    // axios
-    //   .get("https://my-json-server.typicode.com/typicode/demo/posts")
-    //   .then(function (res) {
-    //     //console.log(res);
-    //     console.log(res.data[0]);
-    //   });
-
+    //login test code
     //res.data.return 값에 따른다.
-    if (email === User.email && pw === User.pw) {
-      alert("로그인 성공");
-    } else {
-      alert("등록되지 않은 회원입니다.");
-    }
+    // if (email === User.email && pw === User.pw) {
+    //   alert("로그인 성공");
+    // } else {
+    //   alert("등록되지 않은 회원입니다.");
+    // }
   };
 
   //코드 변화가 일어날때마다 실행됨
