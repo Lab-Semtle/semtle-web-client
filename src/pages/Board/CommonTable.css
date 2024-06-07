@@ -47,9 +47,14 @@ a {
 }
 .boardcreate-button button{
   margin: 0 auto;
+  margin-top: 3rem;
   background-color: rgb(186, 216, 250);
   border: none;
   border-radius: 10px;
   width: 90%;
   height: 2rem;
+}
+.Dropbutton{
+  margin-left: 80%;
+  margin-top: 1rem;
 }

@@ -5,8 +5,9 @@ import Navbarboot from '../../components/Header/Navbarboot';
 import { Link } from 'react-router-dom';
 import { ApiURL } from '../../ApiURL/ApiURL';
 import './CommonTable.css';
-
+import Dropdownbutton from '../../components/Button/Dropdownbutton';
 import PaginationBasic from '../../components/Header/PaginationBasic';
+import { ListGroup } from 'react-bootstrap';
 
 const CommonTableRow = ({ children }) => {
   return (
@@ -76,6 +77,7 @@ const Boardlist = props => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);//현 페이지 인덱스
   const [postsPerPage, setPostsPerPage] = useState(10);//
+  const [rankmenu, setRankmenu] = useState(1);
 
 
   const indexOfLast = currentPage * postsPerPage;//게시글 인덱스 끝
@@ -83,16 +85,28 @@ const Boardlist = props => {
 
   const currentPosts = (posts) => {
     let currentPost = 0;
+    if (rankmenu === 1) {//1이면 최신순
+      posts.sort(function (a, b) {
+        return b.no - a.no;
+      });
+    }
+    if (rankmenu === -1) {//-1이면 오래된순
+      posts.sort(function (a, b) {
+        return a.no - b.no;
+      });
+    }
     currentPost = posts.slice(indexOfFirst, indexOfLast);
 
     return currentPost;
   };
 
 
+
   //useEffect(() => {setBoardList(postList);}, [ ])
   return (
     <>
       <Navbarboot></Navbarboot>
+      <div className='Dropbutton'><Dropdownbutton postlist={posts} menurank={setRankmenu}></Dropdownbutton></div>
       <div className='boardlist-table'>
         <CommonTable headersName={['글번호', '제목', '등록일', '조회수']}>
           {
