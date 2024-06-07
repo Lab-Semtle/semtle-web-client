@@ -1,20 +1,22 @@
 import axios from "axios";
 import react, { useEffect, useState } from "react";
+
 import style from "./Membership.module.css";
 import Navbarboot from "../../components/Header/Navbarboot";
 
 export default function Membership() {
   const [email, setEmail] = useState("");
+
   const [id, setId] = useState("");
   const [phNumber, setphNumber] = useState("");
   const [pw, setPw] = useState("");
   const [pw2, setPw2] = useState("");
-
   const [emailValid, setEmailValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
   const [pwValid2, setPwValid2] = useState(false);
   const [idValid, setIdValid] = useState(false);
   const [phNumberValid, setphNumberValid] = useState(false);
+
   const [notAllow, setNotAllow] = useState(true);
 
   const handleEmail = (e) => {
@@ -51,6 +53,7 @@ export default function Membership() {
       setPwValid2(false);
     }
   };
+
 
   const handleId = (e) => {
     setId(e.target.value);
@@ -91,6 +94,7 @@ export default function Membership() {
       axios
         .post("url", {
           email: email,
+
           id: id,
           pw: pw,
           phNumber: phNumber,
