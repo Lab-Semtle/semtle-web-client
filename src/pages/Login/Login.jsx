@@ -19,7 +19,7 @@ export default function Login() {
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
-    //정규표현식.
+    //정규표현식
     const regex =
       /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
     if (regex.test(email)) {
@@ -41,29 +41,48 @@ export default function Login() {
     }
   };
 
-  const onClickConfirmButton = () => {
-    axios
-      .post("url", {
-        email: email,
-        pw: pw,
-      })
-      .then((res) => {
-        // console.log(res.data);
-      });
-
+const onClickConfirmButton = () => {
+    
     // axios
-    //   .get("https://my-json-server.typicode.com/typicode/demo/posts")
-    //   .then(function (res) {
-    //     //console.log(res);
-    //     console.log(res.data[0]);
-    //   });
+    //   .post("http://localhost:8000/api/v1/login", {
+    //     user_id : email,
+    //     user_password : pw,
+    //     user_name : "아무게",
+    //     user_email : email,
+    //     user_phone : "01024025971",
+    //     user_birth : 1234
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .then((error) => {
+    //     console.log(error);
+    //   })
 
+    //login test code
     //res.data.return 값에 따른다.
-    if (email === User.email && pw === User.pw) {
-      alert("로그인 성공");
-    } else {
-      alert("등록되지 않은 회원입니다.");
-    }
+    // if (email === User.email && pw === User.pw) {
+    //   alert("로그인 성공");
+    // } else {
+    //   alert("등록되지 않은 회원입니다.");
+    // }
+    const loginData = new URLSearchParams();
+        loginData.append('grant_type', 'password');
+        loginData.append('username', 'qwer5971');
+        loginData.append('password', 'mj5971');
+        loginData.append('scope', 'mj5971');
+
+        axios.post('http://localhost:8000/api/v1/login', loginData, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+        .then(response => {
+            console.log('로그인 성공:', response.data);
+        })
+        .catch(error => {
+            console.error('로그인 실패:', error.response ? error.response.data : error.message);
+        });
   };
 
   //코드 변화가 일어날때마다 실행됨

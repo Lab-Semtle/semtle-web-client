@@ -144,7 +144,7 @@ export default function Membership() {
           </div>
           <div className={style.errprMessageWrap}>
             {!idValid && id.length > 6 && (
-              <div>영어와 숫자를 포함하여 6글자 이상으로 작성해 주세요. </div>
+              <div className >영어와 숫자를 포함하여 6글자 이상으로 작성해 주세요. </div>
             )}
           </div>
           <div className={style.inputTitle}>비밀번호</div>

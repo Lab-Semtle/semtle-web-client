@@ -11,7 +11,7 @@
 
   background-color: #f0f0f0;
 
-  overflow: hidden;
+  overflow: auto;
 
   display: flex;
   flex-direction: column;
@@ -22,7 +22,9 @@
   font-size: 26px;
   font-weight: 700;
   color: #262626;
+
 }
+
 
 .contentWrap {
   margin-top: 26px;
@@ -75,8 +77,8 @@
   background-color: #9e30f4;
   border-radius: 64px;
   color: white;
-  position: absolute;
-  top: 700px;
+  position: relative;
+  top: 10px;
   left: 25px;
   cursor: pointer;
 }
