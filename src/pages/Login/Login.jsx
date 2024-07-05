@@ -111,7 +111,10 @@ const onClickConfirmButton = () => {
               className={style.input}
               placeholder="test@gmail.com"
               value={email}
-              onChange={handleEmail}
+              onInput={handleEmail}
+              onKeyDown={(e) => {
+                if (e.key === " ") e.preventDefault();
+              }}
             />
           </div>
           <div className={style.errorMessageWrap}>
@@ -128,7 +131,10 @@ const onClickConfirmButton = () => {
               className={style.input}
               placeholder="********"
               value={pw}
-              onChange={handlePw}
+              onInput={handlePw}
+              onKeyDown={(e) => {
+                if (e.key === " ") e.preventDefault();
+              }}
             />
           </div>
           <div className={style.errorMessageWrap}>
