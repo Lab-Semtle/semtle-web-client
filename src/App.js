@@ -6,7 +6,7 @@ import Root from "./pages/root/Root";
 import Login from "./pages/Login/Login";
 import Membership from "./pages/membership/Membership";
 import Boardlist from "./pages/Board/Boardlist";
-
+import Boardedit from "./pages/Board/Boardedit";
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
 
           <Route path="/Login" element={<Login />} />
           <Route path="/Membership" element={<Membership />} />
+          <Route path="/Board/edit/" element={<Boardedit/>}/>
         </Routes>
       </BrowserRouter>
     </div>
