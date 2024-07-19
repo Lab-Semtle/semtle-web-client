@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 //쿠키값을 조회해 로그인과 마이페이지, 내 정보의 상태 변경
 function isLogin() {
-  if(true){
+  if(false){
     return (
     <>
     <Nav.Link href ="#MyPage">마이 페이지</Nav.Link>

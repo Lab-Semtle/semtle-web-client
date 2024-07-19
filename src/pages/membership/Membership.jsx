@@ -1,6 +1,5 @@
 import axios from "axios";
 import react, { useEffect, useState } from "react";
-
 import style from "./Membership.module.css";
 import Navbarboot from "../../components/Header/Navbarboot";
 
@@ -124,7 +123,7 @@ export default function Membership() {
               onChange={handleEmail}
             />
           </div>
-          <div className={style.errprMessageWrap}>
+          <div className={style.errorMessageWrap}>
             {!emailValid && email.length > 5 && (
               <div>올바른 이메일을 입력해주세요.</div>
             )}
@@ -142,9 +141,9 @@ export default function Membership() {
               onChange={handleId}
             />
           </div>
-          <div className={style.errprMessageWrap}>
+          <div className={style.errorMessageWrap}>
             {!idValid && id.length > 6 && (
-              <div className >영어와 숫자를 포함하여 6글자 이상으로 작성해 주세요. </div>
+              <div>영어와 숫자를 포함하여 6글자 이상으로 작성해 주세요. </div>
             )}
           </div>
           <div className={style.inputTitle}>비밀번호</div>
@@ -160,7 +159,7 @@ export default function Membership() {
               onChange={handlePw}
             />
           </div>
-          <div className={style.errprMessageWrap}>
+          <div className={style.errorMessageWrap}>
             {!pwValid && pw.length > 4 && (
               <div>
                 영어와 숫자, 특수문자를 포함하여 8글자 이상으로 작성해 주세요.{" "}
@@ -194,9 +193,9 @@ export default function Membership() {
               onChange={handlePhNumber}
             />
           </div>
-          <div className={style.errprMessageWrap}>
+          <div className={style.errorMessageWrap}>
             {!phNumberValid && phNumber.length > 10 && (
-              <div>휴대폰 번호 양식에 맞게 입력해주세요. . </div>
+              <div>휴대폰 번호 양식에 맞게 입력해주세요.</div>
             )}
           </div>
           <div>

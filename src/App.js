@@ -7,6 +7,8 @@ import Login from "./pages/Login/Login";
 import Membership from "./pages/Membership/Membership";
 import Boardlist from "./pages/Board/Boardlist";
 import MyInfo from "./pages/MyInfo/MyInfo";
+import IdFInd from "./pages/IdFind/IdFind";
+import PwFInd from "./pages/PwFind/PwFind";
 
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
           <Route path="/MyInfo" element = {<MyInfo/>}/>
           <Route path="/Login" element={<Login />} />
           <Route path="/Membership" element={<Membership />} />
+          <Route path="IdFind" element={<IdFInd />} />
+          <Route path="PwFind" element={<PwFInd />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -96,7 +96,7 @@ const onClickConfirmButton = () => {
 
   return (
     <>
-      <Navbarboot></Navbarboot>
+      <Navbarboot />
       <div className={style.page}>
         <div className={style.titleWrap}>
           이메일과 비밀번호를
@@ -148,10 +148,10 @@ const onClickConfirmButton = () => {
           <table>
             <tr>
               <th>
-                <Link to="/idFInd">아이디 찾기</Link>
+                <Link to="/IdFInd">아이디 찾기</Link>
               </th>
               <th>
-                <Link to="/pwFind">비밀번호 찾기</Link>
+                <Link to="/PwFind">비밀번호 찾기</Link>
               </th>
               <th>
                 <Link to="/Membership">회원가입</Link>
