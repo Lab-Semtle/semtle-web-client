@@ -11,7 +11,7 @@
   
     background-color: #f0f0f0;
   
-    overflow: hidden;
+    overflow: auto;
   
     display: flex;
     flex-direction: column;
@@ -77,8 +77,8 @@
     background-color: #9e30f4;
     border-radius: 64px;
     color: white;
-    position: absolute;
-    top: 420px;
+    position: relative;
+    margin-bottom: 25px;
     left: 25px;
     cursor: pointer;
   }

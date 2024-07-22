@@ -5,11 +5,24 @@ import Navbarboot from "../../components/Header/Navbarboot";
 import { Link } from "react-router-dom";
 
 export default function IdFInd(){
+    const [name, setName] = useState("");
+    const [nameValid, setNameValid] = useState(false);
     const [email, setEmail] = useState("");
     const [emailValid, setEmailValid] = useState(false);
     const [phNumber, setphNumber] = useState("");
     const [phNumberValid, setphNumberValid] = useState(false);
     const [notAllow, setNotAllow] = useState(true);
+
+    const handleName = (e) =>{
+      setName(e.target.value);
+      const regex = /^[가-힣]{2,}$/;
+      if(regex.test(name)){
+        setNameValid(true);
+      }
+      else{
+        setNameValid(false);
+      }
+    }
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -56,6 +69,24 @@ export default function IdFInd(){
                 이메일과 전화번호를 입력해주세요.
             </div>
             <div className={style.contentWrap}>
+            <div className={style.inputTitle}>이름</div>
+          <div className={style.inputWrap}>
+          <input
+              type="text"
+              className={style.input}
+              placeholder="아무개"
+              onKeyDown={(e) => {
+                if (e.key === " ") e.preventDefault();
+              }}
+              value={name}
+              onChange={handleName}
+            />
+          </div>
+          <div className={style.errorMessageWrap}>
+            {!nameValid && name.length > 5 && (
+              <div>올바른 이름을 입력해주세요.</div>
+            )}
+          </div>
                 <div className={style.inputTitle}>이메일 주소</div>
                 <div className={style.inputWrap}>
                     <input
@@ -74,7 +105,7 @@ export default function IdFInd(){
                 <div>올바른 이메일을 입력해 주세요.</div>
                 )}
           </div>
-          <div classname={style.inputTitle}>전화번호</div>
+          <div className={style.inputTitle}>전화번호</div>
           <div className={style.inputWrap}>
             <input
               type="text"

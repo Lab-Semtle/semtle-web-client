@@ -41,8 +41,17 @@ export default function Login() {
     }
   };
 
-const onClickConfirmButton = () => {
-    
+  //코드 변화가 일어날때마다 실행됨
+  useEffect(() => {
+    if (emailValid && pwValid) {
+      setNotAllow(false);
+      return;
+    }
+    setNotAllow(true);
+  }, [emailValid, pwValid]);
+
+  const onClickConfirmButton = () => {
+    console.log({email}, {pw});
     // axios
     //   .post("http://localhost:8000/api/v1/login", {
     //     user_id : email,
@@ -67,10 +76,8 @@ const onClickConfirmButton = () => {
     //   alert("등록되지 않은 회원입니다.");
     // }
     const loginData = new URLSearchParams();
-        loginData.append('grant_type', 'password');
-        loginData.append('username', 'qwer5971');
-        loginData.append('password', 'mj5971');
-        loginData.append('scope', 'mj5971');
+        loginData.append('username', email);
+        loginData.append('password', pw);
 
         axios.post('http://localhost:8000/api/v1/login', loginData, {
             headers: {
@@ -79,20 +86,19 @@ const onClickConfirmButton = () => {
         })
         .then(response => {
             console.log('로그인 성공:', response.data);
+            axios.get('http://localhost:8000/api/v1/login/token')
+            .then(response =>{
+              const token = response.data.access_token;
+              console.log(token);
+            })
+            
+
+
         })
         .catch(error => {
             console.error('로그인 실패:', error.response ? error.response.data : error.message);
         });
   };
-
-  //코드 변화가 일어날때마다 실행됨
-  useEffect(() => {
-    if (emailValid && pwValid) {
-      setNotAllow(false);
-      return;
-    }
-    setNotAllow(true);
-  }, [emailValid, pwValid]);
 
   return (
     <>

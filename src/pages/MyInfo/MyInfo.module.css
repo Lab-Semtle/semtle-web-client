@@ -13,7 +13,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-color: rgb(210, 210, 210);
     border-top-style:none;
    border-bottom-style:inset;
    border-left-style:none;
@@ -23,8 +22,8 @@
 
 .asideLeft img{
     border-radius: 180px;
-    width: 20vw; /* viewport width의 20% */
-    height: 20vw; /* viewport width의 20% */
+    width: 10vw; /* viewport width의 20% */
+    height: 10vw; /* viewport width의 20% */
     max-width: 300px; /* 최대 너비 설정 */
     max-height: 300px; /* 최대 높이 설정 */
 }
