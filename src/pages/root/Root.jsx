@@ -10,7 +10,6 @@ export default function Root() {
   return (
     <>
       <Navbarboot></Navbarboot>
-
       <div className={style.focusImage}>
         <img src={focusImage} alt="no file"></img>
       </div>
