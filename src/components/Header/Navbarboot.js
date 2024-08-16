@@ -40,9 +40,9 @@ function Navbarboot() {
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
       <Container>
         <button
-        onClick={goBack}> 뒤 로</button>
+        onClick={goBack}>◀</button>
         <button
-        onClick={goFront}>앞으로</button>
+        onClick={goFront}>▶</button>
         <Navbar.Brand as={Link} to="/Main">Semtle</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">

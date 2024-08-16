@@ -126,6 +126,9 @@ export default function Membership() {
       <Navbarboot></Navbarboot>
       <div className={style.page}>
         <div className={style.titleWrap}>회원가입</div>
+        <div className={style.agreeIntroduce}>
+  계속함으로써 <a className={style.a}href="/Agree">개인정보 처리방침</a>에 동의한 것으로 간주합니다.
+</div>
         <div className={style.contentWrap}>
           <div className={style.inputTitle}>이름</div>
           <div className={style.inputWrap}>

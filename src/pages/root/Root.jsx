@@ -47,6 +47,8 @@ export default function Root() {
             <img src={focusImage} alt="no image"></img>
             <div className={style.cellintroduce}>유저 등급</div>
           </div>
+
+          <a href="/Agree">개인정보 처리방침</a>
         </div>
       </div>
     </>

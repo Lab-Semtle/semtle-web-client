@@ -62,17 +62,10 @@ export default function Login() {
             }
         })
         .then(response => {
+            console.log("test")
             console.log('로그인 성공:', response.data);
-            axios.get('http://localhost:8000/api/v1/login/token')
-            .then(response =>{
-              const token = document.cookie;
-              console.log(token.split(';')[0].split('access_token=')[1])
-              //window.location.href = "/"
-              
-            })
-            
-
-
+            console.log(document.cookie);
+            window.location.href = "/"
         })
         .catch(error => {
             console.error('로그인 실패:', error.response ? error.response.data : error.message);
@@ -139,7 +132,7 @@ export default function Login() {
                 <Link to="/PwFind">비밀번호 찾기</Link>
               </th>
               <th>
-                <Link to="/Membership">회원가입</Link>
+                <Link to="/Agree">회원가입</Link>
               </th>
             </tr>
           </table>

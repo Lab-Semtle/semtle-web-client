@@ -9,6 +9,7 @@ import Boardlist from "./pages/Board/Boardlist";
 import MyInfo from "./pages/MyInfo/MyInfo";
 import IdFInd from "./pages/IdFind/IdFind";
 import PwFInd from "./pages/PwFind/PwFind";
+import Agree from "./pages/Agree/Agree";
 
 
 function App() {
@@ -25,8 +26,9 @@ function App() {
           <Route path="/MyInfo" element = {<MyInfo/>}/>
           <Route path="/Login" element={<Login />} />
           <Route path="/Membership" element={<Membership />} />
-          <Route path="IdFind" element={<IdFInd />} />
-          <Route path="PwFind" element={<PwFInd />} />
+          <Route path="/IdFind" element={<IdFInd />} />
+          <Route path="/PwFind" element={<PwFInd />} />
+          <Route path="agree" element={<Agree />} /> 
         </Routes>
       </BrowserRouter>
     </div>
