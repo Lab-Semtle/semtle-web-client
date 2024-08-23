@@ -7,8 +7,6 @@ import { Link } from "react-router-dom";
 export default function IdFInd(){
     const [name, setName] = useState("");
     const [nameValid, setNameValid] = useState(false);
-    const [email, setEmail] = useState("");
-    const [emailValid, setEmailValid] = useState(false);
     const [phNumber, setphNumber] = useState("");
     const [phNumberValid, setphNumberValid] = useState(false);
     const [notAllow, setNotAllow] = useState(true);
@@ -24,18 +22,6 @@ export default function IdFInd(){
       }
     }
 
-    const handleEmail = (e) => {
-        setEmail(e.target.value);
-        //정규표현식
-        const regex =
-          /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-        if (regex.test(email)) {
-          setEmailValid(true);
-        } else {
-          setEmailValid(false);
-        }
-      };
-
       const handlePhNumber = (e) => {
         setphNumber(e.target.value);
     
@@ -49,16 +35,29 @@ export default function IdFInd(){
         }
       };
 
-      const onClickConfirmButton = () => {}
+      const onClickConfirmButton = () => {
+        axios.get("url",
+          {
+            'user_name':name,
+            'user_phone':phNumber
+          }
+        )
+        .then((response)=>{
+          alert("회원님의 아이디는"+response+"입니다.")
+        })
+        .catch((error)=>{
+          alert("존재하지 않는 회원입니다."+error)
+        })
+      }
 
 
       useEffect(() => {
-        if (emailValid && phNumberValid) {
+        if (nameValid && phNumberValid) {
           setNotAllow(false);
           return;
         }
         setNotAllow(true);
-      }, [emailValid, phNumberValid]);
+      }, [nameValid, phNumberValid]);
 
     return (
         <>
@@ -66,7 +65,7 @@ export default function IdFInd(){
         <div className={style.page}>
             <div className={style.titleWrap}>
                 아이디 찾기<hr/>
-                이메일과 전화번호를 입력해주세요.
+                이름과 전화번호를 입력해주세요.
             </div>
             <div className={style.contentWrap}>
             <div className={style.inputTitle}>이름</div>
@@ -86,24 +85,6 @@ export default function IdFInd(){
             {!nameValid && name.length > 5 && (
               <div>올바른 이름을 입력해주세요.</div>
             )}
-          </div>
-                <div className={style.inputTitle}>이메일 주소</div>
-                <div className={style.inputWrap}>
-                    <input
-                    type="text"
-                    className={style.input}
-                    placeholder="test@gmail.com"
-                    value={email}
-                    onInput={handleEmail}
-                    onKeyDown={(e) => {
-                        if (e.key === " ") e.preventDefault();
-                    }}
-                    />
-                </div>
-                <div className={style.errorMessageWrap}>
-                    {!emailValid && email.length > 0 && (
-                <div>올바른 이메일을 입력해 주세요.</div>
-                )}
           </div>
           <div className={style.inputTitle}>전화번호</div>
           <div className={style.inputWrap}>

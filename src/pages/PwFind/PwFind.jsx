@@ -51,7 +51,9 @@ export default function IdFInd(){
         }
       };
 
-      const onClickConfirmButton = () => {}
+      const onClickConfirmButton = () => {
+        
+      }
 
 
       useEffect(() => {

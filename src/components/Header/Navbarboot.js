@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import LogoImg from "../../Logo.png"
 
 function Navbarboot() {
   const [accessToken, setAccessToken] = useState(null);
@@ -43,7 +44,10 @@ function Navbarboot() {
         onClick={goBack}>◀</button>
         <button
         onClick={goFront}>▶</button>
-        <Navbar.Brand as={Link} to="/Main">Semtle</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/Main">
+        <img src={LogoImg} style={{ width: 'auto', height: '40px',maxWidth:'100%', objectFit:'contain',paddingLeft:'10px'
+        }}/>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
