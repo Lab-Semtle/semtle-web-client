@@ -5,43 +5,60 @@ import './Boardcreate.css';
 import { ApiURL } from '../../ApiURL/ApiURL';
 import ToastEditor from "../../components/ToastEditor/ToastEditor";
 import Navbarboot from '../../components/Header/Navbarboot';
+import ToastEditor_noimage from "../../components/ToastEditor/ToastEditor_noimage";
 
 function Boardcreate() {
   const navigate = useNavigate();
   const editorRef = useRef();
   const [board, setBoard] = useState({
-    title: '',
-    createBy: '',
-    content: '',
-    createDate: '',
+    Title: '',
+    Content: '',
+    Views:0
   });
-  const { title, createBy } = board;
-
+  //const { Title, createBy } = board;
+  const { Title} = board;
   const onChange = (event) => {
     const date = new Date();
     const { name, value } = event.target;
     setBoard({
       ...board,
       [name]: value,
-      createDate: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
+      //Create_date: `${date.getFullYear()}-${date.getMonth()>9?date.getMonth()+1:'0'+date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
+      //Create_date: `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`
     });
   };
 
   const saveBoard = async () => {
     // Get the markdown content from the editor
-    const content = editorRef.current.getMarkdown();
+    const Content = editorRef.current.getMarkdown();
 
     // Update the board state with the content
     const updatedBoard = {
       ...board,
-      content
+      Content
     };
 
-    console.log({ updatedBoard });
-    await axios.post(`${ApiURL.Boardcreate_post}`, updatedBoard).then((res) => {
+    
+    try {
+      const response = await axios.post(`${ApiURL.Boardcreate_post}`, updatedBoard);
       alert('등록되었습니다.');
       navigate('/Boardlist');
-    });
+    } catch (error) {
+      if (error.response) {
+        // 서버가 응답했지만 상태 코드는 2xx 범위 밖에 있음
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        // 요청이 만들어졌으나 서버로부터 응답이 없음
+        console.log(error.request);
+      } else {
+        // 요청을 설정하는 중에 오류가 발생함
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+      alert('등록에 실패했습니다.');
+    }
   };
 
   const backToList = () => {
@@ -52,13 +69,13 @@ function Boardcreate() {
     <>
     <Navbarboot></Navbarboot>
       <div className="form-group">
-        <input type="text" name="title" value={title} onChange={onChange} placeholder="제목" />
+        <input type="text" name="Title" value={Title} onChange={onChange} placeholder="제목" />
       </div>
-      <div className="form-group">
+      {/* <div className="form-group">
         <input type="text" name="createBy" value={createBy} onChange={onChange} placeholder="작성자" />
-      </div>
+      </div> */}
       <div className="form-group">
-        <ToastEditor currentBoard={board} ref={editorRef} />
+        <ToastEditor_noimage currentBoard={board} ref={editorRef} />
       </div>
       <div className="form-button">
         <button onClick={saveBoard}>저장</button>
