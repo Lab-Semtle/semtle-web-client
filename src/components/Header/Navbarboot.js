@@ -1,3 +1,4 @@
+
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -15,17 +16,17 @@ function Navbarboot() {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link as={Link} to="/Boardlist">게시판</Nav.Link>
+              <Nav.Link as={Link} to="/Boardlist">자유게시판</Nav.Link>
               <Nav.Link href="#pricing">교수님</Nav.Link>
               <NavDropdown title="더보기" id="collapsible-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">sememem</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/StudyBoardlist" >스터디게시판</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
-                  sdfdsfsdf
+                  족보게시판
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">sdfsdf</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">00게시판</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action/3.4">
-                  sdfddfsd
+                  우리의 여정
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
@@ -43,3 +44,4 @@ function Navbarboot() {
 }
 
 export default Navbarboot;
+
