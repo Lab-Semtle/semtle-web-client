@@ -14,7 +14,7 @@ from backend.api.v1.exam_sharing_board_comment import exam_sharing_board_comment
 from backend.api.v1.exam_sharing_board.exam_sharing_board_dto import ReadBoard, ReadBoardlist
 from backend.var.models import Exam_Sharing_Board
 
-BASE_DIR = os.path.dirname('C:/Users/user/Documents/GitHub/Semtle-Web-Server/backend/')
+BASE_DIR = os.path.dirname('C:/Users/user/Desktop/minseo_koka/semtle-web-client/backend/')
 STATIC_DIR = os.path.join(BASE_DIR, 'images/exam_sharing_board/')
 SERVER_IMG_DIR = os.path.join('http://localhost:8000/', 'images/exam_sharing_board/')
 

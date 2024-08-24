@@ -17,7 +17,7 @@ from backend.var.session import get_db
 from backend.api.v1.study_board_comment.study_board_comment_dto import UpdateComment, ReadComment, CreateComment, ReadCommentlist
 from backend.api.v1.study_board_comment import study_board_comment_svc
 
-BASE_DIR = os.path.dirname('C:/Users/user/Documents/GitHub/Semtle-Web-Server/backend/')
+BASE_DIR = os.path.dirname('C:/Users/user/Desktop/minseo_koka/semtle-web-client/backend/')
 STATIC_DIR = os.path.join(BASE_DIR, 'images/study_board_comment/')
 SERVER_IMG_DIR = os.path.join('http://localhost:8000/', 'images/study_board_comment/')
 

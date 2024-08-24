@@ -12,20 +12,28 @@ const ToastEditor = forwardRef(({ currentBoard }, ref) => {
     // 이미지 파일을 FormData에 추가
     const formData = new FormData();
     formData.append('file_name', blob);
+  // 현재 에디터에 입력된 title과 content를 가져오기
+  const title = 'Your Title'; // 필요에 따라 입력 값으로 대체 가능
+  const content = editorRef.current.getInstance().getMarkdown(); // 현재 작성된 내용
   
+    // 서버로 이미지와 함께 title, content 전송
+    const response = await axios.post(`${ApiURL.study_board_upload}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },params:{
+        title:title,
+        content:content,
+      }
+    });
+    
+    const response_file = await axios.get(`${ApiURL.study_board_get}`,{params: {study_board_no:2}});
+    console.log(response_file);
     try {
-      const response = await axios.post(`${ApiURL.study_board_comment_upload}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        params:{
-          title:'sdf',
-          content:'sdfwss'
-        }
-      },
-    );
-  
-      const imageUrl = response.data.url; // 서버에서 반환된 이미지 URL
+      const file_name = Array.isArray(response_file.data.Image_paths) ? response_file.data.Image_paths[0] : response_file.data.Image_paths;
+    console.log(file_name);
+    const response_image = await axios.get(`${ApiURL.study_board_images}`,{params: {file_name:file_name}});
+      const imageUrl = response_image.request.responseURL; // 서버에서 반환된 이미지 URL
+      console.log(response_image);
       callback(imageUrl, 'alt text'); // 에디터에 이미지 삽입
     } catch (error) {
       console.error('Error uploading image:', error);
