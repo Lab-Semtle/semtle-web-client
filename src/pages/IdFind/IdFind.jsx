@@ -5,22 +5,10 @@ import Navbarboot from "../../components/Header/Navbarboot";
 import { Link } from "react-router-dom";
 
 export default function IdFInd(){
-    const [name, setName] = useState("");
-    const [nameValid, setNameValid] = useState(false);
     const [phNumber, setphNumber] = useState("");
     const [phNumberValid, setphNumberValid] = useState(false);
     const [notAllow, setNotAllow] = useState(true);
 
-    const handleName = (e) =>{
-      setName(e.target.value);
-      const regex = /^[가-힣]{2,}$/;
-      if(regex.test(name)){
-        setNameValid(true);
-      }
-      else{
-        setNameValid(false);
-      }
-    }
 
       const handlePhNumber = (e) => {
         setphNumber(e.target.value);
@@ -36,9 +24,8 @@ export default function IdFInd(){
       };
 
       const onClickConfirmButton = () => {
-        axios.get("url",
+        axios.get("'http://localhost:8000/api/v1/find/find-email'",
           {
-            'user_name':name,
             'user_phone':phNumber
           }
         )
@@ -52,12 +39,12 @@ export default function IdFInd(){
 
 
       useEffect(() => {
-        if (nameValid && phNumberValid) {
+        if (phNumberValid) {
           setNotAllow(false);
           return;
         }
         setNotAllow(true);
-      }, [nameValid, phNumberValid]);
+      }, [phNumberValid]);
 
     return (
         <>
@@ -65,27 +52,8 @@ export default function IdFInd(){
         <div className={style.page}>
             <div className={style.titleWrap}>
                 아이디 찾기<hr/>
-                이름과 전화번호를 입력해주세요.
+                전화번호를 입력해주세요.
             </div>
-            <div className={style.contentWrap}>
-            <div className={style.inputTitle}>이름</div>
-          <div className={style.inputWrap}>
-          <input
-              type="text"
-              className={style.input}
-              placeholder="아무개"
-              onKeyDown={(e) => {
-                if (e.key === " ") e.preventDefault();
-              }}
-              value={name}
-              onChange={handleName}
-            />
-          </div>
-          <div className={style.errorMessageWrap}>
-            {!nameValid && name.length > 5 && (
-              <div>올바른 이름을 입력해주세요.</div>
-            )}
-          </div>
           <div className={style.inputTitle}>전화번호</div>
           <div className={style.inputWrap}>
             <input
@@ -116,7 +84,6 @@ export default function IdFInd(){
           </button>
         </div>
             
-        </div>
         </>
     )
 }

@@ -5,8 +5,6 @@ import Navbarboot from "../../components/Header/Navbarboot";
 import { Link } from "react-router-dom";
 
 export default function IdFInd(){
-    const [id, setId] = useState("");
-    const [idValid, setIdValid] = useState(false);
     const [email, setEmail] = useState("");
     const [emailValid, setEmailValid] = useState(false);
     const [phNumber, setphNumber] = useState("");
@@ -38,31 +36,29 @@ export default function IdFInd(){
         }
       };
 
-      const handleId = (e) => {
-        setId(e.target.value);
-    
-        //정규식 요구 조건, 영어와 숫자만을 입력 받는다.
-        const regex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]+$/;
-    
-        if (regex.test(id)) {
-          setIdValid(true);
-        } else {
-          setIdValid(false);
-        }
-      };
-
       const onClickConfirmButton = () => {
-        
+        axios.get("'http://localhost:8000/api/v1/find/find-password'",
+          {
+            'user_email':email,
+            'user_phone':phNumber
+          }
+        )
+        .then((response)=>{
+          alert("회원님의 비밀번호는"+response+"입니다.")
+        })
+        .catch((error)=>{
+          alert("존재하지 않는 회원입니다."+error)
+        })
       }
 
 
       useEffect(() => {
-        if (emailValid && phNumberValid && idValid) {
+        if (emailValid && phNumberValid) {
           setNotAllow(false);
           return;
         }
         setNotAllow(true);
-      }, [emailValid, phNumberValid, idValid]);
+      }, [emailValid, phNumberValid]);
 
 
     return (
@@ -71,27 +67,9 @@ export default function IdFInd(){
         <div className={style.page}>
             <div className={style.titleWrap}>
                 비밀번호 찾기<hr/>
-                아이디와 이메일, 전화번호를 입력해주세요.
+                이메일, 전화번호를 입력해주세요.
             </div>
             <div className={style.contentWrap}>
-            <div classname={style.inputTitle}>아이디</div>
-          <div className={style.inputWrap}>
-            <input
-              type="text"
-              className={style.input}
-              placeholder="asdf1234"
-              onKeyDown={(e) => {
-                if (e.key === " ") e.preventDefault();
-              }}
-              value={id}
-              onChange={handleId}
-            />
-          </div>
-          <div className={style.errorMessageWrap}>
-            {!idValid && id.length > 6 && (
-              <div>영어와 숫자를 포함하여 6글자 이상으로 작성해 주세요. </div>
-            )}
-          </div>
                 <div className={style.inputTitle}>이메일 주소</div>
                 <div className={style.inputWrap}>
                     <input

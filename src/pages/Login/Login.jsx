@@ -51,7 +51,6 @@ export default function Login() {
   }, [emailValid, pwValid]);
 
   const onClickConfirmButton = () => {
-    console.log({email}, {pw});
     const loginData = new URLSearchParams();
         loginData.append('username', email);
         loginData.append('password', pw);
