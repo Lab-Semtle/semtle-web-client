@@ -10,7 +10,7 @@ export default function Root() {
   return (
     <>
       <Navbarboot></Navbarboot>
-
+      <div className={style.maincontent}>
       <div className={style.focusImage}>
         <img src={focusImage} alt="no file"></img>
       </div>
@@ -48,7 +48,11 @@ export default function Root() {
             <img src={focusImage} alt="no image"></img>
             <div className={style.cellintroduce}>유저 등급</div>
           </div>
+          
+
+          <a href="/Agree">개인정보 처리방침</a>
         </div>
+      </div>
       </div>
     </>
   );
