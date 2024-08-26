@@ -1,0 +1,83 @@
+.common-table {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+  border-spacing: 0;
+}
+
+.boardlist-table {
+  height: 100%;
+}
+
+.common-table-header-column {
+  border-bottom: 1px solid #e8e8e8;
+  padding: 0;
+  font-size: 16px;
+  padding: 10px 5px;
+  font-weight: bold;
+  
+
+}
+
+
+
+.common-table-row:hover {
+  background-color: #eceaea;
+  cursor: pointer;
+}
+
+.common-table-column {
+  padding: 5px 1rem;
+  white-space: nowrap; /* 줄바꿈을 하지 않음 */
+  overflow: hidden; /* 넘친 부분을 숨김 */
+  text-overflow: ellipsis; /* 넘친 텍스트는 생략 표시(...) */
+  max-width: 300px; /* 셀의 최대 가로 길이 설정 (필요에 따라 조정 가능) */
+}
+
+.common-table-row tr {
+  padding: 10px 5px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+.flex-body{
+  display:flex;
+  flex-direction: column;
+}
+.pagination-basic {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.boardcreate-button{
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+  border-spacing: 0;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+}
+.boardcreate-button button{
+  margin: 0 auto;
+  margin-top: 3rem;
+  background-color: rgb(186, 216, 250);
+  border: none;
+  border-radius: 10px;
+  width: 90%;
+  height: 2rem;
+}
+.Dropbutton{
+  margin-left: 80%;
+  margin-top: 1rem;
+}
+    
+.study-title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}

@@ -24,7 +24,7 @@ function Navbarboot() {
         setLoading(false);
       });
   }, []);
-
+  
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -50,17 +50,21 @@ function Navbarboot() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/Boardlist">게시판</Nav.Link>
-            <Nav.Link href="#pricing">교수님</Nav.Link>
-            <NavDropdown title="더보기" id="collapsible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">sememem</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">sdfdsfsdf</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">sdfsdf</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">sdfddfsd</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
+            <Nav className="me-auto">
+              <Nav.Link as={Link} to="/Boardlist">자유게시판</Nav.Link>
+              <Nav.Link href="#pricing">교수님</Nav.Link>
+              <NavDropdown title="더보기" id="collapsible-nav-dropdown">
+                <NavDropdown.Item as={Link} to="/StudyBoardlist" >스터디게시판</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">
+                  족보게시판
+                </NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">00게시판</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action/3.4">
+                  우리의 여정
+                </NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
           <Nav>
             {accessToken ? (
               <>
