@@ -2,10 +2,14 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Boardcreate from "./pages/Board/Boardcreate"
 import Boardview from "./pages/Board/Boardview";
-import Root from "./pages/root/Root";
+import Root from "./pages/Root/Root";
 import Login from "./pages/Login/Login";
-import Membership from "./pages/membership/Membership";
+import Membership from "./pages/Membership/Membership";
 import Boardlist from "./pages/Board/Boardlist";
+import MyInfo from "./pages/MyInfo/MyInfo";
+import IdFInd from "./pages/IdFind/IdFind";
+import PwFInd from "./pages/PwFind/PwFind";
+import Agree from "./pages/Agree/Agree";
 
 
 function App() {
@@ -19,9 +23,12 @@ function App() {
           <Route path="/Main" element={<Root />} />
           <Route path="/Boardcreate" element={<Boardcreate />}/>
           <Route path="/Boardview/:idx" element={<Boardview />}/>
-
+          <Route path="/MyInfo" element = {<MyInfo/>}/>
           <Route path="/Login" element={<Login />} />
           <Route path="/Membership" element={<Membership />} />
+          <Route path="/IdFind" element={<IdFInd />} />
+          <Route path="/PwFind" element={<PwFInd />} />
+          <Route path="agree" element={<Agree />} /> 
         </Routes>
       </BrowserRouter>
     </div>

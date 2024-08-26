@@ -1,12 +1,13 @@
 import axios from "axios";
 import react, { useEffect, useState } from "react";
-
 import style from "./Membership.module.css";
 import Navbarboot from "../../components/Header/Navbarboot";
 
 export default function Membership() {
   const [email, setEmail] = useState("");
 
+  const [name, setName] = useState("");
+  const [nameValid, setNameValid] = useState(false);
   const [id, setId] = useState("");
   const [phNumber, setphNumber] = useState("");
   const [pw, setPw] = useState("");
@@ -18,6 +19,17 @@ export default function Membership() {
   const [phNumberValid, setphNumberValid] = useState(false);
 
   const [notAllow, setNotAllow] = useState(true);
+
+  const handleName = (e) =>{
+    setName(e.target.value);
+    const regex = /^[가-힣]{2,}$/;
+    if(regex.test(name)){
+      setNameValid(true);
+    }
+    else{
+      setNameValid(false);
+    }
+  }
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -82,7 +94,7 @@ export default function Membership() {
   };
 
   useEffect(() => {
-    if (emailValid && pwValid && pwValid2 && idValid & phNumberValid) {
+    if (emailValid && pwValid && pwValid2 && idValid & phNumberValid & nameValid) {
       setNotAllow(false);
       return;
     }
@@ -92,16 +104,20 @@ export default function Membership() {
   const onClickConfirmButton = () => {
     if (pw === pw2) {
       axios
-        .post("url", {
-          email: email,
-
-          id: id,
-          pw: pw,
-          phNumber: phNumber,
+        .post("http://127.0.0.1:8000/api/v1/login/{signup}", {
+          "user_id": id,
+          "user_password": pw,
+          "user_name": name,
+          "user_email": email,
+          "user_phone": phNumber.slice(0,3)+'-'+phNumber.slice(3,7)+'-'+phNumber.slice(7,11),
+          "user_birth": 0,
         })
-        .then((res) => {
-          //console.log(res.data);
-        });
+        .then(response => {
+          console.log('회원가입 성공:', response.data);
+      })
+      .catch(error => {
+          console.error('회원가입 실패:', error.response ? error.response.data : error.message);
+      });
     } else return;
   };
 
@@ -110,7 +126,28 @@ export default function Membership() {
       <Navbarboot></Navbarboot>
       <div className={style.page}>
         <div className={style.titleWrap}>회원가입</div>
+        <div className={style.agreeIntroduce}>
+  계속함으로써 <a className={style.a}href="/Agree">개인정보 처리방침</a>에 동의한 것으로 간주합니다.
+</div>
         <div className={style.contentWrap}>
+          <div className={style.inputTitle}>이름</div>
+          <div className={style.inputWrap}>
+          <input
+              type="text"
+              className={style.input}
+              placeholder="아무개"
+              onKeyDown={(e) => {
+                if (e.key === " ") e.preventDefault();
+              }}
+              value={name}
+              onChange={handleName}
+            />
+          </div>
+          <div className={style.errorMessageWrap}>
+            {!nameValid && name.length > 5 && (
+              <div>올바른 이름을 입력해주세요.</div>
+            )}
+          </div>
           <div className={style.inputTitle}>이메일</div>
           <div className={style.inputWrap}>
             <input
@@ -124,7 +161,7 @@ export default function Membership() {
               onChange={handleEmail}
             />
           </div>
-          <div className={style.errprMessageWrap}>
+          <div className={style.errorMessageWrap}>
             {!emailValid && email.length > 5 && (
               <div>올바른 이메일을 입력해주세요.</div>
             )}
@@ -142,7 +179,7 @@ export default function Membership() {
               onChange={handleId}
             />
           </div>
-          <div className={style.errprMessageWrap}>
+          <div className={style.errorMessageWrap}>
             {!idValid && id.length > 6 && (
               <div>영어와 숫자를 포함하여 6글자 이상으로 작성해 주세요. </div>
             )}
@@ -160,7 +197,7 @@ export default function Membership() {
               onChange={handlePw}
             />
           </div>
-          <div className={style.errprMessageWrap}>
+          <div className={style.errorMessageWrap}>
             {!pwValid && pw.length > 4 && (
               <div>
                 영어와 숫자, 특수문자를 포함하여 8글자 이상으로 작성해 주세요.{" "}
@@ -194,9 +231,9 @@ export default function Membership() {
               onChange={handlePhNumber}
             />
           </div>
-          <div className={style.errprMessageWrap}>
+          <div className={style.errorMessageWrap}>
             {!phNumberValid && phNumber.length > 10 && (
-              <div>휴대폰 번호 양식에 맞게 입력해주세요. . </div>
+              <div>휴대폰 번호 양식에 맞게 입력해주세요.</div>
             )}
           </div>
           <div>
