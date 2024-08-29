@@ -20,3 +20,13 @@
     margin-right: 10rem;
     margin-top: 2rem;
 }
+.view-images {
+    margin-top: 20px;
+}
+
+.uploaded-image {
+    width: 80%; /* 원하는 크기로 조정 */
+    height: auto;
+    margin-left: 10%;
+    margin-right: 10%;
+}

@@ -66,6 +66,7 @@ const Boardlist = props => {
       }
     }); // 2) 게시글 목록 데이터에 할당
     console.log('요청 URL:', resp.config.url); // 요청을 보낸 URL
+    console.log(resp.config);
     console.log(resp.data);
     console.log(resp.data.Board_info);
     setBoardList(resp); // 3) boardList 변수에 할당

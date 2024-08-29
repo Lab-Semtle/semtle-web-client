@@ -5,8 +5,6 @@ import './Studyboardcreate.css';
 import { ApiURL } from '../../ApiURL/ApiURL';
 import ToastEditor from "../../components/ToastEditor/ToastEditor";
 import Navbarboot from '../../components/Header/Navbarboot';
-import Togglebutton1 from "../../components/Button/Togglebutton1";
-
 
 function Studyboardedit() {
     const { idx } = useParams();
@@ -22,10 +20,6 @@ function Studyboardedit() {
         Views: '',
         Image_paths:[],
     });
-    const [checked, setChecked] = useState(false);
-    const handleToggleChange = (e) => {
-    setChecked(e.currentTarget.checked);
-};
 
     const getBoard = async () => {
         //const resp = await(await axios.get(`${ApiURL.Boardedit_get}`));
@@ -92,19 +86,16 @@ function Studyboardedit() {
         }
 
         try {
-            if(checked){//기존이미지 삭제함
-                const response = await axios.put(`${ApiURL.study_board}`,updatedBoard, {params:{study_board_no:idx, select:false}});
-                if(hasFiles){//이미지 있을때
-                    const sendImage = await axios.put(`${ApiURL.study_board_create_upload}`, formData, {
-                    headers: {'Content-Type': 'multipart/form-data',},params:{study_board_no:idx, select:false}})}
-            }
-            else{//기존이미지삭제 안함
-                const response = await axios.put(`${ApiURL.study_board}`,updatedBoard, {params:{study_board_no:idx, select:true}});
-                if(hasFiles){//이미지 있을때
-                    const sendImage = await axios.put(`${ApiURL.study_board_create_upload}`, formData, {
-                    headers: {'Content-Type': 'multipart/form-data',},params:{study_board_no:idx, select:true}})}
-            }
             
+            const response = await axios.post(`${ApiURL.study_board}`,updatedBoard);
+            console.log('updateBoard= ',updatedBoard);
+            console.log('Study_board_no=',response.data.Study_Board_No);
+            if(hasFiles){
+                const sendImage = await axios.put(`${ApiURL.study_board_create_upload}`, formData, {
+                headers: {'Content-Type': 'multipart/form-data',},params:{study_board_no:response.data.Study_Board_No}})}
+            else{
+
+            }
             //await axios.put(`${ApiURL.Boardview_get}/${idx}`, updatedBoard);
             alert('수정되었습니다.');
             navigate(`/StudyBoardview/${idx}`);
@@ -128,7 +119,7 @@ function Studyboardedit() {
                 <input type="text" name="Title" value={board.Title} onChange={onChange} placeholder="제목" />
             </div>
             <div className="form-group">
-                글번호 {board.Board_no}<Togglebutton1 checked={checked} onChange={handleToggleChange}></Togglebutton1>
+                글번호 {board.Board_no}
             </div>
             <div className="form-group">
                 <ToastEditor currentBoard={board} ref={editorRef} />

@@ -13,20 +13,39 @@ function Studyboardview(props) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [board, setBoard] = useState({});
+    const [images, setImages] = useState([]);
 
     const getBoard = async () => {
-        const resp = await axios.get(`${ApiURL.study_board_get}`, {
-            params:{
-            study_board_no:idx
-        }});//고정주소
-        //const resp = await (await axios.get(`${ApiURL.Boardview_get}/${idx}`)).data; 주소 달라짐
-        setBoard(resp.data);
-        setLoading(false);
+        try {
+            const resp = await axios.get(`${ApiURL.study_board_get}`, {
+                params: {
+                    study_board_no: idx
+                }
+            });
+            setBoard(resp.data);
+
+            // 이미지 URL 가져오기
+            const imageUrls = [];
+            for (let fileName of resp.data.Image_paths) {
+                const response = await axios.get(`${ApiURL.study_board_images}`, {
+                    params: { file_name: fileName },
+                    responseType: 'blob' // 서버에서 이미지 데이터로 응답받기 위해 설정
+                });
+                const imageUrl = URL.createObjectURL(response.data); // Blob URL 생성
+                imageUrls.push(imageUrl);
+            }
+            setImages(imageUrls);
+
+        } catch (error) {
+            console.error('Error fetching board data:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
         getBoard();
-    }, []);
+    }, [idx]);
 
     const handleEdit = () => {
         navigate(`/StudyBoard/edit/${idx}`);
@@ -36,9 +55,11 @@ function Studyboardview(props) {
         const confirmDelete = window.confirm('삭제하시겠습니까?');
         if (confirmDelete) {
             try {
-                await axios.delete(`${ApiURL.study_board}`, {params:{
-                    study_board_no: idx
-                }});
+                await axios.delete(`${ApiURL.study_board}`, {
+                    params: {
+                        study_board_no: idx
+                    }
+                });
                 alert('삭제되었습니다.');
                 navigate('/StudyBoardlist');
             } catch (error) {
@@ -54,9 +75,7 @@ function Studyboardview(props) {
 
     return (
         <>
-            <div>
-                <Navbarboot />
-            </div>
+            <Navbarboot />
             <div className="board-view">
                 <div className="view-title">
                     <h2>{board.Title}</h2>
@@ -69,6 +88,11 @@ function Studyboardview(props) {
                 </div>
                 <div className="view-content">
                     {board.Content && <Viewer initialValue={board.Content} />}
+                </div>
+                <div className="view-images">
+                    {images.length > 0 && images.map((url, index) => (
+                        <img key={index} src={url} alt={`Uploaded ${index}`} className="uploaded-image" />
+                    ))}
                 </div>
                 <Comment index={idx} url={ApiURL.study_board_comment} boardname={'study_board_no'} boardname_comment_no={'study_board_comment_no'}/>
             </div>

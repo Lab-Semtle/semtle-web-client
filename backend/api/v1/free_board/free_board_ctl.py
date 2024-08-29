@@ -25,7 +25,7 @@ router = APIRouter(prefix="/free_board", tags=["free_board"])
 
 # Read List
 @router.get(
-    "/get list",
+    "/get_list",
     summary="자유 게시판 게시물 전체 조회",
     description="- 자유 게시판 게시물 전체 리스트 반환, 등록된 예제가 없는 경우 `[]` 반환",
     response_model=ReadBoardlist,
@@ -60,25 +60,25 @@ async def get_free_board(db: AsyncSession = Depends(get_db), free_board_no: int 
 # Create
 @router.post(
     "/",
-    summary="입력 받은 데이터를 데이터베이스에 추가",
-    description="- String-Form / String-Form / Integer-Field",
+    summary="자유 게시판 신규 게시물 생성",
+    description="- 입력 받은 데이터를 데이터베이스에 추가, String-Form / String-Form / Integer-Field",
     # response_model=ResultType, # -> 코드 미완성, 주석처리
     responses=Status.docs(SU.CREATED, ER.DUPLICATE_RECORD)
 )
 async def create_free_board(
-    free_board: Optional[CreateBoard],
+    free_board_info: Optional[CreateBoard],
     db: AsyncSession = Depends(get_db)
 ):
     logger.info("----------자유 게시판 신규 게시물 생성----------")
-    await free_board_svc.create_free_board(free_board, db)
+    await free_board_svc.create_free_board(free_board_info, db)
     return SU.CREATED
 
 
 # Update
 @router.put(
     "/",
-    summary="입력 받은 데이터로 변경 사항 수정",
-    description="- no가 일치하는 데이터의 Title, Content 수정",
+    summary="자유 게시판 기존 게시물 수정",
+    description="- 입력 받은 데이터로 변경 사항 수정, no가 일치하는 데이터의 Title, Content 수정",
     responses=Status.docs(SU.CREATED, ER.DUPLICATE_RECORD)
 )
 async def update_free_board(
@@ -99,8 +99,8 @@ async def update_free_board(
     responses=Status.docs(SU.SUCCESS, ER.DUPLICATE_RECORD),
 )
 async def delete_free_board(
-    free_board_no: int, # JWT 토큰에서 id 가져오는 방식으로 변경, 임시조치
-    db: AsyncSession = Depends(get_db)
+    free_board_no: int,
+    db: AsyncSession = Depends(get_db) # JWT 토큰에서 id 가져오는 방식으로 변경, 임시조치
 ):
     await free_board_svc.delete_free_board(free_board_no, db)
     return SU.SUCCESS
@@ -108,7 +108,7 @@ async def delete_free_board(
 
 # sort Title
 @router.get(
-    "/sort title",
+    "/sort_title",
     summary="자유 게시판 게시물 제목 정렬",
     description="- 자유 게시판 게시물 제목을 가나다순으로 정렬하여 반환, 등록된 예제가 없는 경우 `[]` 반환",
     response_model=ReadBoardlist,
@@ -121,5 +121,5 @@ async def sort_free_board(db: AsyncSession = Depends(get_db), page: int = 0, sel
     total, free_board_info = await free_board_svc.sort_free_board(db, skip=page, select=select)
     return {
         'total': total,
-        'board_info': free_board_info
+        'Board_info': free_board_info
     }

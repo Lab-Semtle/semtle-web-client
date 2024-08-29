@@ -34,38 +34,45 @@ function Studyboardcreate() {
     const Content = editorRef.current.getMarkdown();
 
     const formData = editorRef.current.getFormData();
-
+    
+    let hasFiles = false;
     console.log('FormData contents:');
     for (let [key, value] of formData.entries()) {
+      if (value instanceof File) {
+        hasFiles = true;
+        console.log('File detected:', value.name);
+      }
+      console.log('file value=',value instanceof File);
       console.log(`Key: ${key}, Value:`, value);
     }
 
   // 새로운 FormData를 생성하여 파일들을 추가
-  const sendFormData = new FormData();
+  
 
-  for (let [value] of formData.entries()) {
-    if (value instanceof File) {
-      sendFormData.append('file_name', value);
-    }
-  }
 
     // Update the board state with the content
     const updatedBoard = {
       ...board,
-      Content
+      Content: Content,
+      Views: 0,
     };
     //formData.append('Title', updatedBoard.Title);  // Title을 FormData에 추가
     //formData.append('Content', updatedBoard.Content);    // Content를 FormData에 추가
     
     try {
-      const response = await axios.post(`${ApiURL.study_board_upload}`, sendFormData, {headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      params:{
-        title:updatedBoard.Title,
-        content:updatedBoard.Content,
-      }
-    });
+      const response = await axios.post(`${ApiURL.study_board}`,updatedBoard);
+      console.log('updateBoard= ',updatedBoard);
+      console.log('Study_board_no=',response.data.Study_Board_No);
+      if(hasFiles){
+          const sendImage = await axios.put(`${ApiURL.study_board_create_upload}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },params:{
+            study_board_no:response.data.Study_Board_No
+          }
+      })
+        
+        }
       alert('등록되었습니다.');
       navigate('/StudyBoardlist');
     } catch (error) {
