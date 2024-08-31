@@ -55,7 +55,7 @@ export default function Login() {
         loginData.append('username', email);
         loginData.append('password', pw);
 
-        axios.post('http://localhost:8000/api/v1/login', loginData, {
+        axios.post('http://localhost:8000/api/v1/login/login', loginData, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }

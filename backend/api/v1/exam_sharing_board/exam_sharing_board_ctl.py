@@ -7,13 +7,13 @@ from fastapi.responses import FileResponse
 from backend.core.status import Status, SU, ER
 import logging
 import os
-
+from typing import Optional
 # (db 세션 관련)이후 삭제 예정, 개발을 위해 일단 임시로 추가
 from sqlalchemy.ext.asyncio import AsyncSession
 from backend.var.session import get_db
 
 # 호출할 모듈 추가
-from backend.api.v1.exam_sharing_board.exam_sharing_board_dto import ReadBoard, ReadBoardlist
+from backend.api.v1.exam_sharing_board.exam_sharing_board_dto import ReadBoard, ReadBoardlist, CreateBoard, UpdateBoard
 from backend.api.v1.exam_sharing_board import exam_sharing_board_svc
 
 BASE_DIR = os.path.dirname('C:/Users/user/Desktop/minseo_koka/semtle-web-client/backend/')
@@ -46,6 +46,7 @@ async def get_exam_sharing_board_list(db: AsyncSession = Depends(get_db), page: 
         'Board_info': exam_sharing_board_info
     }
 
+
 # Read
 @router.get(
     "/get",
@@ -60,6 +61,7 @@ async def get_exam_sharing_board(db: AsyncSession = Depends(get_db), exam_sharin
     logger.info("----------족보 게시판 특정 게시물 조회----------")
     exam_sharing_board_info = await exam_sharing_board_svc.get_exam_sharing_board(db, exam_sharing_board_no)
     return exam_sharing_board_info
+
 
 # Image 
 @router.get(
@@ -80,37 +82,108 @@ async def get_exam_sharing_board(db: AsyncSession = Depends(get_db), file_name: 
 @router.post(
     "/",
     summary="입력 받은 데이터를 데이터베이스에 추가",
-    description="- String-Form / String-Form / List[UploadFile]",
+    description="- String-Form / String-Form / Integer-Form",
     # response_model=ResultType, # -> 코드 미완성, 주석처리
     responses=Status.docs(SU.CREATED, ER.DUPLICATE_RECORD, ER.FIELD_VALIDATION_ERROR)
 )
 async def create_exam_sharing_board(
-    title: str,
-    content: str,
-    file_name: list[UploadFile] = File(...),
+    exam_sharing_board_info: Optional[CreateBoard],
     db: AsyncSession = Depends(get_db)
 ):
     logger.info("----------족보 게시판 신규 게시물 생성----------")
-    await exam_sharing_board_svc.create_exam_sharing_board(title, content, file_name, db)
+    exam_sharing_board_no = await exam_sharing_board_svc.create_exam_sharing_board(exam_sharing_board_info, db)
+    return { "status": SU.CREATED, "Exam_Sharing_Board_No": exam_sharing_board_no}
+
+
+# # Create
+# @router.post(
+#     "/",
+#     summary="입력 받은 데이터를 데이터베이스에 추가",
+#     description="- String-Form / String-Form / List[UploadFile]",
+#     # response_model=ResultType, # -> 코드 미완성, 주석처리
+#     responses=Status.docs(SU.CREATED, ER.DUPLICATE_RECORD, ER.FIELD_VALIDATION_ERROR)
+# )
+# async def create_exam_sharing_board(
+#     title: str,
+#     content: str,
+#     file_name: list[UploadFile] = File(...),
+#     db: AsyncSession = Depends(get_db)
+# ):
+#     logger.info("----------족보 게시판 신규 게시물 생성----------")
+#     await exam_sharing_board_svc.create_exam_sharing_board(title, content, file_name, db)
+#     return SU.CREATED
+
+
+# Create
+@router.put(
+    "/create upload",
+    summary="입력 받은 이미지를 데이터베이스에 추가",
+    description="- List[UploadFile]",
+    # response_model=ResultType, # -> 코드 미완성, 주석처리
+    responses=Status.docs(SU.CREATED, ER.DUPLICATE_RECORD, ER.FIELD_VALIDATION_ERROR)
+)
+async def upload_file_exam_sharing_board(
+    exam_sharing_board_no: int,
+    file_name: list[UploadFile] = File(...),
+    db: AsyncSession = Depends(get_db)
+):
+    logger.info("----------족보 게시판 신규 게시물 이미지 생성----------")
+    await exam_sharing_board_svc.upload_file_exam_sharing_board(exam_sharing_board_no, file_name, db)
     return SU.CREATED
 
 
 # Update
 @router.put(
     "/",
-    summary="입력 받은 데이터로 변경 사항 수정",
-    description="- no가 일치하는 데이터의 title, content, file_name 수정",
+    summary="입력 받은 데이터로 기존 게시글 제목 및 내용 수정",
+    description="- no가 일치하는 데이터의 title, content, view 수정",
     responses=Status.docs(SU.CREATED, ER.DUPLICATE_RECORD)
 )
 async def update_exam_sharing_board(
-    exam_sharing_board_no: int,  # JWT 토큰에서 id 가져오는 방식으로 변경, 이건 임시조치
-    title: str,
-    content: str,
-    file_name: list[UploadFile] = File(...),
-    db: AsyncSession = Depends(get_db)
+    exam_sharing_board_no: int,
+    exam_sharing_board_info: Optional[UpdateBoard],
+    db: AsyncSession = Depends(get_db),
+    select: bool = False
 ):
     logger.info("----------족보 게시판 기존 게시물 수정----------")
-    await exam_sharing_board_svc.update_exam_sharing_board(exam_sharing_board_no, title, content, file_name, db)
+    await exam_sharing_board_svc.update_exam_sharing_board(exam_sharing_board_no, exam_sharing_board_info, db, select=select)
+    return SU.SUCCESS
+
+
+# # Update
+# @router.put(
+#     "/",
+#     summary="입력 받은 데이터로 변경 사항 수정",
+#     description="- no가 일치하는 데이터의 title, content, file_name 수정",
+#     responses=Status.docs(SU.CREATED, ER.DUPLICATE_RECORD)
+# )
+# async def update_exam_sharing_board(
+#     exam_sharing_board_no: int,  # JWT 토큰에서 id 가져오는 방식으로 변경, 이건 임시조치
+#     title: str,
+#     content: str,
+#     file_name: list[UploadFile] = File(...),
+#     db: AsyncSession = Depends(get_db)
+# ):
+#     logger.info("----------족보 게시판 기존 게시물 수정----------")
+#     await exam_sharing_board_svc.update_exam_sharing_board(exam_sharing_board_no, title, content, file_name, db)
+#     return SU.SUCCESS
+
+
+# Update
+@router.put(
+    "/update upload",
+    summary="입력 받은 파일로 파일 경로 수정",
+    description="- no가 일치하는 데이터의 file_name 수정",
+    responses=Status.docs(SU.CREATED, ER.DUPLICATE_RECORD)
+)
+async def upload_update_file_exam_sharing_board(
+    exam_sharing_board_no: int,
+    file_name: list[UploadFile] = File(...),
+    db: AsyncSession = Depends(get_db),
+    select: bool = False
+):
+    logger.info("----------족보 게시판 기존 게시물 파일 수정----------")
+    await exam_sharing_board_svc.upload_update_file_exam_sharing_board(exam_sharing_board_no, file_name, db, select=select)
     return SU.SUCCESS
 
 
