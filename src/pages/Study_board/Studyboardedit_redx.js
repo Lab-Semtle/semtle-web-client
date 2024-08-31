@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import './Studyboardcreate.css';
-import { ApiURL } from '../../ApiURL/ApiURL';
+import './Studyboardedit.css';
+import { Apiurl } from '../../Apiurl/Apiurl';
 import ToastEditor from "../../components/ToastEditor/ToastEditor";
 import Navbarboot from '../../components/Header/Navbarboot';
 
@@ -18,14 +18,12 @@ function Studyboardedit() {
         Board_no: '',
         Create_date: '',
         Views: '',
-        Image_paths:[],
+        Image_paths: [],
     });
 
     const getBoard = async () => {
-        //const resp = await(await axios.get(`${ApiURL.Boardedit_get}`));
-        //const resp = await axios.get(`${ApiURL.Boardview_get}/${idx}`);
         try {
-            const resp = await axios.get(`${ApiURL.study_board_get}`, {
+            const resp = await axios.get(`${Apiurl.study_board_get}`, {
                 params: {
                     study_board_no: idx
                 }
@@ -35,11 +33,11 @@ function Studyboardedit() {
             // 이미지 URL 가져오기
             const imageUrls = [];
             for (let fileName of resp.data.Image_paths) {
-                const response = await axios.get(`${ApiURL.study_board_images}`, {
+                const response = await axios.get(`${Apiurl.study_board_images}`, {
                     params: { file_name: fileName },
-                    responseType: 'blob' // 서버에서 이미지 데이터로 응답받기 위해 설정
+                    responseType: 'blob'
                 });
-                const imageUrl = URL.createObjectURL(response.data); // Blob URL 생성
+                const imageUrl = URL.createObjectURL(response.data);
                 imageUrls.push(imageUrl);
             }
             setImages(imageUrls);
@@ -63,9 +61,14 @@ function Studyboardedit() {
         });
     };
 
+    const removeImage = (index) => {
+        const updatedImages = images.filter((_, i) => i !== index);
+        setImages(updatedImages);
+    };
+
     const saveBoard = async () => {
         const Content = editorRef.current.getMarkdown();
-        const Title= board.Title;
+        const Title = board.Title;
 
         const updatedBoard = {
             ...board,
@@ -73,30 +76,22 @@ function Studyboardedit() {
             Title
         };
         const formData = editorRef.current.getFormData();
-    
+
         let hasFiles = false;
-        console.log('FormData contents:');
         for (let [key, value] of formData.entries()) {
-        if (value instanceof File) {
-            hasFiles = true;
-            console.log('File detected:', value.name);
-        }
-        console.log('file value=',value instanceof File);
-        console.log(`Key: ${key}, Value:`, value);
+            if (value instanceof File) {
+                hasFiles = true;
+            }
         }
 
         try {
-            
-            const response = await axios.post(`${ApiURL.study_board}`,updatedBoard);
-            console.log('updateBoard= ',updatedBoard);
-            console.log('Study_board_no=',response.data.Study_Board_No);
-            if(hasFiles){
-                const sendImage = await axios.put(`${ApiURL.study_board_create_upload}`, formData, {
-                headers: {'Content-Type': 'multipart/form-data',},params:{study_board_no:response.data.Study_Board_No}})}
-            else{
-
+            const response = await axios.post(`${Apiurl.study_board}`, updatedBoard);
+            if (hasFiles) {
+                await axios.put(`${Apiurl.study_board_create_upload}`, formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                    params: { study_board_no: response.data.Study_Board_No }
+                });
             }
-            //await axios.put(`${ApiURL.Boardview_get}/${idx}`, updatedBoard);
             alert('수정되었습니다.');
             navigate(`/StudyBoardview/${idx}`);
         } catch (error) {
@@ -108,6 +103,7 @@ function Studyboardedit() {
     const backToList = () => {
         navigate('/StudyBoardlist');
     };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -125,10 +121,13 @@ function Studyboardedit() {
                 <ToastEditor currentBoard={board} ref={editorRef} />
             </div>
             <div className="view-images">
-                    {images.length > 0 && images.map((url, index) => (
-                        <img key={index} src={url} alt={`Uploaded ${index}`} className="uploaded-image" />
-                    ))}
-                </div>
+                {images.length > 0 && images.map((url, index) => (
+                    <div key={index} className="image-container">
+                        <img src={url} alt={`Uploaded ${index}`} className="uploaded-image" />
+                        <button className="remove-image-button" onClick={() => removeImage(index)}>X</button>
+                    </div>
+                ))}
+            </div>
             <div className="form-button">
                 <button onClick={saveBoard}>저장</button>
                 <button onClick={backToList}>나가기</button>

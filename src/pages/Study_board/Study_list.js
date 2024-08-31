@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbarboot from '../../components/Header/Navbarboot';
 import { Link } from 'react-router-dom';
-import { ApiURL } from '../../ApiURL/ApiURL';
-import './Studyboardlist.css';
+import { Apiurl } from '../../Apiurl/Apiurl';
+import './Study_list.css';
 import Dropdownbutton from '../../components/Button/Dropdownbutton';
 import PaginationBasic from '../../components/Header/PaginationBasic';
 
@@ -47,7 +47,7 @@ const CommonTable = (props) => {
   );
 }
 
-const Studyboardlist = props => {
+const Study_list = props => {
 
   const [boardList, setBoardList] = useState([]);
   const [posts, setPosts] = useState([]);
@@ -56,7 +56,7 @@ const Studyboardlist = props => {
   const [rankmenu, setRankmenu] = useState(1);
 
   const getBoardList = async (currentPage, postsPerPage) => {
-    const resp = await axios.get(`${ApiURL.study_board_get_list}`, {
+    const resp = await axios.get(`${Apiurl.study_board_get_list}`, {
       params: {
         page: currentPage
       }
@@ -104,4 +104,4 @@ const Studyboardlist = props => {
   );
 }
 
-export default Studyboardlist;
+export default Study_list;

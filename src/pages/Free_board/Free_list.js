@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbarboot from '../../components/Header/Navbarboot';
 import { Link } from 'react-router-dom';
-import { ApiURL } from '../../ApiURL/ApiURL';
-import './Boardlist.css';
+import { Apiurl } from '../../Apiurl/Apiurl';
+import './Free_list.css';
 import Dropdownbutton from '../../components/Button/Dropdownbutton';
 import PaginationBasic from '../../components/Header/PaginationBasic';
 import { ListGroup } from 'react-bootstrap';
@@ -56,11 +56,11 @@ const CommonTable = (props) => {
   )
 }
 
-const Boardlist = props => {
+const Free_list = props => {
 
   const [boardList, setBoardList] = useState([]);
   const getBoardList = async (currentPage, postsPerPage) => {
-    const resp = await axios.get(`${ApiURL.Boardlist_get_list}`,{
+    const resp = await axios.get(`${Apiurl.Boardlist_get_list}`,{
       params:{
         page: currentPage
       }
@@ -124,6 +124,6 @@ const Boardlist = props => {
   )
 }
 
-export default Boardlist;
+export default Free_list;
 
 

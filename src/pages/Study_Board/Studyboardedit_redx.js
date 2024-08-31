@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import './Studyboardedit.css';
-import { ApiURL } from '../../ApiURL/ApiURL';
+import { Apiurl } from '../../Apiurl/Apiurl';
 import ToastEditor from "../../components/ToastEditor/ToastEditor";
 import Navbarboot from '../../components/Header/Navbarboot';
 
@@ -23,7 +23,7 @@ function Studyboardedit() {
 
     const getBoard = async () => {
         try {
-            const resp = await axios.get(`${ApiURL.study_board_get}`, {
+            const resp = await axios.get(`${Apiurl.study_board_get}`, {
                 params: {
                     study_board_no: idx
                 }
@@ -33,7 +33,7 @@ function Studyboardedit() {
             // 이미지 URL 가져오기
             const imageUrls = [];
             for (let fileName of resp.data.Image_paths) {
-                const response = await axios.get(`${ApiURL.study_board_images}`, {
+                const response = await axios.get(`${Apiurl.study_board_images}`, {
                     params: { file_name: fileName },
                     responseType: 'blob'
                 });
@@ -85,9 +85,9 @@ function Studyboardedit() {
         }
 
         try {
-            const response = await axios.post(`${ApiURL.study_board}`, updatedBoard);
+            const response = await axios.post(`${Apiurl.study_board}`, updatedBoard);
             if (hasFiles) {
-                await axios.put(`${ApiURL.study_board_create_upload}`, formData, {
+                await axios.put(`${Apiurl.study_board_create_upload}`, formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     params: { study_board_no: response.data.Study_Board_No }
                 });

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import style from "./MyInfo.module.css";
+import style from "./Myinfo.module.css";
 import profileImage from "../../test.jpg"
 import Navbarboot from "../../components/Header/Navbarboot";
 

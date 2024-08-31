@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import './Studyboardcreate.css';
-import { ApiURL } from '../../ApiURL/ApiURL';
-import ToastEditor from "../../components/ToastEditor/ToastEditor";
+import './Study_create.css';
+import { Apiurl } from '../../Apiurl/Apiurl';
+import Toasteditor from "../../components/Toasteditor/Toasteditor";
 import Navbarboot from '../../components/Header/Navbarboot';
 import Togglebutton1 from "../../components/Button/Togglebutton1";
 
 
-function Studyboardedit() {
+function Study_edit() {
     const { idx } = useParams();
     const navigate = useNavigate();
     const editorRef = useRef();
@@ -28,10 +28,10 @@ function Studyboardedit() {
 };
 
     const getBoard = async () => {
-        //const resp = await(await axios.get(`${ApiURL.Boardedit_get}`));
-        //const resp = await axios.get(`${ApiURL.Boardview_get}/${idx}`);
+        //const resp = await(await axios.get(`${Apiurl.Boardedit_get}`));
+        //const resp = await axios.get(`${Apiurl.Boardview_get}/${idx}`);
         try {
-            const resp = await axios.get(`${ApiURL.study_board_get}`, {
+            const resp = await axios.get(`${Apiurl.study_board_get}`, {
                 params: {
                     study_board_no: idx
                 }
@@ -41,7 +41,7 @@ function Studyboardedit() {
             // 이미지 URL 가져오기
             const imageUrls = [];
             for (let fileName of resp.data.Image_paths) {
-                const response = await axios.get(`${ApiURL.study_board_images}`, {
+                const response = await axios.get(`${Apiurl.study_board_images}`, {
                     params: { file_name: fileName },
                     responseType: 'blob' // 서버에서 이미지 데이터로 응답받기 위해 설정
                 });
@@ -93,19 +93,19 @@ function Studyboardedit() {
 
         try {
             if(checked){//기존이미지 삭제함
-                const response = await axios.put(`${ApiURL.study_board}`,updatedBoard, {params:{study_board_no:idx, select:false}});
+                await axios.put(`${Apiurl.study_board}`,updatedBoard, {params:{study_board_no:idx, select:false}});
                 if(hasFiles){//이미지 있을때
-                    const sendImage = await axios.put(`${ApiURL.study_board_create_upload}`, formData, {
+                    await axios.put(`${Apiurl.study_board_create_upload}`, formData, {
                     headers: {'Content-Type': 'multipart/form-data',},params:{study_board_no:idx, select:false}})}
             }
             else{//기존이미지삭제 안함
-                const response = await axios.put(`${ApiURL.study_board}`,updatedBoard, {params:{study_board_no:idx, select:true}});
+                await axios.put(`${Apiurl.study_board}`,updatedBoard, {params:{study_board_no:idx, select:true}});
                 if(hasFiles){//이미지 있을때
-                    const sendImage = await axios.put(`${ApiURL.study_board_create_upload}`, formData, {
+                    await axios.put(`${Apiurl.study_board_create_upload}`, formData, {
                     headers: {'Content-Type': 'multipart/form-data',},params:{study_board_no:idx, select:true}})}
             }
             
-            //await axios.put(`${ApiURL.Boardview_get}/${idx}`, updatedBoard);
+            //await axios.put(`${Apiurl.Boardview_get}/${idx}`, updatedBoard);
             alert('수정되었습니다.');
             navigate(`/StudyBoardview/${idx}`);
         } catch (error) {
@@ -131,7 +131,7 @@ function Studyboardedit() {
                 글번호 {board.Board_no}<Togglebutton1 checked={checked} onChange={handleToggleChange}></Togglebutton1>
             </div>
             <div className="form-group">
-                <ToastEditor currentBoard={board} ref={editorRef} />
+                <Toasteditor currentBoard={board} ref={editorRef} />
             </div>
             <div className="view-images">
                     {images.length > 0 && images.map((url, index) => (
@@ -146,4 +146,4 @@ function Studyboardedit() {
     );
 }
 
-export default Studyboardedit;
+export default Study_edit;

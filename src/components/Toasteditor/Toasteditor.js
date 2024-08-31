@@ -1,13 +1,11 @@
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
-import axios from 'axios';
-import { ApiURL } from '../../ApiURL/ApiURL';
+
 
 const ToastEditor = forwardRef(({ currentBoard }, ref) => {
   const editorRef = useRef();
   const formDataRef = useRef(new FormData()); // FormData를 저장할 ref 생성
-  const formData = new FormData();
   // 이미지 업로드 콜백
   const onUploadImage = async (blob, callback) => {
     // 이미지 파일을 FormData에 추가

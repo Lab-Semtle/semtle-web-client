@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Studyboardcreate.css';
-import { ApiURL } from '../../ApiURL/ApiURL';
-import ToastEditor from "../../components/ToastEditor/ToastEditor";
+import './Study_create.css';
+import { Apiurl } from '../../Apiurl/Apiurl';
+import Toasteditor from "../../components/Toasteditor/Toasteditor";
 import Navbarboot from '../../components/Header/Navbarboot';
 
-function Studyboardcreate() {
+function Study_create() {
   const navigate = useNavigate();
   const editorRef = useRef();
 
@@ -60,11 +60,11 @@ function Studyboardcreate() {
     //formData.append('Content', updatedBoard.Content);    // Content를 FormData에 추가
     
     try {
-      const response = await axios.post(`${ApiURL.study_board}`,updatedBoard);
+      const response = await axios.post(`${Apiurl.study_board}`,updatedBoard);
       console.log('updateBoard= ',updatedBoard);
       console.log('Study_board_no=',response.data.Study_Board_No);
       if(hasFiles){
-          const sendImage = await axios.put(`${ApiURL.study_board_create_upload}`, formData, {
+          const sendImage = await axios.put(`${Apiurl.study_board_create_upload}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },params:{
@@ -107,7 +107,7 @@ function Studyboardcreate() {
         <input type="text" name="createBy" value={createBy} onChange={onChange} placeholder="작성자" />
       </div> */}
       <div className="form-group">
-        <ToastEditor currentBoard={board} ref={editorRef} />
+        <Toasteditor currentBoard={board} ref={editorRef} />
       </div>
       <div className="form-button">
         <button onClick={saveBoard}>저장</button>
@@ -117,4 +117,4 @@ function Studyboardcreate() {
   );
 }
 
-export default Studyboardcreate;
+export default Study_create;

@@ -1,14 +1,27 @@
 import axios from "axios";
 import react, { useEffect, useState} from "react";
-import style from "./IdFind.module.css";
+import style from "./Pwfind.module.css";
 import Navbarboot from "../../components/Header/Navbarboot";
 import { Link } from "react-router-dom";
 
 export default function IdFInd(){
+    const [email, setEmail] = useState("");
+    const [emailValid, setEmailValid] = useState(false);
     const [phNumber, setphNumber] = useState("");
     const [phNumberValid, setphNumberValid] = useState(false);
     const [notAllow, setNotAllow] = useState(true);
 
+    const handleEmail = (e) => {
+        setEmail(e.target.value);
+        //정규표현식
+        const regex =
+          /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+        if (regex.test(email)) {
+          setEmailValid(true);
+        } else {
+          setEmailValid(false);
+        }
+      };
 
       const handlePhNumber = (e) => {
         setphNumber(e.target.value);
@@ -24,38 +37,58 @@ export default function IdFInd(){
       };
 
       const onClickConfirmButton = () => {
-        axios.get("http://localhost:8000/api/v1/find/find-email",
+        axios.get("'http://localhost:8000/api/v1/find/find-password'",
           {
-            'user_phone':phNumber.slice(0,3)+'-'+phNumber.slice(3,7)+'-'+phNumber.slice(7,11),
+            'user_email':email,
+            'user_phone':phNumber
           }
         )
         .then((response)=>{
-          alert("회원님의 아이디는"+response+"입니다.")
+          alert("회원님의 비밀번호는"+response+"입니다.")
         })
         .catch((error)=>{
-          console.log(phNumber.slice(0,3)+'-'+phNumber.slice(3,7)+'-'+phNumber.slice(7,11));
           alert("존재하지 않는 회원입니다."+error)
         })
       }
 
 
       useEffect(() => {
-        if (phNumberValid) {
+        if (emailValid && phNumberValid) {
           setNotAllow(false);
           return;
         }
         setNotAllow(true);
-      }, [phNumberValid]);
+      }, [emailValid, phNumberValid]);
+
 
     return (
         <>
         <Navbarboot />
         <div className={style.page}>
             <div className={style.titleWrap}>
-                아이디 찾기<hr/>
-                전화번호를 입력해주세요.
+                비밀번호 찾기<hr/>
+                이메일, 전화번호를 입력해주세요.
             </div>
-          <div className={style.inputTitle}>전화번호</div>
+            <div className={style.contentWrap}>
+                <div className={style.inputTitle}>이메일 주소</div>
+                <div className={style.inputWrap}>
+                    <input
+                    type="text"
+                    className={style.input}
+                    placeholder="test@gmail.com"
+                    value={email}
+                    onInput={handleEmail}
+                    onKeyDown={(e) => {
+                        if (e.key === " ") e.preventDefault();
+                    }}
+                    />
+                </div>
+                <div className={style.errorMessageWrap}>
+                    {!emailValid && email.length > 0 && (
+                <div>올바른 이메일을 입력해 주세요.</div>
+                )}
+          </div>
+          <div classname={style.inputTitle}>전화번호</div>
           <div className={style.inputWrap}>
             <input
               type="text"
@@ -74,7 +107,8 @@ export default function IdFInd(){
               <div>휴대폰 번호 양식에 맞게 입력해주세요.</div>
             )}
           </div>
-          <div>
+            </div>
+            <div>
           <button
             onClick={onClickConfirmButton}
             disabled={notAllow}
@@ -83,8 +117,7 @@ export default function IdFInd(){
             확인
           </button>
         </div>
-            </div>
-            
+        </div>
         </>
     )
 }

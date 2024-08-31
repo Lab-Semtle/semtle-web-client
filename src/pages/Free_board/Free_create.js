@@ -1,13 +1,13 @@
 import React, { useState, useRef } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Boardcreate.css';
-import { ApiURL } from '../../ApiURL/ApiURL';
-import ToastEditor from "../../components/ToastEditor/ToastEditor";
+import './Free_create.css';
+import { Apiurl } from '../../Apiurl/Apiurl';
+import Toasteditor from "../../components/Toasteditor/Toasteditor";
 import Navbarboot from '../../components/Header/Navbarboot';
-import ToastEditor_noimage from "../../components/ToastEditor/ToastEditor_noimage";
+import Toasteditor_noimage from "../../components/Toasteditor/Toasteditor_noimage";
 
-function Boardcreate() {
+function Free_create() {
   const navigate = useNavigate();
   const editorRef = useRef();
   const [board, setBoard] = useState({
@@ -40,7 +40,7 @@ function Boardcreate() {
 
     
     try {
-      const response = await axios.post(`${ApiURL.Boardcreate_post}`, updatedBoard);
+      const response = await axios.post(`${Apiurl.Boardcreate_post}`, updatedBoard);
       alert('등록되었습니다.');
       navigate('/Boardlist');
     } catch (error) {
@@ -75,7 +75,7 @@ function Boardcreate() {
         <input type="text" name="createBy" value={createBy} onChange={onChange} placeholder="작성자" />
       </div> */}
       <div className="form-group">
-        <ToastEditor_noimage currentBoard={board} ref={editorRef} />
+        <Toasteditor_noimage currentBoard={board} ref={editorRef} />
       </div>
       <div className="form-button">
         <button onClick={saveBoard}>저장</button>
@@ -85,4 +85,4 @@ function Boardcreate() {
   );
 }
 
-export default Boardcreate;
+export default Free_create;

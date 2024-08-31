@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import Navbarboot from "../../components/Header/Navbarboot";
 import axios from "axios";
 import { useParams, useNavigate } from 'react-router-dom';
-import { ApiURL } from '../../ApiURL/ApiURL';
-import Comment from "../../components/comment/Comment";
+import { Apiurl } from '../../Apiurl/Apiurl';
+import Comment from "../../components/Comment/Comment";
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/react-editor';
-import './Studyboardview.css';
+import './Study_view.css';
 
-function Studyboardview(props) {
+function Study_view(props) {
     const { idx } = useParams(); // /Board/view/:idx와 동일한 변수명으로 데이터를 꺼낼 수 있습니다.
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -17,7 +17,7 @@ function Studyboardview(props) {
 
     const getBoard = async () => {
         try {
-            const resp = await axios.get(`${ApiURL.study_board_get}`, {
+            const resp = await axios.get(`${Apiurl.study_board_get}`, {
                 params: {
                     study_board_no: idx
                 }
@@ -27,7 +27,7 @@ function Studyboardview(props) {
             // 이미지 URL 가져오기
             const imageUrls = [];
             for (let fileName of resp.data.Image_paths) {
-                const response = await axios.get(`${ApiURL.study_board_images}`, {
+                const response = await axios.get(`${Apiurl.study_board_images}`, {
                     params: { file_name: fileName },
                     responseType: 'blob' // 서버에서 이미지 데이터로 응답받기 위해 설정
                 });
@@ -55,7 +55,7 @@ function Studyboardview(props) {
         const confirmDelete = window.confirm('삭제하시겠습니까?');
         if (confirmDelete) {
             try {
-                await axios.delete(`${ApiURL.study_board}`, {
+                await axios.delete(`${Apiurl.study_board}`, {
                     params: {
                         study_board_no: idx
                     }
@@ -94,11 +94,11 @@ function Studyboardview(props) {
                         <img key={index} src={url} alt={`Uploaded ${index}`} className="uploaded-image" />
                     ))}
                 </div>
-                <Comment index={idx} url={ApiURL.study_board_comment} boardname={'study_board_no'} boardname_comment_no={'study_board_comment_no'}/>
+                <Comment index={idx} url={Apiurl.study_board_comment} boardname={'study_board_no'} boardname_comment_no={'study_board_comment_no'}/>
             </div>
             <div>댓글 보여주는 부분</div>
         </>
     );
 }
 
-export default Studyboardview;
+export default Study_view;
