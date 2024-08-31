@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Studyboardcreate.css';
 import { ApiURL } from '../../ApiURL/ApiURL';
-import ToastEditor from "../../components/ToastEditor/ToastEditor";
-import Navbarboot from '../../components/Header/Navbarboot';
+import ToastEditor from "../../components/toastEditor/ToastEditor";
+import Navbarboot from '../../components/header/Navbarboot';
 
 function Studyboardcreate() {
   const navigate = useNavigate();

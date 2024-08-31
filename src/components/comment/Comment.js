@@ -4,7 +4,7 @@ import './Comment.css';
 import { ApiURL } from '../../ApiURL/ApiURL';
 import { useParams } from 'react-router-dom';
 
-import PaginationBasic from '../Header/PaginationBasic';
+import PaginationBasic from '../header/PaginationBasic';
 
 function Comment({index, url, boardname, boardname_comment_no}) {
   const [currentPage, setCurrentPage] = useState(0);

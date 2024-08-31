@@ -1,13 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import './Boardcreate.css';
+import './Studyboardcreate.css';
 import { ApiURL } from '../../ApiURL/ApiURL';
 import ToastEditor from "../../components/toastEditor/ToastEditor";
 import Navbarboot from '../../components/header/Navbarboot';
-import ToastEditor_noimage from "../../components/toastEditor/ToastEditor_noimage";
 
-function Boardedit() {
+function Studyboardedit() {
     const { idx } = useParams();
     const navigate = useNavigate();
     const editorRef = useRef();
@@ -22,9 +21,9 @@ function Boardedit() {
     const getBoard = async () => {
         //const resp = await(await axios.get(`${ApiURL.Boardedit_get}`));
         //const resp = await axios.get(`${ApiURL.Boardview_get}/${idx}`);
-        const resp = await axios.get(`${ApiURL.Boardview_get}`, {
+        const resp = await axios.get(`${ApiURL.study_board_get}`, {
             params:{
-            free_board_no:idx
+            study_board_no:idx
         }});//고정주소
         console.log(resp);
         setBoard(resp.data);
@@ -51,15 +50,18 @@ function Boardedit() {
             Content,
             Title
         };
+        const Filename={cpm:'sdfsdfsdfdsfsdf'};
 
         try {
-            await axios.put(`${ApiURL.Free_board}`, updatedBoard,{params:{
-                free_board_no: idx
+            await axios.put(`${ApiURL.study_board}`, Filename,{params:{
+                Study_Board_no: idx,
+                Title: updatedBoard.Title,
+                Content: updatedBoard.Content
 
             }});
             //await axios.put(`${ApiURL.Boardview_get}/${idx}`, updatedBoard);
             alert('수정되었습니다.');
-            navigate(`/Boardview/${idx}`);
+            navigate(`/StudyBoardview/${idx}`);
         } catch (error) {
             console.error('Error updating board:', error);
             alert('수정에 실패했습니다.');
@@ -67,7 +69,7 @@ function Boardedit() {
     };
 
     const backToList = () => {
-        navigate('/Boardlist');
+        navigate('/StudyBoardlist');
     };
 
     return (
@@ -80,7 +82,7 @@ function Boardedit() {
                 글번호 {board.Board_no}
             </div>
             <div className="form-group">
-                <ToastEditor_noimage currentBoard={board} ref={editorRef} />
+                <ToastEditor currentBoard={board} ref={editorRef} />
             </div>
             <div className="form-button">
                 <button onClick={saveBoard}>저장</button>
@@ -90,4 +92,4 @@ function Boardedit() {
     );
 }
 
-export default Boardedit;
+export default Studyboardedit;

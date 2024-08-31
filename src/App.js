@@ -1,21 +1,21 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Boardcreate from "./pages/Board/Boardcreate"
-import Boardview from "./pages/Board/Boardview";
-import Root from "./pages/Root/Root";
-import Login from "./pages/Login/Login";
-import Membership from "./pages/Membership/Membership";
-import Boardlist from "./pages/Board/Boardlist";
-import Boardedit from "./pages/Board/Boardedit";
-import MyInfo from "./pages/MyInfo/MyInfo";
-import IdFInd from "./pages/IdFind/IdFind";
-import PwFInd from "./pages/PwFind/PwFind";
-import Agree from "./pages/Agree/Agree";
+import Boardcreate from "./pages/board/Boardcreate"
+import Boardview from "./pages/board/Boardview";
+import Root from "./pages/root/Root";
+import Login from "./pages/login/Login";
+import Membership from "./pages/membership/Membership";
+import Boardlist from "./pages/board/Boardlist";
+import Boardedit from "./pages/board/Boardedit";
+import MyInfo from "./pages/myInfo/MyInfo";
+import IdFInd from "./pages/idFind/IdFind";
+import PwFInd from "./pages/pwFind/PwFind";
+import Agree from "./pages/agree/Agree";
 
-import Studyboardlist from "./pages/Study_Board/Studyboardlist";
-import Studyboardcreate from "./pages/Study_Board/Studyboardcreate";
-import Studyboardview from "./pages/Study_Board/Studyboardview";
-import Studyboardedit from "./pages/Study_Board/Studyboardedit";
+import Studyboardlist from "./pages/studyBoard/Studyboardlist";
+import Studyboardcreate from "./pages/studyBoard/Studyboardcreate";
+import Studyboardview from "./pages/studyBoard/Studyboardview";
+import Studyboardedit from "./pages/studyBoard/Studyboardedit";
 
 function App() {
   return (
