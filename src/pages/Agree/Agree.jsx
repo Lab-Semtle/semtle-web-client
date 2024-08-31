@@ -1,14 +1,9 @@
-import axios from "axios";
-import react, { useEffect, useState } from "react";
-import style from "./Agree.module.css";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Navbarboot from "../../components/Header/Navbarboot";
-import { Link } from "react-router-dom";
-import { Nav } from "react-bootstrap";
+import style from "./Agree.module.css";
 
-
-
-export default function Agree(){
-
+export default function Agree() {
     const [notAllow, setNotAllow] = useState(true);
 
     function is_checked(){
@@ -162,18 +157,26 @@ export default function Agree(){
 
 
             </div>
-            <div>
-                <input className={style.agreebox} type="checkbox" id="agree_checkbox" onClick={is_checked} />
-                <label for="agree_checkbox">개인정보 수집 및 이용에 동의합니다.</label>
-            </div>
-            <button
-            onClick={onClickConfirmButton}
-            disabled={notAllow}
-            className={style.bottomButton}
-          >
-            확인
-          </button>
-
+            {true && (
+                <>
+                    <div>
+                        <input
+                            className={style.agreebox}
+                            type="checkbox"
+                            id="agree_checkbox"
+                            onClick={is_checked}
+                        />
+                        <label htmlFor="agree_checkbox">개인정보 수집 및 이용에 동의합니다.</label>
+                    </div>
+                    <button
+                        onClick={onClickConfirmButton}
+                        disabled={notAllow}
+                        className={style.bottomButton}
+                    >
+                        확인
+                    </button>
+                </>
+            )}
         </div>
         </>
     );

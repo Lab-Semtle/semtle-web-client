@@ -20,6 +20,39 @@ export default function Membership() {
 
   const [notAllow, setNotAllow] = useState(true);
 
+  const [verificationCode, setVerificationCode] = useState();
+  const [userInputCode, setUserInputCode] = useState("");
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+
+  //코드 보내기
+  const sendVerificationCode = async () => {
+    if (emailValid) {
+      try {
+        const response = await axios.get('http://localhost:8000/api/v1/login/send?user_email=bagsangbin01%40gmail.com', {
+        });
+        setVerificationCode(axios.get("http://localhost:8000/api/v1/login/code",{}));
+        
+        alert("인증 코드가 이메일로 전송되었습니다.");
+        
+      } catch (error) {
+        console.error("인증 코드 전송 실패:", error);
+        alert("인증 코드 전송에 실패했습니다.");
+      }
+    } else {
+      alert("유효한 이메일 주소를 입력해주세요.");
+    }
+  };
+
+  //코드 비교 검증
+  const verifyCode = () => {
+    console.log(verificationCode);
+    if (userInputCode === verificationCode) {
+      setIsEmailVerified(true);
+    }
+  };
+
+
+
   const handleName = (e) =>{
     setName(e.target.value);
     const regex = /^[가-힣]{2,}$/;
@@ -66,6 +99,11 @@ export default function Membership() {
     }
   };
 
+  const handleCode = (e) =>{
+    setUserInputCode(e.target.value);
+    verifyCode();
+  }
+
 
   const handleId = (e) => {
     setId(e.target.value);
@@ -104,7 +142,7 @@ export default function Membership() {
   const onClickConfirmButton = () => {
     if (pw === pw2) {
       axios
-        .post("http://127.0.0.1:8000/api/v1/login/{signup}", {
+        .post("http://127.0.0.1:8000/api/v1/login/signup", {
           "user_id": id,
           "user_password": pw,
           "user_name": name,
@@ -161,10 +199,26 @@ export default function Membership() {
               onChange={handleEmail}
             />
           </div>
+          <button onClick={sendVerificationCode} disabled={!emailValid || isEmailVerified}>
+             인증코드 전송
+            </button>
           <div className={style.errorMessageWrap}>
             {!emailValid && email.length > 5 && (
               <div>올바른 이메일을 입력해주세요.</div>
             )}
+          </div>
+          <div classname={style.inputTitle}>인증번호 입력</div>
+          <div className={style.inputWrap}>
+            <input
+              type="text"
+              className={style.input}
+              placeholder="asdf1234"
+              onKeyDown={(e) => {
+                if (e.key === " ") e.preventDefault();
+              }}
+              value={userInputCode}
+              onChange={handleCode}
+            />
           </div>
           <div classname={style.inputTitle}>아이디</div>
           <div className={style.inputWrap}>
