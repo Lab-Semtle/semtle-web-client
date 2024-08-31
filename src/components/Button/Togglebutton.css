@@ -1,0 +1,46 @@
+:root {
+    --green-300: #81c784;
+    --green-400: #66bb6a;
+    --green-500: #4caf50;
+  
+    --dark-green-300: #33691e; /* 반전된 색상 예시 */
+    --dark-green-400: #2e7d32;
+    --dark-green-500: #1b5e20;
+  }
+  
+  .custom-green-300 {
+    background-color: var(--green-300);
+    border-color: var(--green-300);
+    color: white;
+  }
+  
+  .custom-green-400 {
+    background-color: var(--green-400);
+    border-color: var(--green-400);
+    color: white;
+  }
+  
+  .custom-green-500 {
+    background-color: var(--green-500);
+    border-color: var(--green-500);
+    color: white;
+  }
+  
+  /* 버튼이 눌렸을 때, 즉 :active 상태일 때 반전 색상 */
+  .custom-green-300:active, .custom-green-300:checked {
+    background-color: var(--dark-green-300);
+    border-color: var(--dark-green-300);
+    color: white;
+  }
+  
+  .custom-green-400:active, .custom-green-400:checked {
+    background-color: var(--dark-green-400);
+    border-color: var(--dark-green-400);
+    color: white;
+  }
+  
+  .custom-green-500:active, .custom-green-500:checked {
+    background-color: var(--dark-green-500);
+    border-color: var(--dark-green-500);
+    color: white;
+  }

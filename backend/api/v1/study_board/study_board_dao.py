@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime, timezone
 from typing import Optional
 
-from backend.api.v1.study_board_comment import study_board_comment_dao
+
 from backend.api.v1.study_board.study_board_dto import ReadBoard, ReadBoardlist, CreateBoard
 from backend.var.models import Study_Board
 
@@ -36,21 +36,41 @@ async def get_study_board(db: AsyncSession, study_board_no: int) -> ReadBoard:
 
 
 # Create
-async def create_study_board(study_board_info: Optional[CreateBoard], db: AsyncSession):
+async def create_study_board(study_board_info: Optional[CreateBoard], db: AsyncSession) -> int:
     create_values = study_board_info.dict()
     create_values['Create_date'] = datetime.now(timezone.utc).replace(second=0, microsecond=0).replace(tzinfo=None)
-    await db.execute(insert(Study_Board).values(create_values))
+    result = await db.execute(insert(Study_Board).values(create_values).returning(Study_Board.Board_no))
     await db.commit()
+    study_board_no = result.scalar_one()
+    return study_board_no
+
+
+# # Create
+# async def upload_create_study_board(title: str, content: str, file_name: Optional[list[UploadFile]], db: AsyncSession) -> None:
+#     create_values = {
+#         "Title": title,
+#         "Content": content,
+#         "Create_date": datetime.now(timezone.utc).replace(second=0, microsecond=0).replace(tzinfo=None),
+#         "Views" : 0
+#     }
+#     image_paths=[]
+#     if file_name:
+#         for file in file_name:
+#             currentTime = datetime.now().strftime("%Y%m%d%H%M%S")
+#             original_extension = os.path.splitext(file.filename)[1]  # 원래 파일의 확장자 추출
+#             saved_file_name = f"{currentTime}{secrets.token_hex(16)}{original_extension}"  # 확장자 포함
+#             file_location = os.path.join(STATIC_DIR, saved_file_name)
+#             with open(file_location, "wb+") as file_object:
+#                 file_object.write(file.file.read())
+#             image_paths.append(saved_file_name)
+#     if image_paths:
+#         create_values["Image_paths"] = ",".join(image_paths)
+#     await db.execute(insert(Study_Board).values(create_values))
+#     await db.commit()
 
 
 # Create
-async def upload_create_study_board(title: str, content: str, file_name: Optional[list[UploadFile]], db: AsyncSession) -> None:
-    create_values = {
-        "Title": title,
-        "Content": content,
-        "Create_date": datetime.now(timezone.utc).replace(second=0, microsecond=0).replace(tzinfo=None),
-        "Views" : 0
-    }
+async def upload_file_study_board(study_board_no: int, file_name: Optional[list[UploadFile]], db: AsyncSession) -> None:
     image_paths=[]
     if file_name:
         for file in file_name:
@@ -61,9 +81,10 @@ async def upload_create_study_board(title: str, content: str, file_name: Optiona
             with open(file_location, "wb+") as file_object:
                 file_object.write(file.file.read())
             image_paths.append(saved_file_name)
-    if image_paths:
-        create_values["Image_paths"] = ",".join(image_paths)
-    await db.execute(insert(Study_Board).values(create_values))
+
+    image_paths = ",".join(image_paths)
+    create_values = {"Image_paths": image_paths}
+    await db.execute(update(Study_Board).filter(Study_Board.Board_no == study_board_no).values(create_values))
     await db.commit()
     
 
@@ -74,31 +95,33 @@ async def update_study_board(study_board_no: int, study_board_info: Optional[Cre
 
 
 # Update
-async def upload_update_study_board(study_board_no: int, title: str, content: str, file_name: list[UploadFile], db: AsyncSession) -> None:
-    create_values = {
-        "Title": title,
-        "Content": content,
-        "Create_date": datetime.now(timezone.utc).replace(second=0, microsecond=0).replace(tzinfo=None),
-        "Views" : 0
-    }
-    image_paths=[]
-    for file in file_name:
-        currentTime = datetime.now().strftime("%Y%m%d%H%M%S")
-        original_extension = os.path.splitext(file.filename)[1]  # 원래 파일의 확장자 추출
-        saved_file_name = f"{currentTime}{secrets.token_hex(16)}{original_extension}"  # 확장자 포함
-        file_location = os.path.join(STATIC_DIR, saved_file_name)
-        with open(file_location, "wb+") as file_object:
-            file_object.write(file.file.read())
-        image_paths.append(saved_file_name)
-    create_values["Image_paths"] = ",".join(image_paths)
+async def upload_file_add_study_board(study_board_no: int, file_name: Optional[list[UploadFile]], db: AsyncSession) -> None:
+    result = await db.execute(select(Study_Board.Image_paths).filter(Study_Board.Board_no == study_board_no))
+    image_paths = result.scalar_one_or_none()  
+
+    if image_paths is None:
+        image_paths = []
+    else:
+        image_paths = image_paths.split(",")
+
+    if file_name:
+        for file in file_name:
+            currentTime = datetime.now().strftime("%Y%m%d%H%M%S")
+            original_extension = os.path.splitext(file.filename)[1]  # 원래 파일의 확장자 추출
+            saved_file_name = f"{currentTime}{secrets.token_hex(16)}{original_extension}"  # 확장자 포함
+            file_location = os.path.join(STATIC_DIR, saved_file_name)
+            with open(file_location, "wb+") as file_object:
+                file_object.write(file.file.read())
+            image_paths.append(saved_file_name)
+    
+    image_paths = ",".join(image_paths)
+    create_values = {"Image_paths": image_paths}
     await db.execute(update(Study_Board).filter(Study_Board.Board_no == study_board_no).values(create_values))
     await db.commit()
-    
+
 
 # Delete
 async def delete_study_board(study_board_no: int, db: AsyncSession) -> None:
-    await delete_image_study_board(study_board_no, db)
-    await study_board_comment_dao.all_delete_study_board_comment(study_board_no, db)
     await db.execute(delete(Study_Board).filter(Study_Board.Board_no == study_board_no))
     await db.commit()
 
@@ -111,6 +134,8 @@ async def delete_image_study_board(study_board_no: int, db: AsyncSession) -> Non
         for image_path in image_paths:
             full_path = os.path.join(STATIC_DIR, image_path.strip())
             os.remove(full_path)
+    await db.execute(update(Study_Board).filter(Study_Board.Board_no == study_board_no).values(Image_paths=""))
+    await db.commit()
 
 #sort
 async def sort_study_board(db: AsyncSession, skip: int = 0, sel: int = 0) -> tuple[int, list[ReadBoardlist]]:
@@ -134,6 +159,3 @@ async def sort_study_board(db: AsyncSession, skip: int = 0, sel: int = 0) -> tup
     total = await db.execute(select(func.count(Study_Board.Board_no)))
     total = total.scalar()
     return total, study_board_info
-
-
-

@@ -10,8 +10,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime, timezone
 from typing import Optional
 
-from backend.api.v1.exam_sharing_board_comment import exam_sharing_board_comment_dao
-from backend.api.v1.exam_sharing_board.exam_sharing_board_dto import ReadBoard, ReadBoardlist
+
+from backend.api.v1.exam_sharing_board.exam_sharing_board_dto import ReadBoard, ReadBoardlist, CreateBoard, UpdateBoard
 from backend.var.models import Exam_Sharing_Board
 
 BASE_DIR = os.path.dirname('C:/Users/user/Desktop/minseo_koka/semtle-web-client/backend/')
@@ -36,13 +36,41 @@ async def get_exam_sharing_board(db: AsyncSession, exam_sharing_board_no: int) -
 
 
 # Create
-async def create_exam_sharing_board(title: str, content: str, file_name: Optional[list[UploadFile]], db: AsyncSession) -> None:
-    create_values = {
-        "Title": title,
-        "Content": content,
-        "Create_date": datetime.now(timezone.utc).replace(second=0, microsecond=0).replace(tzinfo=None),
-        "Views" : 0
-    }
+async def create_exam_sharing_board(Eexam_sharing_board_info: Optional[CreateBoard], db: AsyncSession) -> int:
+    create_values = Eexam_sharing_board_info.dict()
+    create_values['Create_date'] = datetime.now(timezone.utc).replace(second=0, microsecond=0).replace(tzinfo=None)
+    result = await db.execute(insert(Exam_Sharing_Board).values(create_values).returning(Exam_Sharing_Board.Board_no))
+    await db.commit()
+    Eexam_sharing_board_no = result.scalar_one()
+    return Eexam_sharing_board_no
+
+
+# # Create
+# async def create_exam_sharing_board(title: str, content: str, file_name: Optional[list[UploadFile]], db: AsyncSession) -> None:
+#     create_values = {
+#         "Title": title,
+#         "Content": content,
+#         "Create_date": datetime.now(timezone.utc).replace(second=0, microsecond=0).replace(tzinfo=None),
+#         "Views" : 0
+#     }
+#     image_paths=[]
+#     if file_name:
+#         for file in file_name:
+#             currentTime = datetime.now().strftime("%Y%m%d%H%M%S")
+#             original_extension = os.path.splitext(file.filename)[1]  # 원래 파일의 확장자 추출
+#             saved_file_name = f"{currentTime}{secrets.token_hex(16)}{original_extension}"  # 확장자 포함
+#             file_location = os.path.join(STATIC_DIR, saved_file_name)
+#             with open(file_location, "wb+") as file_object:
+#                 file_object.write(file.file.read())
+#             image_paths.append(saved_file_name)
+#     if image_paths:
+#         create_values["Image_paths"] = ",".join(image_paths)
+#     await db.execute(insert(Exam_Sharing_Board).values(create_values))
+#     await db.commit()
+
+
+# Create
+async def upload_file_exam_sharing_board(exam_sharing_board_no: int, file_name: Optional[list[UploadFile]], db: AsyncSession) -> None:
     image_paths=[]
     if file_name:
         for file in file_name:
@@ -53,44 +81,76 @@ async def create_exam_sharing_board(title: str, content: str, file_name: Optiona
             with open(file_location, "wb+") as file_object:
                 file_object.write(file.file.read())
             image_paths.append(saved_file_name)
-    if image_paths:
-        create_values["Image_paths"] = ",".join(image_paths)
-    await db.execute(insert(Exam_Sharing_Board).values(create_values))
-    await db.commit()
     
-    
-# Update
-async def update_exam_sharing_board(exam_sharing_board_no: int, title: str, content: str, file_name: list[UploadFile], db: AsyncSession) -> None:
-    create_values = {
-        "Title": title,
-        "Content": content,
-        "Create_date": datetime.now(timezone.utc).replace(second=0, microsecond=0).replace(tzinfo=None),
-        "Views" : 0
-    }
-    image_paths=[]
-    for file in file_name:
-        currentTime = datetime.now().strftime("%Y%m%d%H%M%S")
-        original_extension = os.path.splitext(file.filename)[1]  # 원래 파일의 확장자 추출
-        saved_file_name = f"{currentTime}{secrets.token_hex(16)}{original_extension}"  # 확장자 포함
-        file_location = os.path.join(STATIC_DIR, saved_file_name)
-        with open(file_location, "wb+") as file_object:
-            file_object.write(file.file.read())
-        image_paths.append(saved_file_name)
-    create_values["Image_paths"] = ",".join(image_paths)
+    image_paths = ",".join(image_paths)
+    create_values = {"Image_paths": image_paths}
     await db.execute(update(Exam_Sharing_Board).filter(Exam_Sharing_Board.Board_no == exam_sharing_board_no).values(create_values))
     await db.commit()
     
+    
+# # Update
+# async def update_exam_sharing_board(exam_sharing_board_no: int, title: str, content: str, file_name: list[UploadFile], db: AsyncSession) -> None:
+#     create_values = {
+#         "Title": title,
+#         "Content": content,
+#         "Create_date": datetime.now(timezone.utc).replace(second=0, microsecond=0).replace(tzinfo=None),
+#         "Views" : 0
+#     }
+#     image_paths=[]
+#     for file in file_name:
+#         currentTime = datetime.now().strftime("%Y%m%d%H%M%S")
+#         original_extension = os.path.splitext(file.filename)[1]  # 원래 파일의 확장자 추출
+#         saved_file_name = f"{currentTime}{secrets.token_hex(16)}{original_extension}"  # 확장자 포함
+#         file_location = os.path.join(STATIC_DIR, saved_file_name)
+#         with open(file_location, "wb+") as file_object:
+#             file_object.write(file.file.read())
+#         image_paths.append(saved_file_name)
+#     create_values["Image_paths"] = ",".join(image_paths)
+#     await db.execute(update(Exam_Sharing_Board).filter(Exam_Sharing_Board.Board_no == exam_sharing_board_no).values(create_values))
+#     await db.commit()
+
+
+# Update
+async def update_exam_sharing_board(exam_sharing_board_no: int, exam_sharing_board_info: Optional[CreateBoard], db: AsyncSession):
+    await db.execute(update(Exam_Sharing_Board).filter(Exam_Sharing_Board.Board_no == exam_sharing_board_no).values(exam_sharing_board_info.dict()))
+    await db.commit()
+
+
+# Update add file
+async def upload_file_add_exam_sharing_board(exam_sharing_board_no: int, file_name: Optional[list[UploadFile]], db: AsyncSession) -> None:
+    result = await db.execute(select(Exam_Sharing_Board.Image_paths).filter(Exam_Sharing_Board.Board_no == exam_sharing_board_no))
+    image_paths = result.scalar_one_or_none()  
+
+    if image_paths is None:
+        image_paths = []
+    else:
+        image_paths = image_paths.split(",")
+        
+    if file_name:
+        for file in file_name:
+            currentTime = datetime.now().strftime("%Y%m%d%H%M%S")
+            original_extension = os.path.splitext(file.filename)[1]  # 원래 파일의 확장자 추출
+            saved_file_name = f"{currentTime}{secrets.token_hex(16)}{original_extension}"  # 확장자 포함
+            file_location = os.path.join(STATIC_DIR, saved_file_name)
+            with open(file_location, "wb+") as file_object:
+                file_object.write(file.file.read())
+            image_paths.append(saved_file_name)
+    
+    image_paths = ",".join(image_paths)
+    create_values = {"Image_paths": image_paths}
+    await db.execute(update(Exam_Sharing_Board).filter(Exam_Sharing_Board.Board_no == exam_sharing_board_no).values(create_values))
+    await db.commit()
+
+
 
 # Delete
 async def delete_exam_sharing_board(exam_sharing_board_no: int, db: AsyncSession) -> None:
-    await delete_image_exam_sharing_board(exam_sharing_board_no, db)
-    await exam_sharing_board_comment_dao.all_delete_exam_sharing_board_comment(exam_sharing_board_no, db)
     await db.execute(delete(Exam_Sharing_Board).filter(Exam_Sharing_Board.Board_no == exam_sharing_board_no))
     await db.commit()
 
 
-# Delte Image
-async def delete_image_exam_sharing_board(exam_sharing_board_no: int, db: AsyncSession) -> None:
+# Delte file
+async def delete_file_exam_sharing_board(exam_sharing_board_no: int, db: AsyncSession) -> None:
     result = await db.execute(select(Exam_Sharing_Board.Image_paths).filter(Exam_Sharing_Board.Board_no == exam_sharing_board_no))
     image_paths = result.scalar_one_or_none()
     if image_paths:
@@ -98,6 +158,8 @@ async def delete_image_exam_sharing_board(exam_sharing_board_no: int, db: AsyncS
         for image_path in image_paths:
             full_path = os.path.join(STATIC_DIR, image_path.strip())
             os.remove(full_path)
+    await db.execute(update(Exam_Sharing_Board).filter(Exam_Sharing_Board.Board_no == exam_sharing_board_no).values(Image_paths=""))
+    await db.commit()
 
 
 #sort
@@ -122,6 +184,3 @@ async def sort_exam_sharing_board(db: AsyncSession, skip: int = 0, sel: int = 0)
     total = await db.execute(select(func.count(Exam_Sharing_Board.Board_no)))
     total = total.scalar()
     return total, exam_sharing_board_info
-
-
-

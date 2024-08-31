@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 # Read List
-async def get_free_board_list(db: AsyncSession, skip: int = 0) -> list[ReadBoardlist]:
+async def get_free_board_list(db: AsyncSession, skip: int) -> list[ReadBoardlist]:
     total, free_board_info = await free_board_dao.get_free_board_list(db, skip)
     free_board_info = [ReadBoard.from_orm(board).dict() for board in free_board_info]
     return total, free_board_info
@@ -36,7 +36,7 @@ async def delete_free_board(free_board_no: int, db: AsyncSession) -> None:
     await free_board_dao.delete_free_board(free_board_no, db)
 
 # sort_Title
-async def sort_free_board(db: AsyncSession, skip: int = 0, select: int = 0) -> list[ReadBoardlist]:
+async def sort_free_board(db: AsyncSession, skip: int, select: int) -> list[ReadBoardlist]:
     total, free_board_info = await free_board_dao.sort_free_board(db, skip, select)
     free_board_info = [ReadBoard.from_orm(board).dict() for board in free_board_info] 
     return total, free_board_info
