@@ -16,6 +16,7 @@ function Navbarboot() {
     axios.get('http://localhost:8000/api/v1/login/refresh')
       .then(response => {
         setAccessToken(response.data.access_token);
+        console.log(response);
       })
       .catch(error => {
         setAccessToken(null);
@@ -62,7 +63,7 @@ function Navbarboot() {
             </NavDropdown>
           </Nav>
           <Nav>
-            {accessToken !==null ? (
+            {accessToken === undefined ? (
               <>
                 <Nav.Link as={Link} to="/MyInfo">내 정보</Nav.Link>
               </>

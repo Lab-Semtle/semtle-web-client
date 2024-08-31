@@ -3,6 +3,7 @@ import react, { useEffect, useState} from "react";
 import style from "./IdFind.module.css";
 import Navbarboot from "../../components/header/Navbarboot";
 import { Link } from "react-router-dom";
+import { ApiURL } from '../../ApiURL/ApiURL';
 
 export default function IdFInd(){
     const [phNumber, setphNumber] = useState("");
@@ -24,7 +25,7 @@ export default function IdFInd(){
       };
 
       const onClickConfirmButton = () => {
-        axios.get("http://localhost:8000/api/v1/find/find-email",
+        axios.get(ApiURL.findEmail_get,
           {
             'user_phone':phNumber.slice(0,3)+'-'+phNumber.slice(3,7)+'-'+phNumber.slice(7,11),
           }

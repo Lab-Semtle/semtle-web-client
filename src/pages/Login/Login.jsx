@@ -3,6 +3,7 @@ import react, { useEffect, useState } from "react";
 import style from "./Login.module.css";
 import Navbarboot from "../../components/header/Navbarboot";
 import { Link } from "react-router-dom";
+import { ApiURL } from '../../ApiURL/ApiURL';
 
 const User = {
   email: "test@example.com",
@@ -55,16 +56,14 @@ export default function Login() {
         loginData.append('username', email);
         loginData.append('password', pw);
 
-        axios.post('http://localhost:8000/api/v1/login/login', loginData, {
+        axios.post(ApiURL.login_post, loginData, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         })
         .then(response => {
-            console.log("test")
             console.log('로그인 성공:', response.data);
-            console.log(document.cookie);
-            window.location.href = "/"
+            //window.location.href = "/"
         })
         .catch(error => {
             console.error('로그인 실패:', error.response ? error.response.data : error.message);
@@ -115,9 +114,6 @@ export default function Login() {
             />
           </div>
           <div className={style.errorMessageWrap}>
-            {!pwValid && pw.length > 0 && (
-              <div>영문, 숫자, 특수문자 포함 8글자 입력해주세요.</div>
-            )}
           </div>
         </div>
 

@@ -18,6 +18,7 @@ export default function MyInfo() {
                
                 const token = tokenResponse.data.access_token; // 토큰 응답 구조에 따라 조정 필요
                 setCurToken(token.sub);
+                console.log(curToken);
                 
                 const userResponse = await axios.get('http://localhost:8000/api/v1/user/view_one', {
                     headers: {

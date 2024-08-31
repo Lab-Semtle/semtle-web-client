@@ -2,6 +2,8 @@ import axios from "axios";
 import react, { useEffect, useState } from "react";
 import style from "./Membership.module.css";
 import Navbarboot from "../../components/header/Navbarboot";
+import { ApiURL } from '../../ApiURL/ApiURL';
+
 
 export default function Membership() {
   const [email, setEmail] = useState("");
@@ -12,7 +14,7 @@ export default function Membership() {
   const [phNumber, setphNumber] = useState("");
   const [pw, setPw] = useState("");
   const [pw2, setPw2] = useState("");
-  const [emailValid, setEmailValid] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);  
   const [pwValid, setPwValid] = useState(false);
   const [pwValid2, setPwValid2] = useState(false);
   const [idValid, setIdValid] = useState(false);
@@ -27,21 +29,13 @@ export default function Membership() {
   //코드 보내기
   const sendVerificationCode = async () => {
     if (emailValid) {
-      try {
-        const response = await axios.get('http://localhost:8000/api/v1/login/send?user_email=bagsangbin01%40gmail.com', {
+        const encodedEmail = email.replace(/@/g, "%40");
+        const response = await axios.get(ApiURL.send_get+encodedEmail, {
         });
-        setVerificationCode(axios.get("http://localhost:8000/api/v1/login/code",{}));
-        
         alert("인증 코드가 이메일로 전송되었습니다.");
-        
-      } catch (error) {
-        console.error("인증 코드 전송 실패:", error);
-        alert("인증 코드 전송에 실패했습니다.");
+
       }
-    } else {
-      alert("유효한 이메일 주소를 입력해주세요.");
     }
-  };
 
   //코드 비교 검증
   const verifyCode = () => {
@@ -142,7 +136,7 @@ export default function Membership() {
   const onClickConfirmButton = () => {
     if (pw === pw2) {
       axios
-        .post("http://127.0.0.1:8000/api/v1/login/signup", {
+        .post(ApiURL.signup_post+userInputCode, {
           "user_id": id,
           "user_password": pw,
           "user_name": name,
