@@ -24,15 +24,16 @@ export default function IdFInd(){
       };
 
       const onClickConfirmButton = () => {
-        axios.get("'http://localhost:8000/api/v1/find/find-email'",
+        axios.get("http://localhost:8000/api/v1/find/find-email",
           {
-            'user_phone':phNumber
+            'user_phone':phNumber.slice(0,3)+'-'+phNumber.slice(3,7)+'-'+phNumber.slice(7,11),
           }
         )
         .then((response)=>{
           alert("회원님의 아이디는"+response+"입니다.")
         })
         .catch((error)=>{
+          console.log(phNumber.slice(0,3)+'-'+phNumber.slice(3,7)+'-'+phNumber.slice(7,11));
           alert("존재하지 않는 회원입니다."+error)
         })
       }
@@ -73,8 +74,7 @@ export default function IdFInd(){
               <div>휴대폰 번호 양식에 맞게 입력해주세요.</div>
             )}
           </div>
-            </div>
-            <div>
+          <div>
           <button
             onClick={onClickConfirmButton}
             disabled={notAllow}
@@ -83,6 +83,7 @@ export default function IdFInd(){
             확인
           </button>
         </div>
+            </div>
             
         </>
     )

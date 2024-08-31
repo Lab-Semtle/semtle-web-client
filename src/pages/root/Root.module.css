@@ -52,6 +52,7 @@ body {
 
 .maincontent .titleWrap {
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 .maincontent .titleWrap table {
@@ -124,4 +125,10 @@ body {
   .maincontent .cellsWrap {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
+}
+
+.footer{
+  align-items: center;
+  margin: auto;
+
 }
