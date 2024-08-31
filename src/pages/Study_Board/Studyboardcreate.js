@@ -1,15 +1,16 @@
 import React, { useState, useRef } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Boardcreate.css';
+import './Studyboardcreate.css';
 import { ApiURL } from '../../ApiURL/ApiURL';
 import ToastEditor from "../../components/ToastEditor/ToastEditor";
 import Navbarboot from '../../components/Header/Navbarboot';
-import ToastEditor_noimage from "../../components/ToastEditor/ToastEditor_noimage";
 
-function Boardcreate() {
+function Studyboardcreate() {
   const navigate = useNavigate();
   const editorRef = useRef();
+
+
   const [board, setBoard] = useState({
     Title: '',
     Content: '',
@@ -32,17 +33,41 @@ function Boardcreate() {
     // Get the markdown content from the editor
     const Content = editorRef.current.getMarkdown();
 
+    const formData = editorRef.current.getFormData();
+
+    console.log('FormData contents:');
+    for (let [key, value] of formData.entries()) {
+      console.log(`Key: ${key}, Value:`, value);
+    }
+
+  // 새로운 FormData를 생성하여 파일들을 추가
+  const sendFormData = new FormData();
+
+  for (let [value] of formData.entries()) {
+    if (value instanceof File) {
+      sendFormData.append('file_name', value);
+    }
+  }
+
     // Update the board state with the content
     const updatedBoard = {
       ...board,
       Content
     };
-
+    //formData.append('Title', updatedBoard.Title);  // Title을 FormData에 추가
+    //formData.append('Content', updatedBoard.Content);    // Content를 FormData에 추가
     
     try {
-      const response = await axios.post(`${ApiURL.Boardcreate_post}`, updatedBoard);
+      const response = await axios.post(`${ApiURL.study_board_upload}`, sendFormData, {headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      params:{
+        title:updatedBoard.Title,
+        content:updatedBoard.Content,
+      }
+    });
       alert('등록되었습니다.');
-      navigate('/Boardlist');
+      navigate('/StudyBoardlist');
     } catch (error) {
       if (error.response) {
         // 서버가 응답했지만 상태 코드는 2xx 범위 밖에 있음
@@ -62,7 +87,7 @@ function Boardcreate() {
   };
 
   const backToList = () => {
-    navigate('/Boardlist');
+    navigate('/StudyBoardlist');
   };
 
   return (
@@ -75,7 +100,7 @@ function Boardcreate() {
         <input type="text" name="createBy" value={createBy} onChange={onChange} placeholder="작성자" />
       </div> */}
       <div className="form-group">
-        <ToastEditor_noimage currentBoard={board} ref={editorRef} />
+        <ToastEditor currentBoard={board} ref={editorRef} />
       </div>
       <div className="form-button">
         <button onClick={saveBoard}>저장</button>
@@ -85,4 +110,4 @@ function Boardcreate() {
   );
 }
 
-export default Boardcreate;
+export default Studyboardcreate;

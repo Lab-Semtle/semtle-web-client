@@ -13,7 +13,7 @@ function Navbarboot() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/v1/login/token')
+    axios.get('http://localhost:8000/api/v1/login/refresh')
       .then(response => {
         setAccessToken(response.data.access_token);
       })
@@ -62,9 +62,8 @@ function Navbarboot() {
             </NavDropdown>
           </Nav>
           <Nav>
-            {accessToken ? (
+            {accessToken !==null ? (
               <>
-                <Nav.Link href="#MyPage">마이 페이지</Nav.Link>
                 <Nav.Link as={Link} to="/MyInfo">내 정보</Nav.Link>
               </>
             ) : (

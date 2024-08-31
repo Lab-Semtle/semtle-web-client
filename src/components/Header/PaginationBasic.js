@@ -1,41 +1,41 @@
 import Pagination from 'react-bootstrap/Pagination';
 
-function PaginationBasic({postsPerPage, totalPosts, paginate, currentPage}) {
+function PaginationBasic({postsPerPage, totalPosts, paginate, currentPagPage}) {
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
-    pageNumbers.push(i);
+  for (let i = 0; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+    pageNumbers.push(i+1);
   }
   let pageSlice=[];
-  pageSlice=pageNumbers.slice((Math.floor(currentPage/10)*10),Math.floor(currentPage/10)*10+9);
+  pageSlice=pageNumbers.slice((Math.floor(currentPagPage/10)*10),Math.floor(currentPagPage/10)*10+9);
   const Firstpage=(number)=>{
-    paginate(number);
+    paginate(number-1);
   }
-  const Prev=(currentPage)=>{
-    if(currentPage<=9){
+
+  const Prev=(currentPagPage)=>{
+    if(currentPagPage<=9){
       return 1;
     }
-    return (Math.floor(currentPage/10)-1)*10;
+    return (Math.floor(currentPagPage/10)-1)*10;
   }
-  const Next=(currentPage)=>{
-    console.log(totalPosts);
-    if(currentPage>=Math.floor(Math.ceil(totalPosts / postsPerPage)/10)*10){
-      console.log(totalPosts);
+
+  const Next=(currentPagPage)=>{
+    if(currentPagPage>=Math.floor(Math.ceil(totalPosts / postsPerPage)/10)*10){
       return Math.ceil(totalPosts / postsPerPage);
     }
-    return (Math.floor(currentPage/10)+1)*10;
+    return (Math.floor(currentPagPage/10)+1)*10;
   }
 
   return (
     <Pagination>
       <Pagination.First onClick={()=>Firstpage(1)}/>
-      <Pagination.Prev onClick={()=>paginate(Prev(currentPage))}/>
+      <Pagination.Prev onClick={()=>paginate(Prev(currentPagPage)-1)}/>
       {pageSlice.map((number)=>(
-        <Pagination.Item key={number} active={number === currentPage} onClick={()=>paginate(number)}>
+        <Pagination.Item key={number} active={number === currentPagPage} onClick={()=>paginate(number-1)}>
         {number}
       </Pagination.Item>
       ))}
-      <Pagination.Next onClick={()=>paginate(Next(currentPage))}/>
-      <Pagination.Last onClick={()=>paginate(pageNumbers[pageNumbers.length-1])}/>
+      <Pagination.Next onClick={()=>paginate(Next(currentPagPage)-1)}/>
+      <Pagination.Last onClick={()=>paginate(pageNumbers[pageNumbers.length-1]-1)}/>
     </Pagination>
   );
 }
