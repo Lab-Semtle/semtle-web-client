@@ -8,6 +8,7 @@ const ApiURL={
     Board_Comment_get:`http://127.0.0.1:8000/api/v1/free_board_comment/get`,
     Boardcreate_post:`http://127.0.0.1:8000/api/v1/free_board`,
     Comment_get:`https://gist.githubusercontent.com/minseozzing/efd157d0dc3cf580260484f96364baee/raw/8b920cc3fcd72034d20fcbdfde9cc4fb621f3117/commentse1.json`,
+    Boardlist_sort_title:`http://127.0.0.1:8000/api/v1/free_board/sort_title`,
 
     study_board:`http://127.0.0.1:8000/api/v1/study_board/`,
     study_board_get:`http://127.0.0.1:8000/api/v1/study_board/get`,
@@ -15,7 +16,7 @@ const ApiURL={
     study_board_create_upload:`http://127.0.0.1:8000/api/v1/study_board/create upload`,
     study_board_images:`http://127.0.0.1:8000/api/v1/study_board/images`,
     study_board_upload:`http://127.0.0.1:8000/api/v1/study_board/upload`,
-    study_board_sort:`http://127.0.0.1:8000/api/v1/study_board/sort title`,
+    study_board_sort_title:`http://127.0.0.1:8000/api/v1/study_board/sort title`,
 
     study_board_comment:`http://127.0.0.1:8000/api/v1/study_board_comment/`,
     study_board_comment_get:`http://127.0.0.1:8000/api/v1/study_board_comment/get`,
