@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Comment.css';
-import { ApiURL } from '../../ApiURL/ApiURL';
 import { useParams } from 'react-router-dom';
 
 import PaginationBasic from '../Header/PaginationBasic';
 
 function Comment({index, url, boardname, boardname_comment_no}) {
   const [currentPage, setCurrentPage] = useState(0);
-  const [postsPerPage, setPostsPerPage] = useState(10);
 
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
@@ -149,7 +147,7 @@ function Comment({index, url, boardname, boardname_comment_no}) {
       </div>
       <div className="pagination-basic">
         <PaginationBasic
-          postsPerPage={postsPerPage}
+          postsPerPage={10}
           totalPosts={comments.length}
           paginate={setCurrentPage}
           currentPagPage={currentPage + 1}
