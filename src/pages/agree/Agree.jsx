@@ -5,6 +5,18 @@ import style from "./Agree.module.css";
 
 export default function Agree() {
     const [notAllow, setNotAllow] = useState(true);
+	const location = useLocation();
+    const [isSignup, setIsSignup] = useState(false);
+
+	useEffect(() => {
+        // location.state가 존재하면 isSignup 값을 설정
+		console.log(isSignup);
+		console.log(location.state?.isSignup);
+        if (location.state?.isSignup === true) {
+            setIsSignup(location.state.isSignup);
+        }
+    }, [location.state]); // location.state가 변경될 때만 실행
+
 
     function is_checked(){
         const chkbox = document.getElementById("agree_checkbox");
@@ -157,7 +169,7 @@ export default function Agree() {
 
 
             </div>
-            {true && (
+            { true && (
                 <>
                     <div>
                         <input

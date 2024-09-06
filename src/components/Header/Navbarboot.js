@@ -7,20 +7,25 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import LogoImg from "../../Logo.png"
+import { ApiURL } from '../../ApiURL/ApiURL';
 
 function Navbarboot() {
   const [accessToken, setAccessToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/v1/login/refresh')
+    axios.get(ApiURL.refresh_get)
       .then(response => {
-        setAccessToken(response.data.access_token);
-        console.log(response);
+        console.log(response)
+        if(response.data.status === "success")
+          setAccessToken(true);
+        else
+          setAccessToken(false);
       })
       .catch(error => {
-        setAccessToken(null);
-      })
+        console.log(error);
+        setAccessToken(false);
+      })  
       .finally(() => {
         setLoading(false);
       });
@@ -63,9 +68,34 @@ function Navbarboot() {
             </NavDropdown>
           </Nav>
           <Nav>
-            {accessToken === undefined ? (
+            {accessToken ? (
               <>
-                <Nav.Link as={Link} to="/MyInfo">내 정보</Nav.Link>
+                <Nav.Link as={Link} to="/MyInfo">내정보</Nav.Link>
+                <Nav.Link
+                onClick={() => {
+                    axios.get(ApiURL.token_get)
+                         .then(response => {
+                            const accessToken = response.data.access_token;
+
+                               // 로그아웃 요청을 Authorization 헤더에 accessToken을 담아 보냅니다.
+                              return axios.get(ApiURL.logout_get, {
+                                  headers: {
+                                      Authorization: `Bearer ${accessToken}`
+                                  },
+                                  withCredentials: true
+                              });
+                          })
+                          .then(res => {
+                              // 로그아웃 성공 시 리다이렉트
+                              window.location.href = "/";
+                          })
+                          .catch(error => {
+                              console.error("Error during logout: ", error);
+                          });
+                  }}
+              >
+                  로그아웃
+              </Nav.Link>
               </>
             ) : (
               <Nav.Link as={Link} to="/Login" eventKey={2}>로그인</Nav.Link>

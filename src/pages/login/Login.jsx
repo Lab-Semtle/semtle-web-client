@@ -21,9 +21,8 @@ export default function Login() {
   const handleEmail = (e) => {
     setEmail(e.target.value);
     //정규표현식
-    const regex =
-      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    if (regex.test(email)) {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (regex.test(e.target.value)) {
       setEmailValid(true);
     } else {
       setEmailValid(false);
@@ -31,11 +30,10 @@ export default function Login() {
   };
   const handlePw = (e) => {
     setPw(e.target.value);
-    //정규표현식2
     const regex =
-      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
 
-    if (regex.test(pw)) {
+    if (regex.test(e.target.value)) {
       setPwValid(true);
     } else {
       setPwValid(false);
@@ -62,11 +60,20 @@ export default function Login() {
             }
         })
         .then(response => {
+          if(response.data.status === "error")
+            {
+              alert("존재하지 않는 사용자입니다.");
+              window.location.reload();
+            }
+            else
+            { 
             console.log('로그인 성공:', response.data);
-            //window.location.href = "/"
+            window.location.href = "/"
+            }
         })
         .catch(error => {
-            console.error('로그인 실패:', error.response ? error.response.data : error.message);
+            alert("존재하지 않는 사용자입니다.");
+            window.location.reload();
         });
   };
 
@@ -127,7 +134,9 @@ export default function Login() {
                 <Link to="/PwFind">비밀번호 찾기</Link>
               </th>
               <th>
-                <Link to="/Agree">회원가입</Link>
+              <Link to={{ pathname: "/Agree", state: { isSignup: true }}}>
+                회원가입
+              </Link>
               </th>
             </tr>
           </table>

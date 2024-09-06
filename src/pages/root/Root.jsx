@@ -9,11 +9,15 @@ import Navbarboot from "../../components/header/Navbarboot";
 export default function Root() {
   return (
     <>
-      <Navbarboot></Navbarboot>
+      <Navbarboot />
       <div className={style.maincontent}>
-      <div className={style.focusImage}>
-        <img src={focusImage} alt="no file"></img>
-      </div>
+        <div className={style.focusImage}>
+          <img src={focusImage} alt="focus background" />
+          <div className={style.focusText}>
+            <h1>Welcome to ARCHISEMTLE</h1>
+            <p>Explore, Learn, and Connect</p>
+          </div>
+        </div>
       <div className={style.contentWrap}>
         <div className={style.titleWrap}>
           <table>

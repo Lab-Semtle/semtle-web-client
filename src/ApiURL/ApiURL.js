@@ -22,16 +22,18 @@ const ApiURL={
     study_board_comment_upload:`http://127.0.0.1:8000/study_board_comment/upload`,
 
     
-
     login_post: 'http://localhost:8000/login/login',
     signup_post: 'http://localhost:8000/login/signup?code=',
     refresh_get: 'http://localhost:8000/login/refresh',
     token_get:'http://localhost:8000/login/token',
     send_get:'http://localhost:8000/login/send?user_email=',
     code_get:'http://localhost:8000/login/code',
+    logout_get:'http://localhost:8000/login/logout',
 
-    findEmail_get:'http://localhost:8000/find/find-email',
-    findPassword_get:'http://localhost:8000/find/find-password'
+    findEmail_get:'http://localhost:8000/find/find-email?phone=',
+    findPassword_get:'http://localhost:8000/find/find-password',
+
+    viewOne_get:'http://localhost:8000/user/view_one'
 
 
 

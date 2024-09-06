@@ -25,17 +25,14 @@ export default function IdFInd(){
       };
 
       const onClickConfirmButton = () => {
-        axios.get(ApiURL.findEmail_get,
-          {
-            'user_phone':phNumber.slice(0,3)+'-'+phNumber.slice(3,7)+'-'+phNumber.slice(7,11),
-          }
+        axios.get(ApiURL.findEmail_get+phNumber.slice(0,3)+'-'+phNumber.slice(3,7)+'-'+phNumber.slice(7,11)
         )
         .then((response)=>{
-          alert("회원님의 아이디는"+response+"입니다.")
+          if(response.data.status==="error") alert("존재하지 않는 회원입니다.");
+          else alert("회원님의 아이디는"+response.data.detail.email+"입니다.");
         })
         .catch((error)=>{
-          console.log(phNumber.slice(0,3)+'-'+phNumber.slice(3,7)+'-'+phNumber.slice(7,11));
-          alert("존재하지 않는 회원입니다."+error)
+          alert("존재하지 않는 회원입니다."+error);
         })
       }
 

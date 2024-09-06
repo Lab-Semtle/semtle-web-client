@@ -63,7 +63,7 @@ export default function Membership() {
     const regex =
       /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
 
-    if (regex.test(email)) {
+    if (regex.test(e.target.value)) {
       setEmailValid(true);
     } else {
       setEmailValid(false);
@@ -72,21 +72,22 @@ export default function Membership() {
   const handlePw = (e) => {
     setPw(e.target.value);
     const regex =
-      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
 
-    if (regex.test(pw)) {
+
+    if (regex.test(e.target.value)) {
       setPwValid(true);
     } else {
       setPwValid(false);
     }
   };
 
-  const handlePw2 = (e) => {
+const handlePw2 = (e) => {
     setPw2(e.target.value);
     const regex =
-      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
 
-    if (regex.test(pw2)) {
+    if (regex.test(e.target.value)) {
       setPwValid2(true);
     } else {
       setPwValid2(false);
@@ -105,7 +106,7 @@ export default function Membership() {
     //정규식 요구 조건, 영어와 숫자만을 입력 받는다.
     const regex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]+$/;
 
-    if (regex.test(id)) {
+    if (regex.test(e.target.value)) {
       setIdValid(true);
     } else {
       setIdValid(false);
@@ -118,7 +119,7 @@ export default function Membership() {
     //정규식 요구 조건, 휴대폰 번호의 형식을 입력 받는다.
     const regex = /^010\d{7}$/;
 
-    if (regex.test(phNumber)) {
+    if (regex.test(e.target.value)) {
       setphNumberValid(true);
     } else {
       setphNumberValid(false);
@@ -246,7 +247,7 @@ export default function Membership() {
             />
           </div>
           <div className={style.errorMessageWrap}>
-            {!pwValid && pw.length > 4 && (
+            {!pwValid && pw.length > 0 && (
               <div>
                 영어와 숫자, 특수문자를 포함하여 8글자 이상으로 작성해 주세요.{" "}
               </div>
