@@ -52,6 +52,7 @@ function Study_edit() {
 
         } catch (error) {
             console.error('Error fetching board data:', error);
+            navigate('/error');
         } finally {
             setLoading(false);
         }

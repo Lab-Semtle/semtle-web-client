@@ -6,7 +6,7 @@ import { Apiurl } from '../../Apiurl/Apiurl';
 import './Study_list.css';
 import Dropdownbutton from '../../components/Button/Dropdownbutton';
 import PaginationBasic from '../../components/Header/PaginationBasic';
-
+import { useNavigate } from 'react-router-dom';
 
 const CommonTableRow = ({ children }) => {
   return (
@@ -48,7 +48,7 @@ const CommonTable = (props) => {
 }
 
 const Study_list = props => {
-
+  const navigate = useNavigate();
   const [boardList, setBoardList] = useState([]);
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -56,16 +56,17 @@ const Study_list = props => {
   const [rankmenu, setRankmenu] = useState(1);
 
   const getBoardList = async (currentPage, postsPerPage) => {
-    const resp = await axios.get(`${Apiurl.study_board_get_list}`, {
-      params: {
-        page: currentPage
-      }
-    });
-    console.log('요청 URL:', resp.config.url);
-    console.log(resp.data);
-    console.log(resp.data.Board_info);
-    setBoardList(resp);
-    setPosts(resp.data.Board_info);
+    try{
+      const resp = await axios.get(`${Apiurl.study_board_get_list}`, {
+            params: {
+              page: currentPage
+            }
+          });
+          setBoardList(resp);
+          setPosts(resp.data.Board_info);
+    }catch(error){
+      navigate('/error');
+    }
   }
 
   useEffect(() => {
