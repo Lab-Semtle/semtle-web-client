@@ -44,18 +44,8 @@ function Free_create() {
       alert('등록되었습니다.');
       navigate('/Boardlist');
     } catch (error) {
-      if (error.response) {
-        // 서버가 응답했지만 상태 코드는 2xx 범위 밖에 있음
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      } else if (error.request) {
-        // 요청이 만들어졌으나 서버로부터 응답이 없음
-        console.log(error.request);
-      } else {
-        // 요청을 설정하는 중에 오류가 발생함
-        console.log('Error', error.message);
-      }
+       // 오류 페이지로 이동
+       navigate('/error');
       console.log(error.config);
       alert('등록에 실패했습니다.');
     }

@@ -17,6 +17,8 @@ import Study_create from "./pages/Study_board/Study_create";
 import Study_view from "./pages/Study_board/Study_view";
 import Study_edit from "./pages/Study_board/Study_edit";
 
+import ErrorPage from "./pages/Error_page";
+
 function App() {
   return (
     <div className="App">
@@ -40,6 +42,9 @@ function App() {
           <Route path="/IdFind" element={<IdfInd />} />
           <Route path="/PwFind" element={<PwfInd />} />
           <Route path="agree" element={<Agree />} /> 
+
+          <Route path="/error" element={<ErrorPage />} />
+          
         </Routes>
       </BrowserRouter>
     </div>
