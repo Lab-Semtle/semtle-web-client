@@ -14,7 +14,7 @@
     --text-color: #f5f5f5;
     --card-background: #444444;
     --input-background: #555555;
-    --shadow-color: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(254, 255, 255, 0.1);
   }
 }
 
@@ -26,6 +26,8 @@ body {
 }
 
 /* 메인 컨텐츠 스타일 */
+/* 기존 스타일은 그대로 유지 */
+
 .maincontent .focusImage {
   width: 100%;
   height: 50vh;
@@ -42,6 +44,40 @@ body {
 
 .maincontent .focusImage:hover img {
   transform: scale(1.05);
+}
+
+/* 새로 추가된 타이포그래피 스타일 */
+.maincontent .focusText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  z-index: 1;
+}
+
+.maincontent .focusText h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.maincontent .focusText p {
+  font-size: 1.5rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 768px) {
+  .maincontent .focusText h1 {
+    font-size: 2rem;
+  }
+  
+  .maincontent .focusText p {
+    font-size: 1rem;
+  }
 }
 
 .maincontent .contentWrap {
