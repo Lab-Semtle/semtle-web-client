@@ -8,7 +8,7 @@ import './Free_list.css';
 import Dropdownbutton from '../../components/Button/Dropdownbutton';
 import PaginationBasic from '../../components/Header/PaginationBasic';
 import { ListGroup } from 'react-bootstrap';
-
+import { useNavigate } from 'react-router-dom';
 const CommonTableRow = ({ children }) => {
   return (
 
@@ -57,21 +57,21 @@ const CommonTable = (props) => {
 }
 
 const Free_list = props => {
-
+  const navigate = useNavigate();
   const [boardList, setBoardList] = useState([]);
   const getBoardList = async (currentPage, postsPerPage) => {
-    const resp = await axios.get(`${Apiurl.Boardlist_get_list}`,{
-      params:{
-        page: currentPage
-      }
-    }); // 2) 게시글 목록 데이터에 할당
-    console.log('요청 URL:', resp.config.url); // 요청을 보낸 URL
-    console.log(resp.config);
-    console.log(resp.data);
-    console.log(resp.data.Board_info);
-    setBoardList(resp); // 3) boardList 변수에 할당
-    setPosts(resp.data.Board_info);
-    
+    try{
+      const resp = await axios.get(`${Apiurl.Boardlist_get_list}`,{
+            params:{
+              page: currentPage
+            }
+          }); // 2) 게시글 목록 데이터에 할당
+          setBoardList(resp); // 3) boardList 변수에 할당
+          setPosts(resp.data.Board_info);
+    }catch (error){
+      navigate('/error');
+
+    }
   }
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
