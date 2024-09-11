@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import style from "./Myinfo.module.css";
 import profileImage from "../../test.jpg"
 import Navbarboot from "../../components/Header/Navbarboot";
+import { Apiurl } from '../../Apiurl/Apiurl';
+
 
 export default function MyInfo() {
     const [name, setName] = useState("");
@@ -14,20 +16,19 @@ export default function MyInfo() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const tokenResponse = await axios.get("http://localhost:8000/api/v1/login/token");
-               
-                const token = tokenResponse.data.access_token; // 토큰 응답 구조에 따라 조정 필요
-                setCurToken(token.sub);
-                
-                const userResponse = await axios.get('http://localhost:8000/api/v1/user/view_one', {
+                const tokenResponse = await axios.get(Apiurl.token_get);
+                setCurToken(tokenResponse);
+                console.log(Apiurl.token_get);
+                console.log(tokenResponse.data.access_token);
+                const userResponse = await axios.get(Apiurl.viewOne_get, {
                     headers: {
-                        Authorization: `Bearer ${token.sub}`
+                        Authorization: `Bearer ${tokenResponse.data.access_token}`
                     },
                     withCredentials: true
                 });
 
                 const userData = userResponse.data[0];
-                setName(userData.user_id);
+                setName(userData.user_nickname);
                 setEmail(userData.user_email);
                 setBirth(userData.user_birth);
                 setPh(userData.user_phone);

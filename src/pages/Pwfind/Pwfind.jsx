@@ -3,6 +3,7 @@ import react, { useEffect, useState} from "react";
 import style from "./Pwfind.module.css";
 import Navbarboot from "../../components/Header/Navbarboot";
 import { Link } from "react-router-dom";
+import { Apiurl } from "../../Apiurl/Apiurl";
 
 export default function IdFInd(){
     const [email, setEmail] = useState("");
@@ -37,14 +38,14 @@ export default function IdFInd(){
       };
 
       const onClickConfirmButton = () => {
-        axios.get("'http://localhost:8000/api/v1/find/find-password'",
-          {
-            'user_email':email,
-            'user_phone':phNumber
-          }
+        axios.get(Apiurl.findPassword_get+"?email="+email.replace(/@/g, "%40")+"&phone="+phNumber.slice(0,3)+'-'+phNumber.slice(3,7)+'-'+phNumber.slice(7,11),
         )
         .then((response)=>{
-          alert("회원님의 비밀번호는"+response+"입니다.")
+          if(response.data.status=="error") alert("존재하지 않는 회원입니다.")
+          else{
+            const password = response.data.detail.password;
+            alert("회원님의 비밀번호는"+password+"입니다.")
+          }
         })
         .catch((error)=>{
           alert("존재하지 않는 회원입니다."+error)

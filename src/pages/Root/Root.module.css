@@ -20,7 +20,7 @@
 
 body {
   font-family: 'Arial', sans-serif;
-  background-color: var(--background-color);
+  background-color: #f5f5f5;
   color: var(--text-color);
   transition: background-color 0.3s, color 0.3s;
 }
@@ -80,65 +80,90 @@ body {
   }
 }
 
-.maincontent .contentWrap {
+.contentWrap {
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  margin: 0 auto;
+  height: 600px; /* viewport height의 100%로 설정 */
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 100px;
 }
 
-.maincontent .titleWrap {
-  margin-bottom: 2rem;
-  text-align: center;
+.cellsWrap {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll; /* 가로 스크롤 가능 */
+  gap: 20px;
+  height: 100%; /* 부모 요소의 높이를 채움 */
+  padding: 20px 0; /* 위아래 여백 추가 */
+  scroll-snap-type: x mandatory; /* 가로 스크롤 스냅 적용 */
+  scroll-behavior: smooth; /* 부드러운 스크롤 */
 }
-
-.maincontent .titleWrap table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.maincontent .titleWrap th {
-  padding: 1rem;
-  background-color: var(--input-background);
-  color: var(--text-color);
-  text-transform: uppercase;
-  font-weight: bold;
-  transition: background-color 0.3s;
-}
-
-.maincontent .titleWrap th:hover {
-  background-color: var(--secondary-color);
-  color: var(--background-color);
-}
-
-.maincontent .cellsWrap {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-}
-
-.maincontent .cells {
-  background-color: var(--card-background);
-  border-radius: 10px;
+        
+.cells {
+         
+  background-color: white;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 6px var(--shadow-color);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  width: calc(50% - 15px);  
+  min-width: 380px;
 
-.maincontent .cells:hover {
+  scroll-snap-align: start; /* 각 카드가 스크롤 끝날 때 정렬될 위치 */
+  position: relative; /* 텍스트 배치를 위한 상대적 위치 설정 */
+}
+        
+.cells:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 12px var(--shadow-color);
 }
+ 
+.cells img {
 
-.maincontent .cells img {
   width: 100%;
-  height: 200px;
+
+  height: 100%;
+
   object-fit: cover;
+
 }
 
-.maincontent .cellintroduce {
-  padding: 1rem;
+.cellContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  color: white;
+}
+
+.cellTopText {
+  font-size: 14px;
   font-weight: bold;
-  text-align: center;
+  opacity: 0.8;
+  text-align: left;
+}
+
+.cellBottomText {
+  font-size: 16px;
+  font-weight: normal;
+  text-align: left;
+  max-width: 80%;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+
+  .cells {
+
+    width: calc(50% - 10px);
+
+  }
+
 }
 
 .maincontent a {
@@ -163,8 +188,38 @@ body {
   }
 }
 
-.footer{
-  align-items: center;
-  margin: auto;
+.introduceFont{
+  font-size: 25px;
+  margin-top: 50px;
 
+}
+
+.footer{
+  position: relative;
+  height: 10px;
+  padding : 10px;
+  display: flex; /* 플렉스박스 활성화 */
+  flex-direction: row; /* 왼쪽에서 오른쪽으로 정렬 */
+
+}
+
+.footerContentBox {
+  display: flex;
+  justify-content: space-between;  /* 자식 요소를 좌우로 정렬 */
+  width: 100%;             /* 전체 너비를 차지하도록 설정 */
+  padding: 10px;           /* 여백 추가 */
+}
+
+.footerLeft {
+  padding-left: 100px;
+  text-align: left;         /* 왼쪽 정렬 */
+  font-size: 14px;          /* 폰트 크기 설정 */
+  cursor: pointer;
+}
+
+.footerRight {
+  margin-left: auto;        /* 오른쪽으로 이동 */
+  text-align: right;        /* 오른쪽 정렬 */
+  font-size: 14px;          /* 폰트 크기 설정 */
+  padding-right: 15%;
 }
