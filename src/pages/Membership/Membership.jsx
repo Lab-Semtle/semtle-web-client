@@ -2,6 +2,8 @@ import axios from "axios";
 import react, { useEffect, useState } from "react";
 import style from "./Membership.module.css";
 import Navbarboot from "../../components/Header/Navbarboot";
+import { Apiurl } from '../../Apiurl/Apiurl';
+
 
 export default function Membership() {
   const [email, setEmail] = useState("");
@@ -12,7 +14,7 @@ export default function Membership() {
   const [phNumber, setphNumber] = useState("");
   const [pw, setPw] = useState("");
   const [pw2, setPw2] = useState("");
-  const [emailValid, setEmailValid] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);  
   const [pwValid, setPwValid] = useState(false);
   const [pwValid2, setPwValid2] = useState(false);
   const [idValid, setIdValid] = useState(false);
@@ -27,21 +29,13 @@ export default function Membership() {
   //코드 보내기
   const sendVerificationCode = async () => {
     if (emailValid) {
-      try {
-        const response = await axios.get('http://localhost:8000/api/v1/login/send?user_email=bagsangbin01%40gmail.com', {
+        const encodedEmail = email.replace(/@/g, "%40");
+        const response = await axios.get(Apiurl.send_get+encodedEmail, {
         });
-        setVerificationCode(axios.get("http://localhost:8000/api/v1/login/code",{}));
-        
         alert("인증 코드가 이메일로 전송되었습니다.");
-        
-      } catch (error) {
-        console.error("인증 코드 전송 실패:", error);
-        alert("인증 코드 전송에 실패했습니다.");
+
       }
-    } else {
-      alert("유효한 이메일 주소를 입력해주세요.");
     }
-  };
 
   //코드 비교 검증
   const verifyCode = () => {
@@ -69,7 +63,7 @@ export default function Membership() {
     const regex =
       /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
 
-    if (regex.test(email)) {
+    if (regex.test(e.target.value)) {
       setEmailValid(true);
     } else {
       setEmailValid(false);
@@ -78,21 +72,22 @@ export default function Membership() {
   const handlePw = (e) => {
     setPw(e.target.value);
     const regex =
-      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
 
-    if (regex.test(pw)) {
+
+    if (regex.test(e.target.value)) {
       setPwValid(true);
     } else {
       setPwValid(false);
     }
   };
 
-  const handlePw2 = (e) => {
+const handlePw2 = (e) => {
     setPw2(e.target.value);
     const regex =
-      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
 
-    if (regex.test(pw2)) {
+    if (regex.test(e.target.value)) {
       setPwValid2(true);
     } else {
       setPwValid2(false);
@@ -111,7 +106,7 @@ export default function Membership() {
     //정규식 요구 조건, 영어와 숫자만을 입력 받는다.
     const regex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]+$/;
 
-    if (regex.test(id)) {
+    if (regex.test(e.target.value)) {
       setIdValid(true);
     } else {
       setIdValid(false);
@@ -124,7 +119,7 @@ export default function Membership() {
     //정규식 요구 조건, 휴대폰 번호의 형식을 입력 받는다.
     const regex = /^010\d{7}$/;
 
-    if (regex.test(phNumber)) {
+    if (regex.test(e.target.value)) {
       setphNumberValid(true);
     } else {
       setphNumberValid(false);
@@ -142,7 +137,7 @@ export default function Membership() {
   const onClickConfirmButton = () => {
     if (pw === pw2) {
       axios
-        .post("http://127.0.0.1:8000/api/v1/login/signup", {
+        .post(Apiurl.signup_post+userInputCode, {
           "user_id": id,
           "user_password": pw,
           "user_name": name,
@@ -252,7 +247,7 @@ export default function Membership() {
             />
           </div>
           <div className={style.errorMessageWrap}>
-            {!pwValid && pw.length > 4 && (
+            {!pwValid && pw.length > 0 && (
               <div>
                 영어와 숫자, 특수문자를 포함하여 8글자 이상으로 작성해 주세요.{" "}
               </div>

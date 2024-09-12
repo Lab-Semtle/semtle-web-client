@@ -32,6 +32,19 @@ const Apiurl={
     exam_sharing_board_comment:`http://127.0.0.1:8000/api/v1/exam_sharing_board_comment/`,
     exam_sharing_board_comment_get:`http://127.0.0.1:8000/api/v1/exam_sharing_board_comment/get`,
 
+    login_post: 'http://localhost:8000/login/login',
+    signup_post: 'http://localhost:8000/login/signup?code=',
+    refresh_get: 'http://localhost:8000/login/refresh',
+    token_get:'http://localhost:8000/login/token',
+    send_get:'http://localhost:8000/login/send?user_email=',
+    code_get:'http://localhost:8000/login/code',
+    logout_get:'http://localhost:8000/login/logout',
+
+    findEmail_get:'http://localhost:8000/find/find-email?phone=',
+    findPassword_get:'http://localhost:8000/find/find-password',
+
+    viewOne_get:'http://localhost:8000/user/view_one'
+
 }
 export{Apiurl}
 //Boardedit_get:`https://gist.githubusercontent.com/minseozzing/2036f94525929d9ac74b508dd036b263/raw/e7ff32b38655643b3ad3c4909f93b9da5cf73413/gistfiwefwef.json`,
