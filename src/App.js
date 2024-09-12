@@ -17,6 +17,11 @@ import Study_create from "./pages/Study_board/Study_create";
 import Study_view from "./pages/Study_board/Study_view";
 import Study_edit from "./pages/Study_board/Study_edit";
 
+import Exam_sharing_list from "./pages/Exam_sharing_board/Exam_sharing_list";
+import Exam_sharing_create from "./pages/Exam_sharing_board/Exam_sharing_create";
+import Exam_sharing_view from "./pages/Exam_sharing_board/Exam_sharing_view";
+import Exam_sharing_edit from "./pages/Exam_sharing_board/Exam_sharing_edit";
+
 import ErrorPage from "./pages/Error_page";
 
 function App() {
@@ -38,13 +43,19 @@ function App() {
           <Route path="/StudyBoardcreate" element={<Study_create />}/>
           <Route path="/StudyBoardview/:idx" element={<Study_view />}/>
           <Route path="/StudyBoard/edit/:idx" element={<Study_edit/>}/>
+
+          <Route path="/Exam_sharingBoardlist" element={<Exam_sharing_list/>}/>
+          <Route path="/Exam_sharingBoardcreate" element={<Exam_sharing_create />}/>
+          <Route path="/Exam_sharingBoardview/:idx" element={<Exam_sharing_view />}/>
+          <Route path="/Exam_sharingBoard/edit/:idx" element={<Exam_sharing_edit/>}/>
+
           <Route path="/MyInfo" element = {<Myinfo/>}/>
           <Route path="/IdFind" element={<IdfInd />} />
           <Route path="/PwFind" element={<PwfInd />} />
           <Route path="agree" element={<Agree />} /> 
 
           <Route path="/error" element={<ErrorPage />} />
-          
+
         </Routes>
       </BrowserRouter>
     </div>

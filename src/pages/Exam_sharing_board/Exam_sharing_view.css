@@ -1,0 +1,32 @@
+.view-title{
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 5%;
+}
+.board-view{
+    justify-content: center;
+}
+.view-menu{
+    margin-top: 1rem;
+    justify-content: center;
+    text-align: center;
+}
+.view-menu span{
+    margin-right:1rem;
+}
+.view-content{
+    margin-left: 10rem;
+    margin-right: 10rem;
+    margin-top: 2rem;
+}
+.view-images {
+    margin-top: 20px;
+}
+
+.uploaded-image {
+    width: 80%; /* 원하는 크기로 조정 */
+    height: auto;
+    margin-left: 10%;
+    margin-right: 10%;
+}
