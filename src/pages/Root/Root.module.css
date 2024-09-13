@@ -217,6 +217,13 @@ body {
   cursor: pointer;
 }
 
+.footerLeft2 {
+  padding-top: 5px;
+  padding-left: 108px;
+  text-align: left;         /* 왼쪽 정렬 */
+  font-size: 14px;          /* 폰트 크기 설정 */
+}
+
 .footerRight {
   margin-left: auto;        /* 오른쪽으로 이동 */
   text-align: right;        /* 오른쪽 정렬 */

@@ -9,7 +9,7 @@ import Navbarboot from "../../components/Header/Navbarboot";
 function Head(){
   return(
     <div className={style.focusImage}>
-          <img src={focusImage} alt="focus background" />
+          <img src={focusImage} alt="focus background" /> 
           <div className={style.focusText}>
             <h1>Welcome to ARCHISEMTLE</h1>
             <p>Explore, Learn, and Connect</p>
@@ -67,7 +67,7 @@ function Foot(){
           </div>
         </div>
           <div className={style.footerContentBox}>
-          <div className={style.footerLeft}>부산광역시 영도구 태종로 727 공대 1관 387호 PHP : 000-0000-0000</div>
+          <div className={style.footerLeft2}>부산광역시 영도구 태종로 727 공대 1관 387호 PHP : 000-0000-0000</div>
           </div>
     </>
         
