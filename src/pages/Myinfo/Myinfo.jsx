@@ -33,7 +33,7 @@ export default function MyInfo() {
                 setBirth(userData.user_birth);
                 setPh(userData.user_phone);
             } catch (error) {
-                console.log(error);
+                window.location.href = "/Login";
             }
         };
 

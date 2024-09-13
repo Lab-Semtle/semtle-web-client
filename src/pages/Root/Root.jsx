@@ -5,11 +5,16 @@ import style from "./Root.module.css";
 import focusImage from "../../test.jpg";
 import { Link } from "react-router-dom";
 import Navbarboot from "../../components/Header/Navbarboot";
+import Iamge from "../../resource/board.jpg";
+import CommunityImage from "../../resource/community.jpg"
+import MainImage from "../../resource/main.jpg"
+import JoinImage from "../../resource/join.jpg"
+import BookImage from "../../resource/book.jpg"
 
 function Head(){
   return(
     <div className={style.focusImage}>
-          <img src={focusImage} alt="focus background" /> 
+          <img src={JoinImage} alt="focus background" /> 
           <div className={style.focusText}>
             <h1>Welcome to ARCHISEMTLE</h1>
             <p>Explore, Learn, and Connect</p>
@@ -23,28 +28,28 @@ function Body(){
     <div className={style.cellsWrap}>
       
           <div className={style.cells}>
-            <img src={focusImage} alt="no image"></img>
+            <img src= {Iamge}alt="no image"></img>
             <div className={style.cellContent}>
             <div className={style.cellTopText}>For Everyone</div>
             <div className={style.cellBottomText}>Let your imagination run wild</div>
             </div>
           </div>
           <div className={style.cells}>
-            <img src={focusImage} alt="no image"></img>
+            <img src={CommunityImage} alt="no image"></img>
             <div className={style.cellContent}>
             <div className={style.cellTopText}>For Everyone</div>
             <div className={style.cellBottomText}>Let your imagination run wild</div>
             </div>
           </div>
           <div className={style.cells}>
-            <img src={focusImage} alt="no image"></img>
+            <img src={MainImage} alt="no image"></img>
             <div className={style.cellContent}>
             <div className={style.cellTopText}>For Everyone</div>
             <div className={style.cellBottomText}>Let your imagination run wild</div>
             </div>
           </div>
           <div className={style.cells}>
-            <img src={focusImage} alt="no image"></img>
+            <img src={BookImage} alt="no image"></img>
             <div className={style.cellContent}>
             <div className={style.cellTopText}>For Everyone</div>
             <div className={style.cellBottomText}>Let your imagination run wild</div>
