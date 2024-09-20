@@ -8,6 +8,15 @@ const ToastEditor = forwardRef(({ currentBoard }, ref) => {
   const formDataRef = useRef(new FormData()); // FormData를 저장할 ref 생성
   // 이미지 업로드 콜백
   const onUploadImage = async (blob, callback) => {
+    // 이미지 파일의 MIME 타입 검사 (PNG, JPG, GIF 허용)
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/gif'];
+    
+    if (!allowedTypes.includes(blob.type)) {
+      alert('PNG, JPG, 또는 GIF 이미지 파일만 업로드할 수 있습니다.');
+      blob = null;
+      return; // 이미지 파일이 아니면 함수 종료
+    }
+    
     // 이미지 파일을 FormData에 추가
     const formData = formDataRef.current;
     const editorInstance = editorRef.current.getInstance();
