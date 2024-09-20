@@ -63,19 +63,20 @@ async def get_exam_sharing_board(db: AsyncSession = Depends(get_db), exam_sharin
     return exam_sharing_board_info
 
 
-# Image 
+# file
 @router.get(
     "/images",
-    summary="족보 게시판 특정 게시물 이미지 조회",
-    description="- 족보 게시판 특정 게시물 이미지 반환, 등록된 예제가 없는 경우 `[]` 반환",
+    summary="족보 게시판 특정 게시물 파일 조회",
+    description="- 족보 게시판 특정 게시물 파일 반환, 등록된 예제가 없는 경우 `[]` 반환",
     response_model=list[str],
     responses=Status.docs(SU.SUCCESS, ER.NOT_FOUND)
 )
 # 함수명 get, post, update, delete 중 1택 + 목적에 맞게 이름 작성
-async def get_exam_sharing_board(db: AsyncSession = Depends(get_db), file_name: str = ""):
+async def get_exam_sharing_board(file_name: str = ""):
     # 개발 중 logging 사용하고 싶을 때 이 코드 추가
-    logger.info("----------족보 게시판 특정 게시물 이미지 조회----------")
-    return FileResponse(''.join([STATIC_DIR,file_name]))
+    logger.info("----------족보 게시판 특정 게시물 파일 조회----------")
+    file_path = os.path.join(STATIC_DIR, file_name)
+    return FileResponse(file_path, filename=file_name, media_type='application/x-zip-compressed')
 
 
 # Create

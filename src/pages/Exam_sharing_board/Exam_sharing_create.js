@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Exam_sharing_create.css';
 import { Apiurl } from '../../Apiurl/Apiurl';
-import Toasteditor from "../../components/Toasteditor/Toasteditor";
+import Toasteditor_noimage from "../../components/Toasteditor/Toasteditor_noimage";
 import Navbarboot from '../../components/Header/Navbarboot';
 
 function Exam_sharing_create() {
@@ -28,24 +28,33 @@ function Exam_sharing_create() {
       //Create_date: `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`
     });
   };
+  const [files, setFiles] = useState([]); // 파일 저장을 위한 상태
+
+  const allowedFileTypes = ['application/zip', 'application/x-zip-compressed'];
+
+  const onFileChange = (event) => {
+    const selectedFiles = Array.from(event.target.files);
+
+    // 파일 형식 검사
+    const invalidFiles = selectedFiles.filter(file => !allowedFileTypes.includes(file.type));
+    if (invalidFiles.length > 0) {
+      alert('허용되지 않은 파일 형식입니다. zip 파일만 업로드할 수 있습니다.');
+      return;
+    }
+
+    setFiles(selectedFiles); // 유효한 파일만 상태에 저장
+  };
 
   const saveBoard = async () => {
     // Get the markdown content from the editor
     const Content = editorRef.current.getMarkdown();
-
-    const formData = editorRef.current.getFormData();
-    
-    let hasFiles = false;
+    const formData = new FormData(); // 새로운 FormData 객체 생성
     console.log('FormData contents:');
-    for (let [key, value] of formData.entries()) {
-      if (value instanceof File) {
-        hasFiles = true;
-        console.log('File detected:', value.name);
-      }
-      console.log('file value=',value instanceof File);
-      console.log(`Key: ${key}, Value:`, value);
-    }
-
+    
+    files.forEach(file => {
+      formData.append('file_name', file); // 'files'라는 키로 파일 추가
+    });
+   
   // 새로운 FormData를 생성하여 파일들을 추가
   
 
@@ -63,7 +72,7 @@ function Exam_sharing_create() {
       const response = await axios.post(`${Apiurl.exam_sharing_board}`,updatedBoard);
       console.log('updateBoard= ',updatedBoard);
       console.log('Exam_sharing_board_no=',response.data.exam_sharing_Board_No);
-      if(hasFiles){
+      if(files.length > 0){
           const sendImage = await axios.put(`${Apiurl.exam_sharing_board_create_upload}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -108,6 +117,9 @@ function Exam_sharing_create() {
       </div> */}
       <div className="form-group">
         <Toasteditor currentBoard={board} ref={editorRef} />
+      </div>
+      <div className="form-group">
+        <input type="file" multiple onChange={onFileChange} />
       </div>
       <div className="form-button">
         <button onClick={saveBoard}>저장</button>

@@ -1,0 +1,29 @@
+/* Filedown.css */
+.filedown-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.a {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #007bff;
+    text-decoration: none;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.a:active {
+    background-color: #0056b3;
+}
+
+.a {
+    font-size: 16px;
+}
