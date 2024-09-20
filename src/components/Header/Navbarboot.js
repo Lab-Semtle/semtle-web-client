@@ -46,13 +46,9 @@ function Navbarboot() {
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
       <Container>
-        <button
-        onClick={goBack}>◀</button>
-        <button
-        onClick={goFront}>▶</button>
+
         <Navbar.Brand as={Link} to="/Main">
-        <img src={LogoImg} style={{ width: 'auto', height: '40px',maxWidth:'100%', objectFit:'contain',paddingLeft:'10px'
-        }}/>
+        <img src={LogoImg} style={{width: '50px', height: '45px',maxWidth:'100%'}}/>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -75,9 +71,8 @@ function Navbarboot() {
                 onClick={() => {
                     axios.get(Apiurl.token_get)
                          .then(response => {
+                           // 로그아웃 요청을 Authorization 헤더에 accessToken을 담아 보냅니다.
                             const accessToken = response.data.access_token;
-
-                               // 로그아웃 요청을 Authorization 헤더에 accessToken을 담아 보냅니다.
                               return axios.get(Apiurl.logout_get, {
                                   headers: {
                                       Authorization: `Bearer ${accessToken}`

@@ -11,9 +11,9 @@ function Free_create() {
   const navigate = useNavigate();
   const editorRef = useRef();
   const [board, setBoard] = useState({
-    Title: '',
-    Content: '',
-    Views:0
+    title: '',
+    content: '',
+    views:0
   });
   //const { Title, createBy } = board;
   const { Title} = board;
@@ -30,23 +30,29 @@ function Free_create() {
 
   const saveBoard = async () => {
     // Get the markdown content from the editor
-    const Content = editorRef.current.getMarkdown();
+    const content = editorRef.current.getMarkdown();
 
     // Update the board state with the content
     const updatedBoard = {
       ...board,
-      Content
+      content
     };
 
     
     try {
-      const response = await axios.post(`${Apiurl.Boardcreate_post}`, updatedBoard);
+      const token = await axios.get(Apiurl.token_get);
+      const response = await axios.post(`${Apiurl.Boardcreate_post}`, updatedBoard,
+                      {
+                        headers:{Authorization: `Bearer ${token.data.access_token}`},
+                        'Content-Type': 'application/json'
+});
       alert('등록되었습니다.');
       navigate('/Boardlist');
     } catch (error) {
        // 오류 페이지로 이동
        navigate('/error');
-      console.log(error.config);
+      console.log("error log = ", error.config);
+      console.log(updatedBoard);
       alert('등록에 실패했습니다.');
     }
   };
@@ -59,7 +65,7 @@ function Free_create() {
     <>
     <Navbarboot></Navbarboot>
       <div className="form-group">
-        <input type="text" name="Title" value={Title} onChange={onChange} placeholder="제목" />
+        <input type="text" name="title" value={Title} onChange={onChange} placeholder="제목" />
       </div>
       {/* <div className="form-group">
         <input type="text" name="createBy" value={createBy} onChange={onChange} placeholder="작성자" />

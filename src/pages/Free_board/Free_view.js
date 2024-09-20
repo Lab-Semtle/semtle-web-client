@@ -15,13 +15,19 @@ function Free_view(props) {
     const [board, setBoard] = useState({});
 
     const getBoard = async () => {
+        const token = await axios.get(Apiurl.token_get);
+        console.log(idx);
         const resp = await axios.get(`${Apiurl.Boardview_get}`, {
             params:{
             free_board_no:idx
-        }});//고정주소
+            },
+            headers:{Authorization: `Bearer ${token.data.access_token}`}
+            
+    });//고정주소
         //const resp = await (await axios.get(`${Apiurl.Boardview_get}/${idx}`)).data; 주소 달라짐
         setBoard(resp.data);
         setLoading(false);
+        console.log(resp.data);
     };
 
 
@@ -37,9 +43,13 @@ function Free_view(props) {
         const confirmDelete = window.confirm('삭제하시겠습니까?');
         if (confirmDelete) {
             try {
-                await axios.delete(`${Apiurl.Free_board}`, {params:{
-                    free_board_no: idx
-                }});
+                const token = await axios.get(Apiurl.token_get);
+                console.log(token);
+                await axios.delete(`${Apiurl.Free_board}`, {
+                    params:{
+                    free_board_no: idx},
+                    headers:{Authorization: `Bearer ${token.data.access_token}`}
+                });
                 alert('삭제되었습니다.');
                 navigate('/Boardlist');
             } catch (error) {
@@ -61,18 +71,18 @@ function Free_view(props) {
             </div>
             <div className="board-view">
                 <div className="view-title">
-                    <h2>{board.Title}</h2>
+                    <h2>{board.title}</h2>
                 </div>
                 <div className="view-menu">
-                    <span>{board.Board_no}</span>
-                    <span>{board.Create_date}</span>
+                    <span>{board.board_no}</span>
+                    <span>{board.create_date}</span>
                     <button onClick={handleEdit}>수정</button>
                     <button onClick={handleDelete}>삭제</button>
                 </div>
                 <div className="view-content">
-                    {board.Content && <Viewer initialValue={board.Content} />}
+                    {board.content && <Viewer initialValue={board.content} />}
                 </div>
-                <Comment index={idx} url={Apiurl.Board_Comment} boardname={'free_board_no'} boardname_comment_no={'free_board_comment_no'}/>
+                <Comment index={idx} url={Apiurl.board_Comment} boardname={'free_board_no'} boardname_comment_no={'free_board_comment_no'}/>
             </div>
             <div>댓글 보여주는 부분</div>
             

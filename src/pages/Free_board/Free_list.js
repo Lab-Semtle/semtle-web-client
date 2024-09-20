@@ -61,15 +61,18 @@ const Free_list = props => {
   const [boardList, setBoardList] = useState([]);
   const getBoardList = async (currentPage, postsPerPage) => {
     try{
-      const resp = await axios.get(`${Apiurl.Boardlist_get_list}`,{
-            params:{
+      const token = await axios.get(Apiurl.token_get);
+      const resp = await axios.get(`${Apiurl.Boardlist_get_list}`,
+            {params:{
               page: currentPage
-            }
-          }); // 2) 게시글 목록 데이터에 할당
+            },
+            headers:{Authorization: `Bearer ${token.data.access_token}`}}
+            ); // 2) 게시글 목록 데이터에 할당
           setBoardList(resp); // 3) boardList 변수에 할당
           setPosts(resp.data.Board_info);
     }catch (error){
-      navigate('/error');
+      console.log("fr",error);
+      //navigate('/error');
 
     }
   }
@@ -105,12 +108,13 @@ const Free_list = props => {
         <CommonTable headersName={['제목', '내용', '등록일', '조회수']}>
           {
             posts ? posts.map((item, index) => {
+              console.log("logging", item, index);
               return (
                 <CommonTableRow key={index} >
-                  <CommonTableColumn><Link to={`/Boardview/${item.Board_no}`}>{item.Title}</Link></CommonTableColumn>
-                  <CommonTableColumn><Link to={`/Boardview/${item.Board_no}`}>{item.Content}</Link></CommonTableColumn>
-                  <CommonTableColumn><Link to={`/Boardview/${item.Board_no}`}>{item.Create_date}</Link></CommonTableColumn>
-                  <CommonTableColumn><Link to={`/Boardview/${item.Board_no}`}>{item.Views}</Link></CommonTableColumn>
+                  <CommonTableColumn><Link to={`/Boardview/${item.board_no}`}>{item.title}</Link></CommonTableColumn>
+                  <CommonTableColumn><Link to={`/Boardview/${item.board_no}`}>{item.content}</Link></CommonTableColumn>
+                  <CommonTableColumn><Link to={`/Boardview/${item.board_no}`}>{item.create_date}</Link></CommonTableColumn>
+                  <CommonTableColumn><Link to={`/Boardview/${item.board_no}`}>{item.views}</Link></CommonTableColumn>
                 </CommonTableRow>
               )
             }) : ''

@@ -22,10 +22,16 @@ function Free_edit() {
     const getBoard = async () => {
         //const resp = await(await axios.get(`${Apiurl.Boardedit_get}`));
         //const resp = await axios.get(`${Apiurl.Boardview_get}/${idx}`);
+        const token = await axios.get(Apiurl.token_get);
         const resp = await axios.get(`${Apiurl.Boardview_get}`, {
             params:{
             free_board_no:idx
-        }});//고정주소
+            },
+            headers: {
+                Authorization: `Bearer ${token.data.access_token}`
+            }
+            });//고정주소
+        
         console.log(resp);
         setBoard(resp.data);
         console.log(board);

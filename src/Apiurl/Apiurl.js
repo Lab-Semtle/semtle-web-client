@@ -10,11 +10,11 @@ const Apiurl={
 
     study_board:`http://127.0.0.1:8000/study_board/`,
     study_board_get:`http://127.0.0.1:8000/study_board/get`,
-    study_board_get_list:`http://127.0.0.1:8000/study_board/get list`,
-    study_board_create_upload:`http://127.0.0.1:8000/study_board/create upload`,
+    study_board_get_list:`http://127.0.0.1:8000/study_board/get_list`,
+    study_board_create_upload:`http://127.0.0.1:8000/study_board/create_upload`,
     study_board_images:`http://127.0.0.1:8000/study_board/images`,
     study_board_upload:`http://127.0.0.1:8000/study_board/upload`,
-    study_board_sort_title:`http://127.0.0.1:8000/study_board/sort title`,
+    study_board_sort_title:`http://127.0.0.1:8000/study_board/sort_title`,
 
     study_board_comment:`http://127.0.0.1:8000/study_board_comment/`,
     study_board_comment_get:`http://127.0.0.1:8000/study_board_comment/get`,
@@ -24,13 +24,13 @@ const Apiurl={
     login_post: 'http://localhost:8000/login/login',
     signup_post: 'http://localhost:8000/login/signup?code=',
     refresh_get: 'http://localhost:8000/login/refresh',
-    token_get:'http://localhost:8000/login/token',
+    token_get:'http://localhost:8000/login/access_token',
     send_get:'http://localhost:8000/login/send?user_email=',
     code_get:'http://localhost:8000/login/code',
     logout_get:'http://localhost:8000/login/logout',
 
-    findEmail_get:'http://localhost:8000/find/find-email?phone=',
-    findPassword_get:'http://localhost:8000/find/find-password',
+    findEmail_get:'http://localhost:8000/find/find_email?phone=',
+    findPassword_get:'http://localhost:8000/find/find_password',
 
     viewOne_get:'http://localhost:8000/user/view_one'
 
