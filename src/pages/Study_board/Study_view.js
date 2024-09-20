@@ -46,7 +46,7 @@ function Study_view(props) {
 
     useEffect(() => {
         getBoard();
-    }, [idx]);
+    }, [idx, getBoard]);
 
     const handleEdit = () => {
         navigate(`/StudyBoard/edit/${idx}`);
