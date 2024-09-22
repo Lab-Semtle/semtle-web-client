@@ -12,11 +12,11 @@ function Free_edit() {
     const navigate = useNavigate();
     const editorRef = useRef();
     const [board, setBoard] = useState({
-        Title: '',
-        Content: '',
-        Board_no: '',
-        Create_date: '',
-        Views: '',
+        title: '',
+        content: '',
+        board_no: '',
+        create_date: '',
+        views: '',
     });
 
     const getBoard = async () => {
@@ -50,19 +50,21 @@ function Free_edit() {
     };
 
     const saveBoard = async () => {
-        const Content = editorRef.current.getMarkdown();
-        const Title= board.Title;
+        const content = editorRef.current.getMarkdown();
+        const title= board.title;
         const updatedBoard = {
             ...board,
-            Content,
-            Title
+            content,
+            title
         };
 
         try {
+            const token = await axios.get(Apiurl.token_get);
             await axios.put(`${Apiurl.Free_board}`, updatedBoard,{params:{
                 free_board_no: idx
 
-            }});
+            },
+            headers:{Authorization: `Bearer ${token.data.access_token}`}});
             //await axios.put(`${Apiurl.Boardview_get}/${idx}`, updatedBoard);
             alert('수정되었습니다.');
             navigate(`/Boardview/${idx}`);
@@ -80,13 +82,13 @@ function Free_edit() {
         <>
             <Navbarboot />
             <div className="form-group">
-                <input type="text" name="Title" value={board.Title} onChange={onChange} placeholder="제목" />
+                <input type="text" name="title" value={board.title} onChange={onChange} placeholder="제목" />
             </div>
             <div className="form-group">
                 글번호 {board.Board_no}
             </div>
             <div className="form-group">
-                <Toasteditor_noimage currentBoard={board} ref={editorRef} />
+                <Toasteditor_noimage currentBoard={board} value={board.content} ref={editorRef} />
             </div>
             <div className="form-button">
                 <button onClick={saveBoard}>저장</button>

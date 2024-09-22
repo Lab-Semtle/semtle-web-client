@@ -23,15 +23,52 @@ function Head(){
   );
 }
 
-function Body(){
+function StudyBody(){
   return(
     <div className={style.cellsWrap}>
       
           <div className={style.cells}>
             <img src= {Iamge}alt="no image"></img>
             <div className={style.cellContent}>
+            <div className={style.cellTopText} style={{ color: 'black' }}>For Everyone</div>
+            <div className={style.cellBottomText} style={{ color: 'black' }}>Let your imagination run wild</div>
+            </div>
+          </div>
+          <div className={style.cells}>
+            <img src={CommunityImage} alt="no image"></img>
+            <div className={style.cellContent}>
             <div className={style.cellTopText}>For Everyone</div>
             <div className={style.cellBottomText}>Let your imagination run wild</div>
+            </div>
+          </div>
+          <div className={style.cells}>
+            <img src={MainImage} alt="no image"></img>
+            <div className={style.cellContent}>
+            <div className={style.cellTopText}>For Everyone</div>
+            <div className={style.cellBottomText}>Let your imagination run wild</div>
+            </div>
+          </div>
+          <div className={style.cells}>
+            <img src={BookImage} alt="no image"></img>
+            <div className={style.cellContent}>
+            <div className={style.cellTopText}>For Everyone</div>
+            <div className={style.cellBottomText}>Let your imagination run wild</div>
+            </div>
+          </div>
+
+          </div>
+  )
+}
+
+function BoardBody(){
+  return(
+    <div className={style.cellsWrap}>
+      
+          <div className={style.cells}>
+            <img src= {Iamge}alt="no image"></img>
+            <div className={style.cellContent}>
+            <div className={style.cellTopText} style={{ color: 'black' }}>For Everyone</div>
+            <div className={style.cellBottomText} style={{ color: 'black' }}>Let your imagination run wild</div>
             </div>
           </div>
           <div className={style.cells}>
@@ -87,11 +124,11 @@ export default function Root() {
         <Head />
       <div className={style.contentWrap}>
         <div className={style.introduceFont}>Study</div>
-        <Body />
+        <StudyBody />
       </div>
       <div className={style.contentWrap}>
         <div className={style.introduceFont}>Board</div>
-        <Body />
+        <BoardBody />
       </div>
       <Foot />
       </div>

@@ -5,11 +5,6 @@ import Navbarboot from "../../components/Header/Navbarboot";
 import { Link } from "react-router-dom";
 import { Apiurl } from '../../Apiurl/Apiurl';
 
-const User = {
-  email: "test@example.com",
-  pw: "test1234@@",
-};
-
 export default function Login() {
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");

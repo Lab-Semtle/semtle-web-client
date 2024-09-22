@@ -44,7 +44,6 @@ function Free_view(props) {
         if (confirmDelete) {
             try {
                 const token = await axios.get(Apiurl.token_get);
-                console.log(token);
                 await axios.delete(`${Apiurl.Free_board}`, {
                     params:{
                     free_board_no: idx},

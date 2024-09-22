@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Comment.css';
 import { useParams } from 'react-router-dom';
+import { Apiurl } from '../../Apiurl/Apiurl';
 
 import PaginationBasic from '../Header/PaginationBasic';
 
@@ -17,14 +18,15 @@ function Comment({index, url, boardname, boardname_comment_no}) {
 
   const fetchComments = async (currentPage) => {
     try {
-      const response = await axios.get(`${url}get`, {
+      const response = await axios.get(`${Apiurl.Board_Comment_get}`, {
         params: {
           [boardname]: idx,
           page: currentPage,
         },
       });
-      console.log(response);
+      
       setComments(Array.isArray(response.data.Board_info) ? response.data.Board_info : []);
+      console.log(comments);
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
@@ -46,14 +48,14 @@ function Comment({index, url, boardname, boardname_comment_no}) {
     const confirmDelete = window.confirm('삭제하시겠습니까?');
     if (confirmDelete) {
       try {
-        await axios.delete(`${url}`, {
+        await axios.delete(`${Apiurl.Board_Comment}`, {
           params: {
             [boardname]: idx,
             [boardname_comment_no]: coidx,
           },
         });
         alert('삭제되었습니다.');
-        setComments(comments.filter(comment => comment.Comment_no !== coidx));
+        setComments(comments.filter(comment => comment.comment_no !== coidx));
       } catch (error) {
         console.error('Error deleting comment:', error);
         alert('삭제에 실패했습니다.');
@@ -62,12 +64,12 @@ function Comment({index, url, boardname, boardname_comment_no}) {
   };
 
   const handleEdit = (comment) => {
-    if (editingCommentId === comment.Comment_no) {
+    if (editingCommentId === comment.comment_no) {
       // 수정 모드에서 수정 버튼을 다시 누르면 저장
-      handleSaveEdit(comment.Comment_no);
+      handleSaveEdit(comment.comment_no);
     } else {
       // 수정 모드로 전환
-      setEditingCommentId(comment.Comment_no);
+      setEditingCommentId(comment.comment_no);
       setEditingCommentContent(comment.Content);
     }
   };
@@ -75,13 +77,13 @@ function Comment({index, url, boardname, boardname_comment_no}) {
   const handleSaveEdit = async (coidx) => {
     try {
       const currentTime = new Date().toISOString(); // 현재 시간
-      await axios.put(`${url}`, 
-        { Content: editingCommentContent, Update_date: currentTime },
+      await axios.put(`${Apiurl.Board_Comment}`, 
+        { content: editingCommentContent, update_date: currentTime },
         { params: { [boardname]: idx, [boardname_comment_no]: coidx } }
       );
       setComments(comments.map(comment =>
-        comment.Comment_no === coidx 
-          ? { ...comment, Content: editingCommentContent, Create_date: currentTime } 
+        comment.comment_no === coidx 
+          ? { ...comment, content: editingCommentContent, create_date: currentTime } 
           : comment
       ));
       setEditingCommentId(null); // 수정 모드 종료
@@ -94,10 +96,12 @@ function Comment({index, url, boardname, boardname_comment_no}) {
   const handleSubmit = async () => {
     if (comment.trim()) {
       try {
-        const response = await axios.post(`${url}`, 
-          { Content: comment },
+        const response = await axios.post(`${Apiurl.Board_Comment}`, 
+          { content: comment },
           { params: { [boardname]: idx } }
         );
+
+        console.log(response);
 
         if (response.status === 200) {
           fetchComments(currentPage);
@@ -124,23 +128,23 @@ function Comment({index, url, boardname, boardname_comment_no}) {
       </div>
       <div className="comments-list">
         {Array.isArray(comments) && comments.map((comment) => (
-          <div key={comment.Comment_no} className="comment">
-            {editingCommentId === comment.Comment_no ? (
+          <div key={comment.comment_no} className="comment">
+            {editingCommentId === comment.comment_no ? (
               <textarea
                 value={editingCommentContent}
                 onChange={handleEditChange}
               />
             ) : (
-              <p>{comment.Content}</p>
+              <p>{comment.content}</p>
             )}
             <p>
               <button onClick={() => handleEdit(comment)}>
-                {editingCommentId === comment.Comment_no ? '저장' : '수정'}
+                {editingCommentId === comment.comment_no ? '저장' : '수정'}
               </button>
-              <button onClick={() => handleDelete(comment.Comment_no)}>삭제</button>
+              <button onClick={() => handleDelete(comment.comment_no)}>삭제</button>
             </p>
             <small>
-              작성자: {comment.Comment_no} - {new Date(comment.Create_date).toLocaleString()}
+              작성자: {comment.comment_no} - {new Date(comment.create_date).toLocaleString()}
             </small>
           </div>
         ))}
