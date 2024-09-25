@@ -21,6 +21,17 @@ const Apiurl={
     study_board_comment_images:`http://127.0.0.1:8000/study_board_comment/iamges`,
     study_board_comment_upload:`http://127.0.0.1:8000/study_board_comment/upload`,
 
+    exam_sharing_board:`http://127.0.0.1:8000/api/v1/exam_sharing_board/`,
+    exam_sharing_board_get:`http://127.0.0.1:8000/api/v1/exam_sharing_board/get`,
+    exam_sharing_board_get_list:`http://127.0.0.1:8000/api/v1/exam_sharing_board/get list`,
+    exam_sharing_board_create_upload:`http://127.0.0.1:8000/api/v1/exam_sharing_board/create upload`,
+    exam_sharing_board_images:`http://127.0.0.1:8000/api/v1/exam_sharing_board/images`,
+    exam_sharing_board_upload:`http://127.0.0.1:8000/api/v1/exam_sharing_board/upload`,
+    exam_sharing_board_sort_title:`http://127.0.0.1:8000/api/v1/exam_sharing_board/sort title`,
+
+    exam_sharing_board_comment:`http://127.0.0.1:8000/api/v1/exam_sharing_board_comment/`,
+    exam_sharing_board_comment_get:`http://127.0.0.1:8000/api/v1/exam_sharing_board_comment/get`,
+    
     login_post: 'http://localhost:8000/login/login',
     signup_post: 'http://localhost:8000/login/signup?code=',
     refresh_get: 'http://localhost:8000/login/refresh',
