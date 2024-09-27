@@ -29,6 +29,8 @@ export default function Membership() {
   //코드 보내기
   const sendVerificationCode = async () => {
     if (emailValid) {
+
+        //이메일의 제출 폼과 데이터 입력 상 제출받는 폼이 좀 다름, ex)bagsangbin@gmail.com >> bagsangbin%40gmail.com 이렇게 변환해야 함.
         const encodedEmail = email.replace(/@/g, "%40");
         const response = await axios.get(Apiurl.send_get+encodedEmail, {
         });
@@ -46,7 +48,7 @@ export default function Membership() {
   };
 
 
-
+  //이름 유효성 검사
   const handleName = (e) =>{
     setName(e.target.value);
     const regex = /^[가-힣]{2,}$/;
@@ -57,7 +59,7 @@ export default function Membership() {
       setNameValid(false);
     }
   }
-
+  //이메일 유효성 검사
   const handleEmail = (e) => {
     setEmail(e.target.value);
     const regex =
@@ -69,6 +71,7 @@ export default function Membership() {
       setEmailValid(false);
     }
   };
+  //패스워드 유효성 검사
   const handlePw = (e) => {
     setPw(e.target.value);
     const regex =
@@ -81,7 +84,7 @@ export default function Membership() {
       setPwValid(false);
     }
   };
-
+//재차 비밀번호 유효성 검사
 const handlePw2 = (e) => {
     setPw2(e.target.value);
     const regex =
@@ -93,13 +96,13 @@ const handlePw2 = (e) => {
       setPwValid2(false);
     }
   };
-
+  //이메일로 보낸 인증코드 검사
   const handleCode = (e) =>{
     setUserInputCode(e.target.value);
     verifyCode();
   }
 
-
+  //아이디 유효성 검사.
   const handleId = (e) => {
     setId(e.target.value);
 
@@ -112,7 +115,7 @@ const handlePw2 = (e) => {
       setIdValid(false);
     }
   };
-
+  //전화번호 유효성 검사
   const handlePhNumber = (e) => {
     setphNumber(e.target.value);
 
@@ -133,7 +136,7 @@ const handlePw2 = (e) => {
     }
     setNotAllow(true);
   });
-
+  //회원가입 폼 제출
   const onClickConfirmButton = () => {
     if (pw === pw2) {
       axios
@@ -142,7 +145,8 @@ const handlePw2 = (e) => {
           "user_password": pw,
           "user_name": name,
           "user_email": email,
-          "user_phone": phNumber.slice(0,3)+'-'+phNumber.slice(3,7)+'-'+phNumber.slice(7,11),
+          //휴대전화 입력받는 형식은 01012345678이고 제출해야 하는 폼은 010-1234-5678이렇게 되어야 함. 
+          "user_phone": phNumber.slice(0,3)+'-'+phNumber.slice(3,7)+'-'+phNumber.slice(7,11), 
           "user_birth": 0,
         })
         .then(response => {

@@ -47,6 +47,7 @@ export default function MyInfo() {
         fetchData();
     }, []);
 
+    //정보 수정은 구현 x
     const handleUpdate = async () => {
         try {
             await axios.post(Apiurl.updateUser, {

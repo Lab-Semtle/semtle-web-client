@@ -13,6 +13,7 @@ export default function Login() {
   const [pwValid, setPwValid] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
 
+  //이메일 유효송 검사
   const handleEmail = (e) => {
     setEmail(e.target.value);
     //정규표현식
@@ -23,6 +24,8 @@ export default function Login() {
       setEmailValid(false);
     }
   };
+
+  //패스워드 유효성 검사
   const handlePw = (e) => {
     setPw(e.target.value);
     const regex =
@@ -35,7 +38,7 @@ export default function Login() {
     }
   };
 
-  //코드 변화가 일어날때마다 실행됨
+  //입력이 일어날 떄 마다 이메일과 패스워드의 유효성을 비교하는 코드. 
   useEffect(() => {
     if (emailValid && pwValid) {
       setNotAllow(false);
@@ -44,6 +47,7 @@ export default function Login() {
     setNotAllow(true);
   }, [emailValid, pwValid]);
 
+  //버튼 클릭시 로그인 폼 제출
   const onClickConfirmButton = () => {
     const loginData = new URLSearchParams();
         loginData.append('username', email);

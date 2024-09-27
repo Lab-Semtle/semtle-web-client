@@ -5,6 +5,7 @@ import Navbarboot from "../../components/Header/Navbarboot";
 import { Link } from "react-router-dom";
 import { Apiurl } from "../../Apiurl/Apiurl";
 
+//수정 해야 할 코드들, 비밀번호를 찾는데 요구하는 데이터가 너무 가벼움
 export default function IdFInd(){
     const [email, setEmail] = useState("");
     const [emailValid, setEmailValid] = useState(false);
