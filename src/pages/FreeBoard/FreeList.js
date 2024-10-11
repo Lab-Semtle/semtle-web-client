@@ -53,7 +53,7 @@ const CommonTable = (props) => {
 const FreeList = props => {
   // const navigate = useNavigate();
   const [setBoardList] = useState([]); // boardList, 
-  const getBoardList = useCallback(async (currentPage, postsPerPage) => {
+  const getBoardList = async (currentPage, postsPerPage) => {
     try {
       const token = await axios.get(Apiurl.token_get);
       const resp = await axios.get(`${Apiurl.Boardlist_get_list}`,
@@ -66,11 +66,14 @@ const FreeList = props => {
       ); // 2) 게시글 목록 데이터에 할당
       setBoardList(resp); // 3) boardList 변수에 할당
       setPosts(resp.data.Board_info);
+      console.log("----------->", resp.data.Board_info);
     } catch (error) {
       console.log("fr", error);
       //navigate('/error');
     }
-  }, [setBoardList])
+  }
+
+
   const [posts, setPosts] = useState([]);
   // const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);//현 페이지 인덱스
@@ -81,7 +84,7 @@ const FreeList = props => {
   useEffect(() => {
     getBoardList(currentPage, postsPerPage); // 1) 게시글 목록 조회 함수 호출
 
-  }, [currentPage, postsPerPage, getBoardList]);
+  }, [currentPage, getBoardList]);
 
 
   const indexOfLast = currentPage * postsPerPage;//게시글 인덱스 끝
