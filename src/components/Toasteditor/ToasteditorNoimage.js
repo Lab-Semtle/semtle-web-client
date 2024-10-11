@@ -2,7 +2,7 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 
-const ToastEditor_noimage = forwardRef(({ currentBoard }, ref) => {
+const ToastEditorNoimage = forwardRef(({ currentBoard }, ref) => {
   const editorRef = useRef();
 
   useImperativeHandle(ref, () => ({
@@ -42,4 +42,4 @@ const ToastEditor_noimage = forwardRef(({ currentBoard }, ref) => {
   );
 });
 
-export default ToastEditor_noimage;
+export default ToastEditorNoimage;

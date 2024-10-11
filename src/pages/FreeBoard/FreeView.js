@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Navbarboot from "../../components/Header/Navbarboot";
 import axios from "axios";
 import { useParams, useNavigate } from 'react-router-dom';
@@ -8,32 +8,32 @@ import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/react-editor';
 import './Free_view.css';
 
-function Free_view(props) {
+function FreeView(props) {
     const { idx } = useParams(); // /Board/view/:idx와 동일한 변수명으로 데이터를 꺼낼 수 있습니다.
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [board, setBoard] = useState({});
 
-    const getBoard = async () => {
+    const getBoard = useCallback(async () => {
         const token = await axios.get(Apiurl.token_get);
         console.log(idx);
         const resp = await axios.get(`${Apiurl.Boardview_get}`, {
-            params:{
-            free_board_no:idx
+            params: {
+                free_board_no: idx
             },
-            headers:{Authorization: `Bearer ${token.data.access_token}`}
-            
-    });//고정주소
+            headers: { Authorization: `Bearer ${token.data.access_token}` }
+
+        });//고정주소
         //const resp = await (await axios.get(`${Apiurl.Boardview_get}/${idx}`)).data; 주소 달라짐
         setBoard(resp.data);
         setLoading(false);
         console.log(resp.data);
-    };
+    }, [idx]);
 
 
     useEffect(() => {
         getBoard();
-    }, []);
+    }, [getBoard]);
 
     const handleEdit = () => {
         navigate(`/Board/edit/${idx}`);
@@ -45,9 +45,10 @@ function Free_view(props) {
             try {
                 const token = await axios.get(Apiurl.token_get);
                 await axios.delete(`${Apiurl.Free_board}`, {
-                    params:{
-                    free_board_no: idx},
-                    headers:{Authorization: `Bearer ${token.data.access_token}`}
+                    params: {
+                        free_board_no: idx
+                    },
+                    headers: { Authorization: `Bearer ${token.data.access_token}` }
                 });
                 alert('삭제되었습니다.');
                 navigate('/Boardlist');
@@ -81,12 +82,12 @@ function Free_view(props) {
                 <div className="view-content">
                     {board.content && <Viewer initialValue={board.content} />}
                 </div>
-                <Comment index={idx} url={Apiurl.board_Comment} boardname={'free_board_no'} boardname_comment_no={'free_board_comment_no'}/>
+                <Comment index={idx} url={Apiurl.board_Comment} boardname={'free_board_no'} boardname_comment_no={'free_board_comment_no'} />
             </div>
             <div>댓글 보여주는 부분</div>
-            
+
         </>
     );
 }
 
-export default Free_view;
+export default FreeView;

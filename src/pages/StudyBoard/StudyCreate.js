@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Study_create.css';
+import './StudyCreate.css';
 import { Apiurl } from '../../Apiurl/Apiurl';
 import Toasteditor from "../../components/Toasteditor/Toasteditor";
 import Navbarboot from '../../components/Header/Navbarboot';
 
-function Study_create() {
+function StudyCreate() {
   const navigate = useNavigate();
   const editorRef = useRef();
 
@@ -14,12 +14,12 @@ function Study_create() {
   const [board, setBoard] = useState({
     Title: '',
     Content: '',
-    Views:0
+    Views: 0
   });
   //const { Title, createBy } = board;
-  const { Title} = board;
+  const { Title } = board;
   const onChange = (event) => {
-    const date = new Date();
+    // const date = new Date();
     const { name, value } = event.target;
     setBoard({
       ...board,
@@ -34,7 +34,7 @@ function Study_create() {
     const Content = editorRef.current.getMarkdown();
 
     const formData = editorRef.current.getFormData();
-    
+
     let hasFiles = false;
     console.log('FormData contents:');
     for (let [key, value] of formData.entries()) {
@@ -42,12 +42,12 @@ function Study_create() {
         hasFiles = true;
         console.log('File detected:', value.name);
       }
-      console.log('file value=',value instanceof File);
+      console.log('file value=', value instanceof File);
       console.log(`Key: ${key}, Value:`, value);
     }
 
-  // 새로운 FormData를 생성하여 파일들을 추가
-  
+    // 새로운 FormData를 생성하여 파일들을 추가
+
 
 
     // Update the board state with the content
@@ -58,21 +58,22 @@ function Study_create() {
     };
     //formData.append('Title', updatedBoard.Title);  // Title을 FormData에 추가
     //formData.append('Content', updatedBoard.Content);    // Content를 FormData에 추가
-    
+
     try {
-      const response = await axios.post(`${Apiurl.study_board}`,updatedBoard);
-      console.log('updateBoard= ',updatedBoard);
-      console.log('Study_board_no=',response.data.Study_Board_No);
-      if(hasFiles){
-          const sendImage = await axios.put(`${Apiurl.study_board_create_upload}`, formData, {
+      const response = await axios.post(`${Apiurl.study_board}`, updatedBoard);
+      console.log('updateBoard= ', updatedBoard);
+      console.log('Study_board_no=', response.data.Study_Board_No);
+      if (hasFiles) {
+        // const sendImage = 
+        await axios.put(`${Apiurl.study_board_create_upload}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
-          },params:{
-            study_board_no:response.data.Study_Board_No
+          }, params: {
+            study_board_no: response.data.Study_Board_No
           }
-      })
-        
-        }
+        })
+
+      }
       alert('등록되었습니다.');
       navigate('/StudyBoardlist');
     } catch (error) {
@@ -99,7 +100,7 @@ function Study_create() {
 
   return (
     <>
-    <Navbarboot></Navbarboot>
+      <Navbarboot></Navbarboot>
       <div className="form-group">
         <input type="text" name="Title" value={Title} onChange={onChange} placeholder="제목" />
       </div>
@@ -117,4 +118,4 @@ function Study_create() {
   );
 }
 
-export default Study_create;
+export default StudyCreate;

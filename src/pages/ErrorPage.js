@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbarboot from '../components/Header/Navbarboot';
-import './Error_page.css';
+import './ErrorPage.css';
 function ErrorPage() {
   const navigate = useNavigate();
 

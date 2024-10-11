@@ -1,5 +1,5 @@
 import axios from "axios";
-import react, { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; // react,
 import style from "./Membership.module.css";
 import Navbarboot from "../../components/Header/Navbarboot";
 import { Apiurl } from '../../Apiurl/Apiurl';
@@ -14,7 +14,7 @@ export default function Membership() {
   const [phNumber, setphNumber] = useState("");
   const [pw, setPw] = useState("");
   const [pw2, setPw2] = useState("");
-  const [emailValid, setEmailValid] = useState(false);  
+  const [emailValid, setEmailValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
   const [pwValid2, setPwValid2] = useState(false);
   const [idValid, setIdValid] = useState(false);
@@ -22,20 +22,21 @@ export default function Membership() {
 
   const [notAllow, setNotAllow] = useState(true);
 
-  const [verificationCode, setVerificationCode] = useState();
+  const [verificationCode] = useState(); //, setVerificationCode
   const [userInputCode, setUserInputCode] = useState("");
   const [isEmailVerified, setIsEmailVerified] = useState(false);
 
   //코드 보내기
   const sendVerificationCode = async () => {
     if (emailValid) {
-        const encodedEmail = email.replace(/@/g, "%40");
-        const response = await axios.get(Apiurl.send_get+encodedEmail, {
-        });
-        alert("인증 코드가 이메일로 전송되었습니다.");
+      const encodedEmail = email.replace(/@/g, "%40");
+      // const response = 
+      await axios.get(Apiurl.send_get + encodedEmail, {
+      });
+      alert("인증 코드가 이메일로 전송되었습니다.");
 
-      }
     }
+  }
 
   //코드 비교 검증
   const verifyCode = () => {
@@ -47,13 +48,13 @@ export default function Membership() {
 
 
 
-  const handleName = (e) =>{
+  const handleName = (e) => {
     setName(e.target.value);
     const regex = /^[가-힣]{2,}$/;
-    if(regex.test(name)){
+    if (regex.test(name)) {
       setNameValid(true);
     }
-    else{
+    else {
       setNameValid(false);
     }
   }
@@ -61,7 +62,7 @@ export default function Membership() {
   const handleEmail = (e) => {
     setEmail(e.target.value);
     const regex =
-      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
 
     if (regex.test(e.target.value)) {
       setEmailValid(true);
@@ -72,7 +73,7 @@ export default function Membership() {
   const handlePw = (e) => {
     setPw(e.target.value);
     const regex =
-    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+      /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
 
 
     if (regex.test(e.target.value)) {
@@ -82,10 +83,10 @@ export default function Membership() {
     }
   };
 
-const handlePw2 = (e) => {
+  const handlePw2 = (e) => {
     setPw2(e.target.value);
     const regex =
-    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+      /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
 
     if (regex.test(e.target.value)) {
       setPwValid2(true);
@@ -94,7 +95,7 @@ const handlePw2 = (e) => {
     }
   };
 
-  const handleCode = (e) =>{
+  const handleCode = (e) => {
     setUserInputCode(e.target.value);
     verifyCode();
   }
@@ -132,25 +133,25 @@ const handlePw2 = (e) => {
       return;
     }
     setNotAllow(true);
-  });
+  }, [emailValid, idValid, nameValid, phNumberValid, pwValid, pwValid2]);
 
   const onClickConfirmButton = () => {
     if (pw === pw2) {
       axios
-        .post(Apiurl.signup_post+userInputCode, {
+        .post(Apiurl.signup_post + userInputCode, {
           "user_id": id,
           "user_password": pw,
           "user_name": name,
           "user_email": email,
-          "user_phone": phNumber.slice(0,3)+'-'+phNumber.slice(3,7)+'-'+phNumber.slice(7,11),
+          "user_phone": phNumber.slice(0, 3) + '-' + phNumber.slice(3, 7) + '-' + phNumber.slice(7, 11),
           "user_birth": 0,
         })
         .then(response => {
           console.log('회원가입 성공:', response.data);
-      })
-      .catch(error => {
+        })
+        .catch(error => {
           console.error('회원가입 실패:', error.response ? error.response.data : error.message);
-      });
+        });
     } else return;
   };
 
@@ -160,12 +161,12 @@ const handlePw2 = (e) => {
       <div className={style.page}>
         <div className={style.titleWrap}>회원가입</div>
         <div className={style.agreeIntroduce}>
-  계속함으로써 <a className={style.a}href="/Agree">개인정보 처리방침</a>에 동의한 것으로 간주합니다.
-</div>
+          계속함으로써 <a className={style.a} href="/Agree">개인정보 처리방침</a>에 동의한 것으로 간주합니다.
+        </div>
         <div className={style.contentWrap}>
           <div className={style.inputTitle}>이름</div>
           <div className={style.inputWrap}>
-          <input
+            <input
               type="text"
               className={style.input}
               placeholder="아무개"
@@ -195,8 +196,8 @@ const handlePw2 = (e) => {
             />
           </div>
           <button onClick={sendVerificationCode} disabled={!emailValid || isEmailVerified}>
-             인증코드 전송
-            </button>
+            인증코드 전송
+          </button>
           <div className={style.errorMessageWrap}>
             {!emailValid && email.length > 5 && (
               <div>올바른 이메일을 입력해주세요.</div>

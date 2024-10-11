@@ -17,7 +17,7 @@ function Navbarboot() {
     axios.get(Apiurl.refresh_get)
       .then(response => {
         console.log(response)
-        if(response.data.status === "success")
+        if (response.data.status === "success")
           setAccessToken(true);
         else
           setAccessToken(false);
@@ -25,7 +25,7 @@ function Navbarboot() {
       .catch(error => {
         console.log(error);
         setAccessToken(false);
-      })  
+      })
       .finally(() => {
         setLoading(false);
       });
@@ -38,9 +38,9 @@ function Navbarboot() {
   const goBack = (e) => {
     window.history.back()
   }
-  const goFront = (e) =>{
+  const goFront = (e) => {
     window.history.forward()
-    
+
   }
 
   return (
@@ -48,7 +48,7 @@ function Navbarboot() {
       <Container>
 
         <Navbar.Brand as={Link} to="/Main">
-        <img src={LogoImg} style={{width: '50px', height: '45px',maxWidth:'100%'}}/>
+          <img src={LogoImg} alt="" style={{ width: '50px', height: '45px', maxWidth: '100%' }} />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -68,29 +68,29 @@ function Navbarboot() {
               <>
                 <Nav.Link as={Link} to="/MyInfo">내정보</Nav.Link>
                 <Nav.Link
-                onClick={() => {
+                  onClick={() => {
                     axios.get(Apiurl.token_get)
-                         .then(response => {
-                           // 로그아웃 요청을 Authorization 헤더에 accessToken을 담아 보냅니다.
-                            const accessToken = response.data.access_token;
-                              return axios.get(Apiurl.logout_get, {
-                                  headers: {
-                                      Authorization: `Bearer ${accessToken}`
-                                  },
-                                  withCredentials: true
-                              });
-                          })
-                          .then(res => {
-                              // 로그아웃 성공 시 리다이렉트
-                              window.location.href = "/";
-                          })
-                          .catch(error => {
-                              console.error("Error during logout: ", error);
-                          });
+                      .then(response => {
+                        // 로그아웃 요청을 Authorization 헤더에 accessToken을 담아 보냅니다.
+                        const accessToken = response.data.access_token;
+                        return axios.get(Apiurl.logout_get, {
+                          headers: {
+                            Authorization: `Bearer ${accessToken}`
+                          },
+                          withCredentials: true
+                        });
+                      })
+                      .then(res => {
+                        // 로그아웃 성공 시 리다이렉트
+                        window.location.href = "/";
+                      })
+                      .catch(error => {
+                        console.error("Error during logout: ", error);
+                      });
                   }}
-              >
+                >
                   로그아웃
-              </Nav.Link>
+                </Nav.Link>
               </>
             ) : (
               <Nav.Link as={Link} to="/Login" eventKey={2}>로그인</Nav.Link>

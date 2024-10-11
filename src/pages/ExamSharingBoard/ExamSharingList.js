@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Navbarboot from '../../components/Header/Navbarboot';
 import { Link } from 'react-router-dom';
 import { Apiurl } from '../../Apiurl/Apiurl';
-import './Exam_sharing_list.css';
+import './ExamSharingList.css';
 import Dropdownbutton from '../../components/Button/Dropdownbutton';
 import PaginationBasic from '../../components/Header/PaginationBasic';
 import { useNavigate } from 'react-router-dom';
@@ -47,37 +47,37 @@ const CommonTable = (props) => {
   );
 }
 
-const Exam_sharing_list = props => {
+const ExamSharingList = props => {
   const navigate = useNavigate();
-  const [boardList, setBoardList] = useState([]);
+  const [setBoardList] = useState([]); // boardList, 
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [postsPerPage, setPostsPerPage] = useState(10);
-  const [rankmenu, setRankmenu] = useState(1);
+  const [postsPerPage] = useState(10); //, setPostsPerPage
+  const [setRankmenu] = useState(1); // rankmenu, 
 
-  const getBoardList = async (currentPage, postsPerPage) => {
-    try{
+  const getBoardList = useCallback(async (currentPage, postsPerPage) => {
+    try {
       const resp = await axios.get(`${Apiurl.exam_sharing_board_get_list}`, {
-            params: {
-              page: currentPage
-            }
-          });
-          setBoardList(resp);
-          setPosts(resp.data.Board_info);
-    }catch(error){
+        params: {
+          page: currentPage
+        }
+      });
+      setBoardList(resp);
+      setPosts(resp.data.Board_info);
+    } catch (error) {
       navigate('/error');
     }
-  }
+  }, [navigate, setBoardList])
 
   useEffect(() => {
     getBoardList(currentPage, postsPerPage);
-  }, [currentPage, postsPerPage]);
+  }, [currentPage, postsPerPage, getBoardList]);
 
   return (
     <>
       <Navbarboot></Navbarboot>
-      
-      <div className='flex-body'> 
+
+      <div className='flex-body'>
         <div className='header-container'>
           <span className="study-title">족보게시판</span>
           <div className='Dropbutton'><Dropdownbutton postlist={posts} menurank={setRankmenu}></Dropdownbutton></div>
@@ -105,4 +105,4 @@ const Exam_sharing_list = props => {
   );
 }
 
-export default Exam_sharing_list;
+export default ExamSharingList;

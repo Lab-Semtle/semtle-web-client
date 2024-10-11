@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import './Study_create.css';
+import './StudyCreate.css';
 import { Apiurl } from '../../Apiurl/Apiurl';
 import Toasteditor from "../../components/Toasteditor/Toasteditor";
 import Navbarboot from '../../components/Header/Navbarboot';
 import Togglebutton1 from "../../components/Button/Togglebutton1";
 
 
-function Study_edit() {
+function StudyEdit() {
     const { idx } = useParams();
     const navigate = useNavigate();
     const editorRef = useRef();
@@ -20,14 +20,14 @@ function Study_edit() {
         Board_no: '',
         Create_date: '',
         Views: '',
-        Image_paths:[],
+        Image_paths: [],
     });
     const [checked, setChecked] = useState(false);
     const handleToggleChange = (e) => {
-    setChecked(e.currentTarget.checked);
-};
+        setChecked(e.currentTarget.checked);
+    };
 
-    const getBoard = async () => {
+    const getBoard = useCallback(async () => {
         //const resp = await(await axios.get(`${Apiurl.Boardedit_get}`));
         //const resp = await axios.get(`${Apiurl.Boardview_get}/${idx}`);
         try {
@@ -56,11 +56,11 @@ function Study_edit() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [idx, navigate]);
 
     useEffect(() => {
         getBoard();
-    }, [idx]);
+    }, [idx, getBoard]);
 
     const onChange = (event) => {
         const { name, value } = event.target;
@@ -72,7 +72,7 @@ function Study_edit() {
 
     const saveBoard = async () => {
         const Content = editorRef.current.getMarkdown();
-        const Title= board.Title;
+        const Title = board.Title;
 
         const updatedBoard = {
             ...board,
@@ -80,32 +80,36 @@ function Study_edit() {
             Title
         };
         const formData = editorRef.current.getFormData();
-    
+
         let hasFiles = false;
         console.log('FormData contents:');
         for (let [key, value] of formData.entries()) {
-        if (value instanceof File) {
-            hasFiles = true;
-            console.log('File detected:', value.name);
-        }
-        console.log('file value=',value instanceof File);
-        console.log(`Key: ${key}, Value:`, value);
+            if (value instanceof File) {
+                hasFiles = true;
+                console.log('File detected:', value.name);
+            }
+            console.log('file value=', value instanceof File);
+            console.log(`Key: ${key}, Value:`, value);
         }
 
         try {
-            if(checked){//기존이미지 삭제함
-                await axios.put(`${Apiurl.study_board}`,updatedBoard, {params:{study_board_no:idx, select:false}});
-                if(hasFiles){//이미지 있을때
+            if (checked) {//기존이미지 삭제함
+                await axios.put(`${Apiurl.study_board}`, updatedBoard, { params: { study_board_no: idx, select: false } });
+                if (hasFiles) {//이미지 있을때
                     await axios.put(`${Apiurl.study_board_create_upload}`, formData, {
-                    headers: {'Content-Type': 'multipart/form-data',},params:{study_board_no:idx, select:false}})}
+                        headers: { 'Content-Type': 'multipart/form-data', }, params: { study_board_no: idx, select: false }
+                    })
+                }
             }
-            else{//기존이미지삭제 안함
-                await axios.put(`${Apiurl.study_board}`,updatedBoard, {params:{study_board_no:idx, select:true}});
-                if(hasFiles){//이미지 있을때
+            else {//기존이미지삭제 안함
+                await axios.put(`${Apiurl.study_board}`, updatedBoard, { params: { study_board_no: idx, select: true } });
+                if (hasFiles) {//이미지 있을때
                     await axios.put(`${Apiurl.study_board_create_upload}`, formData, {
-                    headers: {'Content-Type': 'multipart/form-data',},params:{study_board_no:idx, select:true}})}
+                        headers: { 'Content-Type': 'multipart/form-data', }, params: { study_board_no: idx, select: true }
+                    })
+                }
             }
-            
+
             //await axios.put(`${Apiurl.Boardview_get}/${idx}`, updatedBoard);
             alert('수정되었습니다.');
             navigate(`/StudyBoardview/${idx}`);
@@ -135,10 +139,10 @@ function Study_edit() {
                 <Toasteditor currentBoard={board} ref={editorRef} />
             </div>
             <div className="view-images">
-                    {images.length > 0 && images.map((url, index) => (
-                        <img key={index} src={url} alt={`Uploaded ${index}`} className="uploaded-image" />
-                    ))}
-                </div>
+                {images.length > 0 && images.map((url, index) => (
+                    <img key={index} src={url} alt={`Uploaded ${index}`} className="uploaded-image" />
+                ))}
+            </div>
             <div className="form-button">
                 <button onClick={saveBoard}>저장</button>
                 <button onClick={backToList}>나가기</button>
@@ -147,4 +151,4 @@ function Study_edit() {
     );
 }
 
-export default Study_edit;
+export default StudyEdit;

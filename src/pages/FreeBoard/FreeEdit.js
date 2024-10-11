@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import './Free_create.css';
 import { Apiurl } from '../../Apiurl/Apiurl';
-import Toasteditor from "../../components/Toasteditor/Toasteditor";
+// import Toasteditor from "../../components/Toasteditor/Toasteditor";
 import Navbarboot from '../../components/Header/Navbarboot';
-import Toasteditor_noimage from "../../components/Toasteditor/Toasteditor_noimage";
+import ToastEditorNoImage from "../../components/Toasteditor/ToasteditorNoimage";
 
-function Free_edit() {
+function FreeEdit() {
     const { idx } = useParams();
     const navigate = useNavigate();
     const editorRef = useRef();
@@ -19,27 +19,27 @@ function Free_edit() {
         views: '',
     });
 
-    const getBoard = async () => {
+    const getBoard = useCallback(async () => {
         //const resp = await(await axios.get(`${Apiurl.Boardedit_get}`));
         //const resp = await axios.get(`${Apiurl.Boardview_get}/${idx}`);
         const token = await axios.get(Apiurl.token_get);
         const resp = await axios.get(`${Apiurl.Boardview_get}`, {
-            params:{
-            free_board_no:idx
+            params: {
+                free_board_no: idx
             },
             headers: {
                 Authorization: `Bearer ${token.data.access_token}`
             }
-            });//고정주소
-        
+        });//고정주소
+
         console.log(resp);
         setBoard(resp.data);
         console.log(board);
-    };
+    }, [idx, board]);
 
     useEffect(() => {
         getBoard();
-    }, []);
+    }, [getBoard]);
 
     const onChange = (event) => {
         const { name, value } = event.target;
@@ -51,7 +51,7 @@ function Free_edit() {
 
     const saveBoard = async () => {
         const content = editorRef.current.getMarkdown();
-        const title= board.title;
+        const title = board.title;
         const updatedBoard = {
             ...board,
             content,
@@ -60,11 +60,13 @@ function Free_edit() {
 
         try {
             const token = await axios.get(Apiurl.token_get);
-            await axios.put(`${Apiurl.Free_board}`, updatedBoard,{params:{
-                free_board_no: idx
+            await axios.put(`${Apiurl.Free_board}`, updatedBoard, {
+                params: {
+                    free_board_no: idx
 
-            },
-            headers:{Authorization: `Bearer ${token.data.access_token}`}});
+                },
+                headers: { Authorization: `Bearer ${token.data.access_token}` }
+            });
             //await axios.put(`${Apiurl.Boardview_get}/${idx}`, updatedBoard);
             alert('수정되었습니다.');
             navigate(`/Boardview/${idx}`);
@@ -88,7 +90,7 @@ function Free_edit() {
                 글번호 {board.Board_no}
             </div>
             <div className="form-group">
-                <Toasteditor_noimage currentBoard={board} value={board.content} ref={editorRef} />
+                <ToastEditorNoImage currentBoard={board} value={board.content} ref={editorRef} />
             </div>
             <div className="form-button">
                 <button onClick={saveBoard}>저장</button>
@@ -98,4 +100,4 @@ function Free_edit() {
     );
 }
 
-export default Free_edit;
+export default FreeEdit;

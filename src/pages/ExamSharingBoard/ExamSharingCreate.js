@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Exam_sharing_create.css';
+import './ExamSharingCreate.css';
 import { Apiurl } from '../../Apiurl/Apiurl';
-import Toasteditor_noimage from "../../components/Toasteditor/Toasteditor_noimage";
+import ToastEditorNoImage from "../../components/Toasteditor/ToasteditorNoimage";
 import Navbarboot from '../../components/Header/Navbarboot';
 
-function Exam_sharing_create() {
+function ExamSharingCreate() {
   const navigate = useNavigate();
   const editorRef = useRef();
 
@@ -14,12 +14,12 @@ function Exam_sharing_create() {
   const [board, setBoard] = useState({
     Title: '',
     Content: '',
-    Views:0
+    Views: 0
   });
   //const { Title, createBy } = board;
-  const { Title} = board;
+  const { Title } = board;
   const onChange = (event) => {
-    const date = new Date();
+    // const date = new Date();
     const { name, value } = event.target;
     setBoard({
       ...board,
@@ -50,13 +50,13 @@ function Exam_sharing_create() {
     const Content = editorRef.current.getMarkdown();
     const formData = new FormData(); // 새로운 FormData 객체 생성
     console.log('FormData contents:');
-    
+
     files.forEach(file => {
       formData.append('file_name', file); // 'files'라는 키로 파일 추가
     });
-   
-  // 새로운 FormData를 생성하여 파일들을 추가
-  
+
+    // 새로운 FormData를 생성하여 파일들을 추가
+
 
 
     // Update the board state with the content
@@ -67,21 +67,21 @@ function Exam_sharing_create() {
     };
     //formData.append('Title', updatedBoard.Title);  // Title을 FormData에 추가
     //formData.append('Content', updatedBoard.Content);    // Content를 FormData에 추가
-    
+
     try {
-      const response = await axios.post(`${Apiurl.exam_sharing_board}`,updatedBoard);
-      console.log('updateBoard= ',updatedBoard);
-      console.log('Exam_sharing_board_no=',response.data.exam_sharing_Board_No);
-      if(files.length > 0){
-          const sendImage = await axios.put(`${Apiurl.exam_sharing_board_create_upload}`, formData, {
+      const response = await axios.post(`${Apiurl.exam_sharing_board}`, updatedBoard);
+      console.log('updateBoard= ', updatedBoard);
+      console.log('Exam_sharing_board_no=', response.data.exam_sharing_Board_No);
+      if (files.length > 0) {
+        await axios.put(`${Apiurl.exam_sharing_board_create_upload}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
-          },params:{
-            exam_sharing_board_no:response.data.exam_sharing_Board_No
+          }, params: {
+            exam_sharing_board_no: response.data.exam_sharing_Board_No
           }
-      })
-        
-        }
+        })
+
+      }
       alert('등록되었습니다.');
       navigate('/Exam_sharingBoardlist');
     } catch (error) {
@@ -108,7 +108,7 @@ function Exam_sharing_create() {
 
   return (
     <>
-    <Navbarboot></Navbarboot>
+      <Navbarboot></Navbarboot>
       <div className="form-group">
         <input type="text" name="Title" value={Title} onChange={onChange} placeholder="제목" />
       </div>
@@ -116,7 +116,7 @@ function Exam_sharing_create() {
         <input type="text" name="createBy" value={createBy} onChange={onChange} placeholder="작성자" />
       </div> */}
       <div className="form-group">
-        <Toasteditor_noimage currentBoard={board} ref={editorRef} />
+        <ToastEditorNoImage currentBoard={board} ref={editorRef} />
       </div>
       <div className="form-group">
         <input type="file" multiple onChange={onFileChange} />
@@ -129,4 +129,4 @@ function Exam_sharing_create() {
   );
 }
 
-export default Exam_sharing_create;
+export default ExamSharingCreate;

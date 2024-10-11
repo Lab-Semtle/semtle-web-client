@@ -1,7 +1,7 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 
-function Togglebutton1({checked, onChange}) {
+function Togglebutton1({ checked, onChange }) {
   return (
     <>
       <ToggleButton
@@ -15,7 +15,7 @@ function Togglebutton1({checked, onChange}) {
       >
         {checked ? '기존 이미지 삭제함' : '기존 이미지 삭제 안함'}
       </ToggleButton>
-     
+
     </>
   );
 }

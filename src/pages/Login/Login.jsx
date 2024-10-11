@@ -1,5 +1,5 @@
 import axios from "axios";
-import react, { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; // react, 
 import style from "./Login.module.css";
 import Navbarboot from "../../components/Header/Navbarboot";
 import { Link } from "react-router-dom";
@@ -26,7 +26,7 @@ export default function Login() {
   const handlePw = (e) => {
     setPw(e.target.value);
     const regex =
-    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+      /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
 
     if (regex.test(e.target.value)) {
       setPwValid(true);
@@ -46,30 +46,28 @@ export default function Login() {
 
   const onClickConfirmButton = () => {
     const loginData = new URLSearchParams();
-        loginData.append('username', email);
-        loginData.append('password', pw);
+    loginData.append('username', email);
+    loginData.append('password', pw);
 
-        axios.post(Apiurl.login_post, loginData, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        })
-        .then(response => {
-          if(response.data.status === "error")
-            {
-              alert("존재하지 않는 사용자입니다.");
-              window.location.reload();
-            }
-            else
-            { 
-            console.log('로그인 성공:', response.data);
-            window.location.href = "/"
-            }
-        })
-        .catch(error => {
-            alert("존재하지 않는 사용자입니다.");
-            window.location.reload();
-        });
+    axios.post(Apiurl.login_post, loginData, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+      .then(response => {
+        if (response.data.status === "error") {
+          alert("존재하지 않는 사용자입니다.");
+          window.location.reload();
+        }
+        else {
+          console.log('로그인 성공:', response.data);
+          window.location.href = "/"
+        }
+      })
+      .catch(error => {
+        alert("존재하지 않는 사용자입니다.");
+        window.location.reload();
+      });
   };
 
   return (
@@ -129,9 +127,9 @@ export default function Login() {
                 <Link to="/PwFind">비밀번호 찾기</Link>
               </th>
               <th>
-              <Link to={{ pathname: "/Agree", state: { isSignup: true }}}>
-                회원가입
-              </Link>
+                <Link to={{ pathname: "/Agree", state: { isSignup: true } }}>
+                  회원가입
+                </Link>
               </th>
             </tr>
           </table>

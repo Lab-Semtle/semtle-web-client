@@ -13,15 +13,15 @@ const ToastEditor = forwardRef(({ currentBoard }, ref) => {
     const editorInstance = editorRef.current.getInstance();
     const markdown = editorInstance.getMarkdown();
     formData.append('file_name', blob);
-     //아무것도 없는 콜백 함수
-    callback('','')
-     // 에디터 내부에 삽입된 마크다운 제거
-    
-    const updatedMarkdown = markdown.replace(/!\[\]\([^\)]*\)/g, ''); // 빈 이미지 마크다운 제거
+    //아무것도 없는 콜백 함수
+    callback('', '')
+    // 에디터 내부에 삽입된 마크다운 제거
+
+    const updatedMarkdown = markdown.replace(/!\[\]\([^)]*\)/g, ''); // 빈 이미지 마크다운 제거
     editorInstance.setMarkdown(updatedMarkdown);
   };
 
-  
+
   useImperativeHandle(ref, () => ({
     getMarkdown() {
       return editorRef.current.getInstance().getMarkdown();

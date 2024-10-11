@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './Comment.css';
 import { useParams } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { Apiurl } from '../../Apiurl/Apiurl';
 
 import PaginationBasic from '../Header/PaginationBasic';
 
-function Comment({index, url, boardname, boardname_comment_no}) {
+function Comment({ index, url, boardname, boardname_comment_no }) {
   const [currentPage, setCurrentPage] = useState(0);
 
   const [comment, setComment] = useState('');
@@ -16,7 +16,7 @@ function Comment({index, url, boardname, boardname_comment_no}) {
 
   const { idx } = useParams();
 
-  const fetchComments = async (currentPage) => {
+  const fetchComments = useCallback(async (currentPage) => {
     try {
       const response = await axios.get(`${Apiurl.Board_Comment_get}`, {
         params: {
@@ -24,17 +24,17 @@ function Comment({index, url, boardname, boardname_comment_no}) {
           page: currentPage,
         },
       });
-      
+
       setComments(Array.isArray(response.data.Board_info) ? response.data.Board_info : []);
       console.log(comments);
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
-  };
+  }, [comments, boardname, idx]);
 
   useEffect(() => {
     fetchComments(currentPage);
-  }, [currentPage]);
+  }, [currentPage, fetchComments]);
 
   const handleInputChange = (e) => {
     setComment(e.target.value);
@@ -77,13 +77,13 @@ function Comment({index, url, boardname, boardname_comment_no}) {
   const handleSaveEdit = async (coidx) => {
     try {
       const currentTime = new Date().toISOString(); // 현재 시간
-      await axios.put(`${Apiurl.Board_Comment}`, 
+      await axios.put(`${Apiurl.Board_Comment}`,
         { content: editingCommentContent, update_date: currentTime },
         { params: { [boardname]: idx, [boardname_comment_no]: coidx } }
       );
       setComments(comments.map(comment =>
-        comment.comment_no === coidx 
-          ? { ...comment, content: editingCommentContent, create_date: currentTime } 
+        comment.comment_no === coidx
+          ? { ...comment, content: editingCommentContent, create_date: currentTime }
           : comment
       ));
       setEditingCommentId(null); // 수정 모드 종료
@@ -96,7 +96,7 @@ function Comment({index, url, boardname, boardname_comment_no}) {
   const handleSubmit = async () => {
     if (comment.trim()) {
       try {
-        const response = await axios.post(`${Apiurl.Board_Comment}`, 
+        const response = await axios.post(`${Apiurl.Board_Comment}`,
           { content: comment },
           { params: { [boardname]: idx } }
         );

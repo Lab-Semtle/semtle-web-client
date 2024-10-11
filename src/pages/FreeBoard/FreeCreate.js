@@ -3,22 +3,22 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Free_create.css';
 import { Apiurl } from '../../Apiurl/Apiurl';
-import Toasteditor from "../../components/Toasteditor/Toasteditor";
+// import Toasteditor from "../../components/Toasteditor/Toasteditor";
 import Navbarboot from '../../components/Header/Navbarboot';
-import Toasteditor_noimage from "../../components/Toasteditor/Toasteditor_noimage";
+import ToastEditorNoImage from "../../components/Toasteditor/ToasteditorNoimage";
 
-function Free_create() {
+function FreeCreate() {
   const navigate = useNavigate();
   const editorRef = useRef();
   const [board, setBoard] = useState({
     title: '',
     content: '',
-    views:0
+    views: 0
   });
   //const { Title, createBy } = board;
-  const { Title} = board;
+  const { Title } = board;
   const onChange = (event) => {
-    const date = new Date();
+    // const date = new Date();
     const { name, value } = event.target;
     setBoard({
       ...board,
@@ -38,19 +38,20 @@ function Free_create() {
       content
     };
 
-    
+
     try {
       const token = await axios.get(Apiurl.token_get);
-      const response = await axios.post(`${Apiurl.Boardcreate_post}`, updatedBoard,
-                      {
-                        headers:{Authorization: `Bearer ${token.data.access_token}`},
-                        'Content-Type': 'application/json'
-});
+      // const response =
+      await axios.post(`${Apiurl.Boardcreate_post}`, updatedBoard,
+        {
+          headers: { Authorization: `Bearer ${token.data.access_token}` },
+          'Content-Type': 'application/json'
+        });
       alert('등록되었습니다.');
       navigate('/Boardlist');
     } catch (error) {
-       // 오류 페이지로 이동
-       navigate('/error');
+      // 오류 페이지로 이동
+      navigate('/error');
       console.log("error log = ", error.config);
       console.log(updatedBoard);
       alert('등록에 실패했습니다.');
@@ -63,7 +64,7 @@ function Free_create() {
 
   return (
     <>
-    <Navbarboot></Navbarboot>
+      <Navbarboot></Navbarboot>
       <div className="form-group">
         <input type="text" name="title" value={Title} onChange={onChange} placeholder="제목" />
       </div>
@@ -71,7 +72,7 @@ function Free_create() {
         <input type="text" name="createBy" value={createBy} onChange={onChange} placeholder="작성자" />
       </div> */}
       <div className="form-group">
-        <Toasteditor_noimage currentBoard={board} ref={editorRef} />
+        <ToastEditorNoImage currentBoard={board} ref={editorRef} />
       </div>
       <div className="form-button">
         <button onClick={saveBoard}>저장</button>
@@ -81,4 +82,4 @@ function Free_create() {
   );
 }
 
-export default Free_create;
+export default FreeCreate;
