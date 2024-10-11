@@ -17,16 +17,18 @@ function Study_view(props) {
 
     const getBoard = async () => {
         try {
+            const token = await axios.get(Apiurl.token_get);
             const resp = await axios.get(`${Apiurl.study_board_get}`, {
                 params: {
                     study_board_no: idx
-                }
+                },
+                headers: { Authorization: `Bearer ${token.data.access_token}` }
             });
             setBoard(resp.data);
 
             // 이미지 URL 가져오기
             const imageUrls = [];
-            for (let fileName of resp.data.Image_paths) {
+            for (let fileName of resp.data.image_paths) {
                 const response = await axios.get(`${Apiurl.study_board_images}`, {
                     params: { file_name: fileName },
                     responseType: 'blob' // 서버에서 이미지 데이터로 응답받기 위해 설정
@@ -79,23 +81,23 @@ function Study_view(props) {
             <Navbarboot />
             <div className="board-view">
                 <div className="view-title">
-                    <h2>{board.Title}</h2>
+                    <h2>{board.title}</h2>
                 </div>
                 <div className="view-menu">
-                    <span>{board.Board_no}</span>
-                    <span>{board.Create_date}</span>
+                    <span>{board.board_no}</span>
+                    <span>{board.create_date}</span>
                     <button onClick={handleEdit}>수정</button>
                     <button onClick={handleDelete}>삭제</button>
                 </div>
                 <div className="view-content">
-                    {board.Content && <Viewer initialValue={board.Content} />}
+                    {board.content && <Viewer initialValue={board.content} />}
                 </div>
                 <div className="view-images">
                     {images.length > 0 && images.map((url, index) => (
                         <img key={index} src={url} alt={`Uploaded ${index}`} className="uploaded-image" />
                     ))}
                 </div>
-                <Comment index={idx} url={Apiurl.study_board_comment} boardname={'study_board_no'} boardname_comment_no={'study_board_comment_no'}/>
+                <Comment index={idx} url={Apiurl.study_board_comment} boardname={'study_board_no'} boardname_comment_no={'study_board_comment_no'} />
             </div>
             <div>댓글 보여주는 부분</div>
         </>

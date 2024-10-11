@@ -56,15 +56,17 @@ const Study_list = props => {
   const [rankmenu, setRankmenu] = useState(1);
 
   const getBoardList = async (currentPage, postsPerPage) => {
-    try{
+    try {
+      const token = await axios.get(Apiurl.token_get);
       const resp = await axios.get(`${Apiurl.study_board_get_list}`, {
-            params: {
-              page: currentPage
-            }
-          });
-          setBoardList(resp);
-          setPosts(resp.data.Board_info);
-    }catch(error){
+        params: {
+          page: currentPage
+        },
+        headers: { Authorization: `Bearer ${token.data.access_token}` }
+      });
+      setBoardList(resp);
+      setPosts(resp.data.Board_info);
+    } catch (error) {
       navigate('/error');
     }
   }
@@ -76,8 +78,8 @@ const Study_list = props => {
   return (
     <>
       <Navbarboot></Navbarboot>
-      
-      <div className='flex-body'> 
+
+      <div className='flex-body'>
         <div className='header-container'>
           <span className="study-title">스터디게시판</span>
           <div className='Dropbutton'><Dropdownbutton postlist={posts} menurank={setRankmenu}></Dropdownbutton></div>
@@ -88,10 +90,10 @@ const Study_list = props => {
               posts ? posts.map((item, index) => {
                 return (
                   <CommonTableRow key={index} >
-                    <CommonTableColumn><Link to={`/StudyBoardview/${item.Board_no}`}>{item.Title}</Link></CommonTableColumn>
-                    <CommonTableColumn><Link to={`/StudyBoardview/${item.Board_no}`}>{item.Content}</Link></CommonTableColumn>
-                    <CommonTableColumn><Link to={`/StudyBoardview/${item.Board_no}`}>{item.Create_date}</Link></CommonTableColumn>
-                    <CommonTableColumn><Link to={`/StudyBoardview/${item.Board_no}`}>{item.Views}</Link></CommonTableColumn>
+                    <CommonTableColumn><Link to={`/StudyBoardview/${item.Board_no}`}>{item.title}</Link></CommonTableColumn>
+                    <CommonTableColumn><Link to={`/StudyBoardview/${item.Board_no}`}>{item.content}</Link></CommonTableColumn>
+                    <CommonTableColumn><Link to={`/StudyBoardview/${item.Board_no}`}>{item.create_date}</Link></CommonTableColumn>
+                    <CommonTableColumn><Link to={`/StudyBoardview/${item.Board_no}`}>{item.views}</Link></CommonTableColumn>
                   </CommonTableRow>
                 )
               }) : ''

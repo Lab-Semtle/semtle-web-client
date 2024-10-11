@@ -18,12 +18,12 @@ function Free_view(props) {
         const token = await axios.get(Apiurl.token_get);
         console.log(idx);
         const resp = await axios.get(`${Apiurl.Boardview_get}`, {
-            params:{
-            free_board_no:idx
+            params: {
+                free_board_no: idx
             },
-            headers:{Authorization: `Bearer ${token.data.access_token}`}
-            
-    });//고정주소
+            headers: { Authorization: `Bearer ${token.data.access_token}` }
+
+        });//고정주소
         //const resp = await (await axios.get(`${Apiurl.Boardview_get}/${idx}`)).data; 주소 달라짐
         setBoard(resp.data);
         setLoading(false);
@@ -45,9 +45,10 @@ function Free_view(props) {
             try {
                 const token = await axios.get(Apiurl.token_get);
                 await axios.delete(`${Apiurl.Free_board}`, {
-                    params:{
-                    free_board_no: idx},
-                    headers:{Authorization: `Bearer ${token.data.access_token}`}
+                    params: {
+                        free_board_no: idx
+                    },
+                    headers: { Authorization: `Bearer ${token.data.access_token}` }
                 });
                 alert('삭제되었습니다.');
                 navigate('/Boardlist');
@@ -81,10 +82,10 @@ function Free_view(props) {
                 <div className="view-content">
                     {board.content && <Viewer initialValue={board.content} />}
                 </div>
-                <Comment index={idx} url={Apiurl.board_Comment} boardname={'free_board_no'} boardname_comment_no={'free_board_comment_no'}/>
+                <Comment index={idx} url={Apiurl.board_Comment} boardname={'free_board_no'} boardname_comment_no={'free_board_comment_no'} />
             </div>
             <div>댓글 보여주는 부분</div>
-            
+
         </>
     );
 }
