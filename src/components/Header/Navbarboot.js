@@ -79,11 +79,13 @@ function Navbarboot() {
             <Nav.Link as={Link} to="/Boardlist">게시판</Nav.Link>
             <Nav.Link href="#pricing">교수님</Nav.Link>
             <NavDropdown title="더보기" id="collapsible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">항목1</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">항목2</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">항목3</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">항목4</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="/StudyBoardlist" >스터디게시판</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/Exam_sharingBoardlist">족보게시판</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">00게시판</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action/3.4">
+                  우리의 여정
+                </NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Nav>
