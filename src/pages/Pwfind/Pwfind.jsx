@@ -95,7 +95,7 @@ export default function IdFInd() {
               type="text"
               className={style.input}
               placeholder="01012345678"
-              maxLength={11}
+              maxLength={13}
               onKeyDown={(e) => {
                 if (e.key === " ") e.preventDefault();
               }}
@@ -104,7 +104,7 @@ export default function IdFInd() {
             />
           </div>
           <div className={style.errorMessageWrap}>
-            {!phNumberValid && phNumber.length > 10 && (
+            {!phNumberValid && phNumber.length > 13 && (
               <div>휴대폰 번호 양식에 맞게 입력해주세요.</div>
             )}
           </div>

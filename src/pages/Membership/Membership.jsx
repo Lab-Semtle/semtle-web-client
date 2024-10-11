@@ -10,7 +10,7 @@ export default function Membership() {
 
   const [name, setName] = useState("");
   const [nameValid, setNameValid] = useState(false);
-  const [id, setId] = useState("");
+  const [nickname, setId] = useState("");
   const [phNumber, setphNumber] = useState("");
   const [pw, setPw] = useState("");
   const [pw2, setPw2] = useState("");
@@ -118,7 +118,7 @@ export default function Membership() {
     setphNumber(e.target.value);
 
     //정규식 요구 조건, 휴대폰 번호의 형식을 입력 받는다.
-    const regex = /^010\d{7}$/;
+    const regex = /^010\d{8}$/;
 
     if (regex.test(e.target.value)) {
       setphNumberValid(true);
@@ -139,7 +139,7 @@ export default function Membership() {
     if (pw === pw2) {
       axios
         .post(Apiurl.signup_post + userInputCode, {
-          "user_id": id,
+          "user_nickname": nickname,
           "user_password": pw,
           "user_name": name,
           "user_email": email,
@@ -225,13 +225,13 @@ export default function Membership() {
               onKeyDown={(e) => {
                 if (e.key === " ") e.preventDefault();
               }}
-              value={id}
+              value={nickname}
               onChange={handleId}
             />
           </div>
           <div className={style.errorMessageWrap}>
-            {!idValid && id.length > 6 && (
-              <div>영어와 숫자를 포함하여 6글자 이상으로 작성해 주세요. </div>
+            {!idValid && nickname.length > 6 && (
+              <div>영어와 숫자를 포함하여 6글자 이상으로 작성해 주세요. </div> // 이건 닉네임임 이메일이 아이디임 따라서, 제한조건 없애야함.
             )}
           </div>
           <div className={style.inputTitle}>비밀번호</div>
@@ -273,7 +273,7 @@ export default function Membership() {
               type="text"
               className={style.input}
               placeholder="01012345678"
-              maxLength={11}
+              maxLength={13}
               onKeyDown={(e) => {
                 if (e.key === " ") e.preventDefault();
               }}
@@ -282,7 +282,7 @@ export default function Membership() {
             />
           </div>
           <div className={style.errorMessageWrap}>
-            {!phNumberValid && phNumber.length > 10 && (
+            {!phNumberValid && (
               <div>휴대폰 번호 양식에 맞게 입력해주세요.</div>
             )}
           </div>
