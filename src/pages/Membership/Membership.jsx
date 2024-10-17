@@ -1,13 +1,11 @@
 import axios from "axios";
-import react, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./Membership.module.css";
 import Navbarboot from "../../components/Header/Navbarboot";
 import { Apiurl } from '../../Apiurl/Apiurl';
 
-
 export default function Membership() {
   const [email, setEmail] = useState("");
-
   const [name, setName] = useState("");
   const [nameValid, setNameValid] = useState(false);
   const [id, setId] = useState("");
@@ -19,287 +17,214 @@ export default function Membership() {
   const [pwValid2, setPwValid2] = useState(false);
   const [idValid, setIdValid] = useState(false);
   const [phNumberValid, setphNumberValid] = useState(false);
-
   const [notAllow, setNotAllow] = useState(true);
-
   const [verificationCode, setVerificationCode] = useState();
   const [userInputCode, setUserInputCode] = useState("");
   const [isEmailVerified, setIsEmailVerified] = useState(false);
+  
+  const [sendCodeCooldown, setSendCodeCooldown] = useState(false); // 타이머 활성화 상태
+  const [timer, setTimer] = useState(60); // 60초 타이머
 
-  //코드 보내기
+  // 인증 코드 전송 함수
   const sendVerificationCode = async () => {
-    if (emailValid) {
+    if (emailValid && !sendCodeCooldown) {
+      const encodedEmail = email.replace(/@/g, "%40");
+      const response = await axios.get(Apiurl.send_get + encodedEmail);
+      alert("인증 코드가 이메일로 전송되었습니다.");
 
-        //이메일의 제출 폼과 데이터 입력 상 제출받는 폼이 좀 다름, ex)bagsangbin@gmail.com >> bagsangbin%40gmail.com 이렇게 변환해야 함.
-        const encodedEmail = email.replace(/@/g, "%40");
-        const response = await axios.get(Apiurl.send_get+encodedEmail, {
-        });
-        alert("인증 코드가 이메일로 전송되었습니다.");
-
-      }
+      setVerificationCode(response.data.code); // 예시로 코드 저장
+      setSendCodeCooldown(true); // 버튼 비활성화
+      setTimer(60); // 60초로 타이머 설정
     }
+  };
 
-  //코드 비교 검증
+  // 타이머 동작
+  useEffect(() => {
+    let countdown;
+    if (sendCodeCooldown && timer > 0) {
+      verifyCode();
+      countdown = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    } else if (timer <= 0) {
+      setSendCodeCooldown(false); // 60초 후 버튼 활성화
+      setTimer(60); // 타이머 초기화
+    }
+    return () => clearInterval(countdown); // 타이머 정리
+  }, );
+
+  // 코드 검증
   const verifyCode = () => {
-    console.log(verificationCode);
     if (userInputCode === verificationCode) {
       setIsEmailVerified(true);
     }
   };
 
-
-  //이름 유효성 검사
-  const handleName = (e) =>{
+  // 이름 유효성 검사
+  const handleName = (e) => {
     setName(e.target.value);
     const regex = /^[가-힣]{2,}$/;
-    if(regex.test(name)){
-      setNameValid(true);
-    }
-    else{
-      setNameValid(false);
-    }
+    setNameValid(regex.test(e.target.value));
   }
-  //이메일 유효성 검사
+
+  // 이메일 유효성 검사
   const handleEmail = (e) => {
     setEmail(e.target.value);
     const regex =
       /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-
-    if (regex.test(e.target.value)) {
-      setEmailValid(true);
-    } else {
-      setEmailValid(false);
-    }
+    setEmailValid(regex.test(e.target.value));
   };
-  //패스워드 유효성 검사
+
+  // 패스워드 유효성 검사
   const handlePw = (e) => {
     setPw(e.target.value);
     const regex =
-    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
-
-
-    if (regex.test(e.target.value)) {
-      setPwValid(true);
-    } else {
-      setPwValid(false);
-    }
+      /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\$begin:math:text$\\$end:math:text$\-_=+])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+    setPwValid(regex.test(e.target.value));
   };
-//재차 비밀번호 유효성 검사
-const handlePw2 = (e) => {
+
+  // 비밀번호 확인 유효성 검사
+  const handlePw2 = (e) => {
     setPw2(e.target.value);
-    const regex =
-    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
-
-    if (regex.test(e.target.value)) {
-      setPwValid2(true);
-    } else {
-      setPwValid2(false);
-    }
+    setPwValid2(e.target.value === pw);
   };
-  //이메일로 보낸 인증코드 검사
-  const handleCode = (e) =>{
-    setUserInputCode(e.target.value);
-    verifyCode();
-  }
 
-  //아이디 유효성 검사.
+  // 아이디 유효성 검사
   const handleId = (e) => {
     setId(e.target.value);
-
-    //정규식 요구 조건, 영어와 숫자만을 입력 받는다.
     const regex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]+$/;
-
-    if (regex.test(e.target.value)) {
-      setIdValid(true);
-    } else {
-      setIdValid(false);
-    }
+    setIdValid(regex.test(e.target.value));
   };
-  //전화번호 유효성 검사
+
+  // 전화번호 유효성 검사
   const handlePhNumber = (e) => {
     setphNumber(e.target.value);
-
-    //정규식 요구 조건, 휴대폰 번호의 형식을 입력 받는다.
-    const regex = /^010\d{7}$/;
-
-    if (regex.test(e.target.value)) {
-      setphNumberValid(true);
-    } else {
-      setphNumberValid(false);
-    }
+    const regex = /^010\d{8}$/;
+    setphNumberValid(regex.test(e.target.value));
   };
 
   useEffect(() => {
-    if (emailValid && pwValid && pwValid2 && idValid & phNumberValid & nameValid) {
-      setNotAllow(false);
-      return;
-    }
-    setNotAllow(true);
-  });
-  //회원가입 폼 제출
+    setNotAllow(!(emailValid && pwValid && pwValid2 && idValid && phNumberValid && nameValid));
+  }, [emailValid, pwValid, pwValid2, idValid, phNumberValid, nameValid]);
+
+  // 회원가입 폼 제출
   const onClickConfirmButton = () => {
     if (pw === pw2) {
       axios
-        .post(Apiurl.signup_post+userInputCode, {
-          "user_id": id,
+        .post(Apiurl.signup_post + userInputCode, {
+          "user_nickname": id,
           "user_password": pw,
           "user_name": name,
           "user_email": email,
-          //휴대전화 입력받는 형식은 01012345678이고 제출해야 하는 폼은 010-1234-5678이렇게 되어야 함. 
-          "user_phone": phNumber.slice(0,3)+'-'+phNumber.slice(3,7)+'-'+phNumber.slice(7,11), 
+          "user_phone": phNumber.slice(0, 3) + '-' + phNumber.slice(3, 7) + '-' + phNumber.slice(7, 11),
           "user_birth": 0,
+          "create_date": "2024-10-16T23:38:02"
         })
         .then(response => {
           console.log('회원가입 성공:', response.data);
-      })
-      .catch(error => {
+          window.location.href = "/";
+        })
+        .catch(error => {
           console.error('회원가입 실패:', error.response ? error.response.data : error.message);
-      });
-    } else return;
+          alert("알 수 없는 에러가 발생하였습니다.");
+          window.location.href = "/Membership";
+        });
+    }
   };
 
-  return (
-    <>
-      <Navbarboot></Navbarboot>
-      <div className={style.page}>
-        <div className={style.titleWrap}>회원가입</div>
-        <div className={style.agreeIntroduce}>
-  계속함으로써 <a className={style.a}href="/Agree">개인정보 처리방침</a>에 동의한 것으로 간주합니다.
-</div>
-        <div className={style.contentWrap}>
-          <div className={style.inputTitle}>이름</div>
-          <div className={style.inputWrap}>
-          <input
-              type="text"
-              className={style.input}
-              placeholder="아무개"
-              onKeyDown={(e) => {
-                if (e.key === " ") e.preventDefault();
-              }}
+    return (
+      <>
+        <Navbarboot />
+        <div className={style.page}>
+          <div className={style.titleWrap}>회원가입</div>
+          <div className={style.agreeIntroduce}>
+            계속함으로써 <a className={style.a} href="/Agree">개인정보 처리방침</a>에 동의한 것으로 간주합니다.
+          </div>
+          <div className={style.contentWrap}>
+            <InputField
+              title="이름"
+              placeholder="홍길동"
               value={name}
               onChange={handleName}
+              isValid={nameValid}
+              errorText="올바른 이름을 입력해주세요."
             />
-          </div>
-          <div className={style.errorMessageWrap}>
-            {!nameValid && name.length > 5 && (
-              <div>올바른 이름을 입력해주세요.</div>
-            )}
-          </div>
-          <div className={style.inputTitle}>이메일</div>
-          <div className={style.inputWrap}>
-            <input
-              type="text"
-              className={style.input}
-              placeholder="test@gmail.com"
-              onKeyDown={(e) => {
-                if (e.key === " ") e.preventDefault();
-              }}
+            <InputField
+              title="이메일"
+              placeholder="example@gmail.com"
               value={email}
               onChange={handleEmail}
+              isValid={emailValid}
+              errorText="올바른 이메일을 입력해주세요."
+              extraButton={
+                <button onClick={sendVerificationCode} disabled={!emailValid || sendCodeCooldown || isEmailVerified}>
+                  {sendCodeCooldown ? `${timer}초 후 재전송 가능` : "인증코드 전송"}
+                </button>
+              }
             />
-          </div>
-          <button onClick={sendVerificationCode} disabled={!emailValid || isEmailVerified}>
-             인증코드 전송
-            </button>
-          <div className={style.errorMessageWrap}>
-            {!emailValid && email.length > 5 && (
-              <div>올바른 이메일을 입력해주세요.</div>
-            )}
-          </div>
-          <div classname={style.inputTitle}>인증번호 입력</div>
-          <div className={style.inputWrap}>
-            <input
-              type="text"
-              className={style.input}
-              placeholder="asdf1234"
-              onKeyDown={(e) => {
-                if (e.key === " ") e.preventDefault();
-              }}
+            <InputField
+              title="인증번호 입력"
+              placeholder="인증번호를 입력하세요"
               value={userInputCode}
-              onChange={handleCode}
+              onChange={(e) => setUserInputCode(e.target.value)}
             />
-          </div>
-          <div classname={style.inputTitle}>아이디</div>
-          <div className={style.inputWrap}>
-            <input
-              type="text"
-              className={style.input}
-              placeholder="asdf1234"
-              onKeyDown={(e) => {
-                if (e.key === " ") e.preventDefault();
-              }}
+            <InputField
+              title="닉네임"
+              placeholder="닉네임"
               value={id}
               onChange={handleId}
+              isValid={idValid}
+              errorText="영어와 숫자를 포함하여 6글자 이상으로 작성해 주세요."
             />
-          </div>
-          <div className={style.errorMessageWrap}>
-            {!idValid && id.length > 6 && (
-              <div>영어와 숫자를 포함하여 6글자 이상으로 작성해 주세요. </div>
-            )}
-          </div>
-          <div className={style.inputTitle}>비밀번호</div>
-          <div className={style.inputWrap}>
-            <input
+            <InputField
+              title="비밀번호"
+              placeholder="비밀번호"
               type="password"
-              onKeyDown={(e) => {
-                if (e.key === " ") e.preventDefault();
-              }}
-              className={style.input}
-              placeholder="********"
               value={pw}
               onChange={handlePw}
+              isValid={pwValid}
+              errorText="영어와 숫자, 특수문자를 포함하여 8글자 이상으로 작성해 주세요."
             />
-          </div>
-          <div className={style.errorMessageWrap}>
-            {!pwValid && pw.length > 0 && (
-              <div>
-                영어와 숫자, 특수문자를 포함하여 8글자 이상으로 작성해 주세요.{" "}
-              </div>
-            )}
-          </div>
-          <div className={style.inputTitle}>비밀번호 확인</div>
-          <div className={style.inputWrap}>
-            <input
+            <InputField
+              title="비밀번호 확인"
+              placeholder="비밀번호 확인"
               type="password"
-              className={style.input}
-              placeholder="********"
-              onKeyDown={(e) => {
-                if (e.key === " ") e.preventDefault();
-              }}
               value={pw2}
               onChange={handlePw2}
+              isValid={pwValid2}
             />
-          </div>
-          <div classname={style.inputTitle}>전화번호</div>
-          <div className={style.inputWrap}>
-            <input
-              type="text"
-              className={style.input}
+            <InputField
+              title="전화번호"
               placeholder="01012345678"
-              maxLength={11}
-              onKeyDown={(e) => {
-                if (e.key === " ") e.preventDefault();
-              }}
               value={phNumber}
               onChange={handlePhNumber}
+              isValid={phNumberValid}
+              errorText="휴대폰 번호 양식에 맞게 입력해주세요."
             />
-          </div>
-          <div className={style.errorMessageWrap}>
-            {!phNumberValid && phNumber.length > 10 && (
-              <div>휴대폰 번호 양식에 맞게 입력해주세요.</div>
-            )}
-          </div>
-          <div>
-            <button
-              onClick={onClickConfirmButton}
-              className={style.bottomButton}
-              disabled={notAllow}
-            >
+            <button onClick={onClickConfirmButton} className={style.bottomButton} disabled={notAllow}>
               확인
             </button>
           </div>
         </div>
+      </>
+    );
+  }
+  
+  function InputField({ title, placeholder, value, onChange, isValid = true, errorText = "", extraButton = null, type = "text" }) {
+    return (
+      <div className={style.inputContainer}>
+        <label className={style.inputTitle}>{title}</label>
+        <div className={style.inputWrap}>
+          <input
+            type={type}
+            className={style.input}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+          />
+          {extraButton}
+        </div>
+        {!isValid && <div className={style.errorMessageWrap}>{errorText}</div>}
       </div>
-    </>
-  );
-}
+    );
+  }
