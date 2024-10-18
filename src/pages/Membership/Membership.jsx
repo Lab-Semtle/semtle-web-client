@@ -118,10 +118,10 @@ export default function Membership() {
           "user_email": email,
           "user_phone": phNumber.slice(0, 3) + '-' + phNumber.slice(3, 7) + '-' + phNumber.slice(7, 11),
           "user_birth": 0,
-          "create_date": "2024-10-16T23:38:02"
         })
         .then(response => {
           console.log('회원가입 성공:', response.data);
+          alert(name+"님 반갑습니다!");
           window.location.href = "/";
         })
         .catch(error => {
