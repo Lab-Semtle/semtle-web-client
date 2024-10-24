@@ -3,6 +3,7 @@
   padding: 20px;
   max-width: 600px;
   margin: 10rem;
+  color: #262626; /* 기본 글꼴 색상 */
 }
 
 h1 {
@@ -23,6 +24,8 @@ h1 {
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  color: #262626; /* 텍스트 필드 글꼴 색상 */
+  background-color: #ffffff; /* 텍스트 필드 배경색 */
 }
 
 .comment-box button {
@@ -51,4 +54,5 @@ h1 {
   border: 1px solid #e1e1e1;
   border-radius: 4px;
   margin-bottom: 10px;
+  color: #262626; /* 댓글 글꼴 색상 */
 }

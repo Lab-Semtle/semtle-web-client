@@ -7,6 +7,8 @@
     outline:none;
     border:1px solid #ccc;
     border-radius: 10px;
+    color: #262626; /* 입력 필드 글꼴 색상 */
+    background-color: #ffffff; /* 입력 필드 배경색 */
 }
 .form-group textarea{
     height: 300px;
@@ -14,10 +16,13 @@
     resize:none;
     border: 1px solid #ccc;
     border-radius: 10px;
+    color: #262626; /* 텍스트 필드 글꼴 색상 */
+    background-color: #ffffff; /* 텍스트 필드 배경색 */
 }
 .form-button button{
     margin-left:1rem;
     background-color: rgb(186, 216, 250);
     border:none;
     border-radius: 10px;
+    color: #262626; /* 버튼 글꼴 색상 */
 }

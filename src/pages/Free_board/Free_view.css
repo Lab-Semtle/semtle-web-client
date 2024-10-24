@@ -3,6 +3,7 @@
     font-weight: bold;
     text-align: center;
     margin-top: 5%;
+    color: #262626; /* 제목 글꼴 색상 */
 }
 .board-view{
     justify-content: center;
@@ -11,12 +12,15 @@
     margin-top: 1rem;
     justify-content: center;
     text-align: center;
+    color: #262626; /* 메뉴 글꼴 색상 */
 }
 .view-menu span{
     margin-right:1rem;
+    color: #262626; /* 메뉴 스팬 글꼴 색상 */
 }
 .view-content{
     margin-left: 10rem;
     margin-right: 10rem;
     margin-top: 2rem;
+    color: #262626; /* 내용 글꼴 색상 */
 }

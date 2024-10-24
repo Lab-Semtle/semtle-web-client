@@ -3,6 +3,7 @@
   margin: 0 auto;
   text-align: center;
   border-spacing: 0;
+  color: #262626; /* 테이블 글꼴 색상 */
 }
 
 .boardlist-table {
@@ -15,8 +16,7 @@
   font-size: 16px;
   padding: 10px 5px;
   font-weight: bold;
-  
-
+  color: #262626; /* 테이블 헤더 글꼴 색상 */
 }
 
 
@@ -45,12 +45,14 @@ a {
 .flex-body{
   display:flex;
   flex-direction: column;
+  color: #262626; /* flex-body 내 글꼴 색상 */
 }
 .pagination-basic {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  color: #262626; /* 페이지네이션 글꼴 색상 */
 }
 .boardcreate-button{
   width: 80%;
@@ -68,6 +70,7 @@ a {
   border-radius: 10px;
   width: 90%;
   height: 2rem;
+  color: #262626; /* 버튼 내 텍스트 색상 */
 }
 .Dropbutton{
   margin-left: 80%;
@@ -80,4 +83,5 @@ a {
   font-size: 24px;
   font-weight: bold;
   margin: 0;
+  color: #262626; /* 제목 글꼴 색상 */
 }
