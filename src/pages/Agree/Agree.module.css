@@ -1,116 +1,154 @@
+/* 전체 페이지 */
 .page {
-    position: absolute;
-    top: 100px;
-    bottom: 0px;
-    width: 100%;
-    max-width: 500px;
-    padding: 0 0;
-  
-    left: 50%;
-    transform: translate(-50%, 0);
-  
-    background-color: #f0f0f0;
-  
-    overflow: auto;
-  
-    display: flex;
-    flex-direction: column;
-  }
+  position: absolute;
+  top: 80px;
+  bottom: 0;
+  width: 100%;
+  max-width: 480px;
+  padding: 0 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fafafa;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
 
-  .agreement{
-    font-size: 13px;
-    padding-left: 5px;
-    padding-right: 5px;
-    color: black;
-  }
-  
-  .titleWrap {
-    margin-top: 40px;
-    font-size: 26px;
-    font-weight: 700;
-    color: #262626;
-    padding-left: 40px;
-  }
-  
-  .contentWrap {
-    margin-top: 26px;
-    flex: 1;
-  }
-  
-  .inputTitle {
-    font-size: 12px;
-    font-weight: 600;
-    color: #262626;
-  }
-  
-  .inputWrap {
-    display: flex;
-    border-radius: 8px;
-    padding: 16px;
-    margin-top: 8px;
-    background-color: white;
-    border: 1px solid #e2e0e0;
-  }
-  
-  .inputWrap:focus-within {
-    border: purple;
-  }
-  
-  .input {
-    width: 100%;
-    outline: none;
-    border: none;
-    height: 17px;
-    font-size: 14px;
-    font-weight: 400;
-  }
-  
-  .input::placeholder {
-    color: #dadada;
-  }
-  
-  .errorMessageWrap {
-    margin-top: 8px;
-    color: red;
-    font-size: 12px;
-  }
-  
-  .bottomButton {
-    width: 90%;
-    height: 48px;
-    border: none;
-    font-weight: 700;
-    background-color: #9e30f4;
-    border-radius: 64px;
-    color: white;
-    position: relative;
-    left: 25px;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
-  
-  .bottomButton:disabled {
-    background-color: #dadada;
-    color: white;
-  }
-  
-  .memberWrap {
-    margin: 0 auto;
-    padding: 0 0 40px;
-  }
-  
-  .memberWrap th {
-    padding: 0 10px;
-  }
-  
-  .memberWrap th a {
-    text-decoration: none;
-    color: black;
-  }
-  
-  .agreebox {
-    margin-top: 10px auto;
-    margin-bottom: 10px;
-   position: relative;
-   text-align: center;
-  }
+/* 제목 */
+.titleWrap {
+  margin-top: 32px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  padding-left: 20px;
+}
+
+/* 본문 내용 */
+.contentWrap {
+  margin-top: 20px;
+  flex: 1;
+  color: #555;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+/* 개인정보 동의 텍스트 */
+.agreement {
+  font-size: 14px;
+  padding: 10px 20px;
+  color: #666;
+  line-height: 1.5;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.agreeContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+/* 입력 항목 */
+.inputTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.inputWrap {
+  display: flex;
+  border-radius: 6px;
+  padding: 14px;
+  margin-top: 8px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  transition: border-color 0.3s;
+}
+
+.inputWrap:focus-within {
+  border-color: #9e30f4;
+}
+
+.input {
+  width: 100%;
+  outline: none;
+  border: none;
+  font-size: 14px;
+  color: #333;
+}
+
+.input::placeholder {
+  color: #bbb;
+}
+
+/* 오류 메시지 */
+.errorMessageWrap {
+  margin-top: 8px;
+  color: #e74c3c;
+  font-size: 12px;
+}
+
+/* 체크박스와 라벨 스타일 */
+.agreebox {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.agreebox input {
+  margin-right: 8px;
+}
+
+.agreebox label {
+  font-size: 10px;
+  color: #666;
+}
+
+
+/* 버튼 */
+.bottomButton {
+  width: 100%;
+  max-width: 440px;
+  height: 48px;
+  border: none;
+  font-weight: bold;
+  font-size: 15px;
+  background-color: #9e30f4;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  margin: 20px auto 40px;
+  transition: background-color 0.3s;
+}
+
+.bottomButton:hover {
+  background-color: #8619d1;
+}
+
+.bottomButton:disabled {
+  background-color: #ddd;
+  color: #bbb;
+  cursor: not-allowed;
+}
+
+/* 하단 멤버 섹션 */
+.memberWrap {
+  margin: 0 auto;
+  padding-bottom: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+}
+
+.memberWrap th a {
+  text-decoration: none;
+  color: #9e30f4;
+}

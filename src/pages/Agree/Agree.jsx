@@ -173,22 +173,23 @@ export default function Agree() {
             </div>
             { true && (
                 <>
-                    <div>
-                        <input
-                            className={style.agreebox}
-                            type="checkbox"
-                            id="agree_checkbox"
-                            onClick={is_checked}
-                        />
-                        <label htmlFor="agree_checkbox">개인정보 수집 및 이용에 동의합니다.</label>
-                    </div>
-                    <button
-                        onClick={onClickConfirmButton}
-                        disabled={notAllow}
-                        className={style.bottomButton}
-                    >
-                        확인
-                    </button>
+                    <div className={style.agreeContainer}>
+						<div className={style.agreebox}>
+							<input
+								type="checkbox"
+								id="agree_checkbox"
+								onClick={is_checked}
+							/>
+							<label htmlFor="agree_checkbox">개인정보 수집 및 이용에 동의합니다.</label>
+						</div>
+						<button
+							onClick={onClickConfirmButton}
+							disabled={notAllow}
+							className={style.bottomButton}
+						>
+							확인
+						</button>
+					</div>
                 </>
             )}
         </div>

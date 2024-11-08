@@ -78,7 +78,6 @@ export default function Login() {
 
   return (
     <>
-      <Navbarboot />
       <div className={style.page}>
         <div className={style.titleWrap}>
           이메일과 비밀번호를

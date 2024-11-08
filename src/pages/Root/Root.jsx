@@ -1,9 +1,7 @@
 import axios from "axios";
 import React from "react";
 import style from "./Root.module.css";
-
-import focusImage from "../../test.jpg";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import Navbarboot from "../../components/Header/Navbarboot";
 import Iamge from "../../resource/board.jpg";
 import CommunityImage from "../../resource/community.jpg"
@@ -23,97 +21,54 @@ function Head(){
   );
 }
 
-function StudyBody(){
-  return(
-    <div className={style.cellsWrap}>
-      
-          <div className={style.cells}>
-            <img src= {Iamge}alt="no image"></img>
-            <div className={style.cellContent}>
-            <div className={style.cellTopText} style={{ color: 'black' }}>For Everyone</div>
-            <div className={style.cellBottomText} style={{ color: 'black' }}>Let your imagination run wild</div>
-            </div>
-          </div>
-          <div className={style.cells}>
-            <img src={CommunityImage} alt="no image"></img>
-            <div className={style.cellContent}>
-            <div className={style.cellTopText}>For Everyone</div>
-            <div className={style.cellBottomText}>Let your imagination run wild</div>
-            </div>
-          </div>
-          <div className={style.cells}>
-            <img src={MainImage} alt="no image"></img>
-            <div className={style.cellContent}>
-            <div className={style.cellTopText}>For Everyone</div>
-            <div className={style.cellBottomText}>Let your imagination run wild</div>
-            </div>
-          </div>
-          <div className={style.cells}>
-            <img src={BookImage} alt="no image"></img>
-            <div className={style.cellContent}>
-            <div className={style.cellTopText}>For Everyone</div>
-            <div className={style.cellBottomText}>Let your imagination run wild</div>
-            </div>
-          </div>
-
-          </div>
-  )
-}
-
-function BoardBody(){
-  return(
-    <div className={style.cellsWrap}>
-      
-          <div className={style.cells}>
-            <img src= {Iamge}alt="no image"></img>
-            <div className={style.cellContent}>
-            <div className={style.cellTopText} style={{ color: 'black' }}>For Everyone</div>
-            <div className={style.cellBottomText} style={{ color: 'black' }}>Let your imagination run wild</div>
-            </div>
-          </div>
-          <div className={style.cells}>
-            <img src={CommunityImage} alt="no image"></img>
-            <div className={style.cellContent}>
-            <div className={style.cellTopText}>For Everyone</div>
-            <div className={style.cellBottomText}>Let your imagination run wild</div>
-            </div>
-          </div>
-          <div className={style.cells}>
-            <img src={MainImage} alt="no image"></img>
-            <div className={style.cellContent}>
-            <div className={style.cellTopText}>For Everyone</div>
-            <div className={style.cellBottomText}>Let your imagination run wild</div>
-            </div>
-          </div>
-          <div className={style.cells}>
-            <img src={BookImage} alt="no image"></img>
-            <div className={style.cellContent}>
-            <div className={style.cellTopText}>For Everyone</div>
-            <div className={style.cellBottomText}>Let your imagination run wild</div>
-            </div>
-          </div>
-
-          </div>
-  )
-}
-
-function Foot(){
+function StudyBody() {
   return (
-    <>
-    <div className={style.footer}>
-          <div className={style.footerContentBox}>
-            <div className={style.footerLeft} onClick={() => window.location.href = '/Agree'}>개인정보 처리방침</div>
-          </div>
-          <div className={style.footerContentBox}>
-          <div className={style.footerRight}>Archisemtle © 2024</div>
-          </div>
+    <div className={style.cellsWrap}>
+      <Card link="/BoardList" imageSrc={Iamge} title="자유게시판" subtitle="지금 바로 시작" />
+      <Card link="/BoardList" imageSrc={CommunityImage} title="For Everyone" subtitle="Let your imagination run wild" />
+      <Card link="/BoardList" imageSrc={MainImage} title="For Everyone" subtitle="Let your imagination run wild" />
+      <Card imageSrc={BookImage} title="For Everyone" subtitle="Let your imagination run wild" />
+    </div>
+  );
+}
+
+// 카드 컴포넌트 생성
+function Card({ link, imageSrc, title, subtitle }) {
+  const cardContent = (
+    <div className={style.cells}>
+      <img src={imageSrc} alt="image" className={style.image} />
+      <div className={style.cellContent}>
+        <div className={style.cellTopText}>{title}</div>
+        <div className={style.cellBottomText}>{subtitle}</div>
+      </div>
+    </div>
+  );
+
+  return link ? (
+    <Link to={link} className={style.link}>
+      {cardContent}
+    </Link>
+  ) : (
+    cardContent
+  );
+}
+
+function Foot() {
+  return (
+    <footer className={style.footer}>
+      <div className={style.footerContentBox}>
+        <div className={style.footerLeft} onClick={() => window.location.href = '/Agree'}>
+          개인정보 처리방침
         </div>
-          <div className={style.footerContentBox}>
-          <div className={style.footerLeft2}>부산광역시 영도구 태종로 727 공대 1관 387호 PHP : 000-0000-0000</div>
-          </div>
-    </>
-        
-  )
+        <div className={style.footerRight}>
+          Archisemtle © 2024
+        </div>
+      </div>
+      <div className={style.footerAddress}>
+        부산광역시 영도구 태종로 727 공대 1관 387호 | PHP: 000-0000-0000
+      </div>
+    </footer>
+  );
 }
 
 export default function Root() {
@@ -125,10 +80,6 @@ export default function Root() {
       <div className={style.contentWrap}>
         <div className={style.introduceFont}>Study</div>
         <StudyBody />
-      </div>
-      <div className={style.contentWrap}>
-        <div className={style.introduceFont}>Board</div>
-        <BoardBody />
       </div>
       <Foot />
       </div>
